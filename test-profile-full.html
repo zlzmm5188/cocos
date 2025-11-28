@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile 完整测试</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            padding: 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: #00ff88; margin-bottom: 20px; }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 10px;
+        }
+        .log {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border-left: 3px solid #555;
+        }
+        .log.success { border-left-color: #00ff88; color: #00ff88; }
+        .log.error { border-left-color: #ff0055; color: #ff6b6b; }
+        .log.warn { border-left-color: #ffd700; color: #ffd700; }
+        .data-display {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .data-item:last-child { border-bottom: none; }
+        .data-label { color: #aaa; }
+        .data-value {
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 10px 5px 0 0;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Profile 完整测试</h1>
+        
+        <div class="section">
+            <h2>1️⃣ Token 状态</h2>
+            <div id="tokenStatus"></div>
+            <button onclick="checkToken()">🔄 检查 Token</button>
+            <button onclick="clearAll()">🗑️ 清除所有数据</button>
+        </div>
+
+        <div class="section">
+            <h2>2️⃣ API 测试</h2>
+            <div id="apiStatus"></div>
+            <button onclick="testAPI()">🚀 测试 API</button>
+        </div>
+
+        <div class="section">
+            <h2>3️⃣ 数据显示</h2>
+            <div class="data-display" id="dataDisplay">
+                <div class="log warn">等待 API 响应...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4️⃣ 元素检查</h2>
+            <div id="elementCheck"></div>
+            <button onclick="checkElements()">🔎 检查页面元素</button>
+        </div>
+
+        <div class="section">
+            <h2>5️⃣ 完整日志</h2>
+            <div id="logs"></div>
+        </div>
+    </div>
+
+    <script src="api-config.js?v=1763897782"></script>
+    <script src="token-manager.js?v=1763897782"></script>
+    <script src="config.js?v=1763897782"></script>
+
+    <script>
+        function log(msg, type = 'log') {
+            const logsDiv = document.getElementById('logs');
+            const div = document.createElement('div');
+            div.className = 'log ' + type;
+            div.innerHTML = new Date().toLocaleTimeString() + ' - ' + msg;
+            logsDiv.appendChild(div);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        function checkToken() {
+            const statusDiv = document.getElementById('tokenStatus');
+            const token = TokenManager?.getToken() || localStorage.getItem('providence_token');
+            
+            if (token) {
+                statusDiv.innerHTML = `
+                    <div class="log success">✅ Token 已找到</div>
+                    <div class="log">长度: ${token.length} 字符</div>
+                    <div class="log">前30字符: ${token.substring(0, 30)}...</div>
+                    <div class="log">TokenManager: ${TokenManager ? '✅ 已加载' : '❌ 未加载'}</div>
+                `;
+                log('Token 检查完成', 'success');
+            } else {
+                statusDiv.innerHTML = '<div class="log error">❌ Token 未找到，请先登录</div>';
+                log('Token 未找到', 'error');
+            }
+        }
+
+        async function testAPI() {
+            const statusDiv = document.getElementById('apiStatus');
+            const dataDiv = document.getElementById('dataDisplay');
+            
+            statusDiv.innerHTML = '<div class="log">⏳ 正在请求 API...</div>';
+            log('开始测试 API');
+            
+            const token = TokenManager?.getToken() || localStorage.getItem('providence_token');
+            if (!token) {
+                statusDiv.innerHTML = '<div class="log error">❌ 无 Token，请先登录</div>';
+                log('无 Token', 'error');
+                return;
+            }
+
+            try {
+                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                const res = await fetch(API_BASE + '/api/user/info', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                        'token': token
+                    }
+                });
+
+                const response = await res.json();
+                
+                if (response.code === 401) {
+                    statusDiv.innerHTML = '<div class="log error">❌ Token 已过期，请重新登录</div>';
+                    log('Token 已过期', 'error');
+                    return;
+                }
+
+                if (response.code === 200 || response.code === 1) {
+                    const d = response.data;
+                    
+                    statusDiv.innerHTML = '<div class="log success">✅ API 请求成功</div>';
+                    log('API 请求成功', 'success');
+                    
+                    dataDiv.innerHTML = `
+                        <div class="data-item">
+                            <span class="data-label">用户名</span>
+                            <span class="data-value">${d.username}</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">CNY 余额</span>
+                            <span class="data-value">${Number(d.balance_cny || 0).toFixed(2)}</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">USDT 余额</span>
+                            <span class="data-value">${Number(d.balance_usdt || 0).toFixed(2)}</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">VIP 等级</span>
+                            <span class="data-value">VIP${d.vip_level}</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">CNY 收益</span>
+                            <span class="data-value">${Number(d.total_profit_cny || 0).toFixed(2)}</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">USDT 收益</span>
+                            <span class="data-value">${Number(d.total_profit_usdt || 0).toFixed(2)}</span>
+                        </div>
+                    `;
+                    
+                    log('数据显示完成', 'success');
+                } else {
+                    statusDiv.innerHTML = `<div class="log error">❌ API 返回错误: ${response.message}</div>`;
+                    log('API 返回错误: ' + response.message, 'error');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="log error">❌ 请求失败: ${error.message}</div>`;
+                log('请求失败: ' + error.message, 'error');
+            }
+        }
+
+        function checkElements() {
+            const checkDiv = document.getElementById('elementCheck');
+            const elements = [
+                'userNameDisplay',
+                'totalAsset',
+                'totalUsdtAsset',
+                'totalIncomeCny',
+                'totalUsdtIncome',
+                'vipLevel',
+                'vipCard'
+            ];
+            
+            let html = '';
+            elements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    html += `<div class="log success">✅ ${id}: 存在</div>`;
+                } else {
+                    html += `<div class="log error">❌ ${id}: 不存在</div>`;
+                }
+            });
+            
+            checkDiv.innerHTML = html;
+            log('元素检查完成');
+        }
+
+        function clearAll() {
+            if (confirm('确定要清除所有数据吗？')) {
+                TokenManager?.clearToken();
+                localStorage.clear();
+                sessionStorage.clear();
+                log('所有数据已清除', 'success');
+                alert('已清除，请重新登录');
+                setTimeout(() => window.location.href = 'login.html', 1000);
+            }
+        }
+
+        // 页面加载时自动检查
+        window.addEventListener('load', () => {
+            log('页面加载完成', 'success');
+            checkToken();
+        });
+    </script>
+</body>
+</html>

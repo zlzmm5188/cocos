@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>强制清除缓存 - Providence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #0a1020 0%, #0e2b44 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(232, 201, 145, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: #e8c991;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #e8c991 0%, #d4af37 100%);
+            color: #0a1020;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 201, 145, 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8c991;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 8px;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        .countdown {
+            font-size: 48px;
+            color: #e8c991;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🧹</div>
+        <h1>清除浏览器缓存</h1>
+        <p>如果遇到JS文件加载错误，点击下方按钮清除所有缓存数据</p>
+
+        <button class="btn" onclick="clearAllCache()">🗑️ 清除所有缓存</button>
+        <a href="/login.html?t=<?php echo time(); ?>" class="btn btn-secondary">🔄 直接跳转登录</a>
+
+        <div id="result" class="result">
+            <h2>✅ 缓存已清除！</h2>
+            <div class="countdown" id="countdown">3</div>
+            <p>秒后自动跳转到登录页...</p>
+        </div>
+    </div>
+
+    <script>
+        function clearAllCache() {
+            // 1. 清除 localStorage
+            try {
+                localStorage.clear();
+                console.log('✅ localStorage 已清除');
+            } catch(e) {
+                console.error('清除 localStorage 失败:', e);
+            }
+
+            // 2. 清除 sessionStorage
+            try {
+                sessionStorage.clear();
+                console.log('✅ sessionStorage 已清除');
+            } catch(e) {
+                console.error('清除 sessionStorage 失败:', e);
+            }
+
+            // 3. 清除所有 cookies
+            try {
+                document.cookie.split(";").forEach(function(c) {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+                console.log('✅ Cookies 已清除');
+            } catch(e) {
+                console.error('清除 cookies 失败:', e);
+            }
+
+            // 4. 显示成功消息
+            document.getElementById('result').classList.add('show');
+
+            // 5. 倒计时跳转
+            let count = 3;
+            const countdownEl = document.getElementById('countdown');
+
+            const timer = setInterval(() => {
+                count--;
+                countdownEl.textContent = count;
+
+                if (count <= 0) {
+                    clearInterval(timer);
+                    // 跳转到登录页，带时间戳参数强制刷新
+                    window.location.href = '/login.html?nocache=' + Date.now();
+                }
+            }, 1000);
+        }
+
+        // 自动检测是否有缓存问题
+        window.addEventListener('load', function() {
+            const hasToken = localStorage.getItem('providence_token');
+            const hasOldToken = localStorage.getItem('token');
+
+            console.log('当前Token状态:', {
+                providence_token: hasToken ? '存在' : '不存在',
+                token: hasOldToken ? '存在(旧)' : '不存在',
+                TokenManager: typeof TokenManager !== 'undefined' ? '已加载' : '未加载'
+            });
+
+            // 检查TokenManager是否正确加载
+            if (typeof TokenManager === 'undefined') {
+                console.warn('⚠️ TokenManager未加载，可能是缓存问题');
+            }
+        });
+    </script>
+</body>
+</html>

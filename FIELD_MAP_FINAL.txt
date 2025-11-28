@@ -1,0 +1,39 @@
+==================================================================================
+Providence 前后端字段最终映射确认
+==================================================================================
+
+后端返回字段                前端使用字段                    元素ID               状态
+==================================================================================
+username                  userData.username              userNameDisplay       ✅
+vip_level                 userData.vip_level             vipLevel             ✅
+balance_cny               userData.balance_cny           totalAsset           ✅
+balance_usdt              userData.balance_usdt          totalUsdtAsset       ✅
+total_profit_cny          userData.total_profit_cny      totalIncomeCny       ✅
+total_profit_usdt         userData.total_profit_usdt     totalUsdtIncome      ✅
+today_profit              userData.today_profit          -                    ✅
+yesterday_profit          userData.yesterday_profit      -                    ✅
+ribao_balance             userData.ribao_balance         -                    ✅
+points                    userData.points                -                    ✅
+active_count              userData.active_count          -                    ✅
+==================================================================================
+
+测试用例（用户ID=1, G138688）:
+- username: G138688
+- vip_level: 8
+- balance_cny: 28440.00
+- balance_usdt: 2551.00
+- total_profit_cny: 2644.00
+- total_profit_usdt: 0.00
+
+预期显示:
+- 账号: G138688
+- VIP等级: VIP8
+- 余额(人民币): 28440.00
+- USDT(余额): 2551.00
+- CNY收益: 2644.00
+- USDT收益: 0.00
+
+profile.js 版本: 1763692070
+更新时间: 2025-11-21 10:28:11
+
+所有字段已完全对齐！✅

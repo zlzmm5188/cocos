@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录测试</title>
+</head>
+<body>
+    <h2>Providence 登录测试</h2>
+    <button onclick="testLogin()">测试登录 (G138688)</button>
+    <pre id="result"></pre>
+    
+    <script>
+    async function testLogin() {
+        const result = document.getElementById('result');
+        result.textContent = '正在测试登录...';
+        
+        try {
+            const response = await fetch('https://api.4kp3l0iq.top/api/auth/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: 'G138688', password: 'G138688'})
+            });
+            const data = await response.json();
+            
+            console.log('API返回:', data);
+            
+            if (data.code === 0) {
+                result.textContent = '✅ 登录成功！\n\n' +
+                    'Token: ' + (data.data.accessToken ? data.data.accessToken.substring(0, 50) + '...' : '无') + '\n' +
+                    'Username: ' + data.data.username + '\n' +
+                    'Role: ' + JSON.stringify(data.data.roles);
+            } else {
+                result.textContent = '❌ 登录失败\n' + JSON.stringify(data, null, 2);
+            }
+        } catch (e) {
+            result.textContent = '❌ 错误: ' + e.message;
+        }
+    }
+    </script>
+</body>
+</html>

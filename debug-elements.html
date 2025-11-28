@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>元素检查</title>
+</head>
+<body>
+    <h1>元素检查结果</h1>
+    <div id="results"></div>
+    <script>
+        const elements = ['totalAsset', 'totalUsdtAsset', 'totalIncomeCny', 'userNameDisplay'];
+        const results = [];
+        
+        elements.forEach(id => {
+            const el = document.getElementById(id);
+            results.push({
+                id: id,
+                exists: el !== null,
+                display: el ? window.getComputedStyle(el).display : 'N/A',
+                visibility: el ? window.getComputedStyle(el).visibility : 'N/A',
+                opacity: el ? window.getComputedStyle(el).opacity : 'N/A',
+                textContent: el ? el.textContent : 'N/A'
+            });
+        });
+        
+        document.getElementById('results').innerHTML = '<pre>' + JSON.stringify(results, null, 2) + '</pre>';
+    </script>
+</body>
+</html>

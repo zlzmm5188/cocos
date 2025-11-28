@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>调试 Profile 数据</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a2e; color: #eee; }
+        .log { margin: 10px 0; padding: 10px; background: #16213e; border-left: 3px solid #0f3460; }
+        .success { border-left-color: #00ff88; }
+        .error { border-left-color: #ff0055; }
+        pre { background: #0f0f1e; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Profile 数据调试</h1>
+    <div id="output"></div>
+
+    <script src="api-config.js?v=1763897782"></script>
+    <script src="token-manager.js?v=1763897782"></script>
+    <script src="config.js?v=1763897782"></script>
+
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(msg, type = 'log') {
+            const div = document.createElement('div');
+            div.className = 'log ' + type;
+            div.innerHTML = msg;
+            output.appendChild(div);
+        }
+
+        async function test() {
+            log('1️⃣ 检查 TokenManager...');
+            const token = TokenManager?.getToken() || localStorage.getItem('providence_token');
+            if (!token) {
+                log('❌ 没有 token！', 'error');
+                return;
+            }
+            log('✅ Token: ' + token.substring(0, 30) + '...', 'success');
+
+            log('<br>2️⃣ 调用 API...');
+            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            
+            try {
+                const res = await fetch(API_BASE + '/api/user/info', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                        'token': token
+                    }
+                });
+                
+                const response = await res.json();
+                log('✅ API 响应成功', 'success');
+                log('<pre>' + JSON.stringify(response, null, 2) + '</pre>');
+
+                log('<br>3️⃣ 解析数据...');
+                if (response.code === 200 || response.code === 1) {
+                    const d = response.data;
+                    log('✅ username: ' + d.username, 'success');
+                    log('✅ balance_cny: ' + d.balance_cny + ' (类型: ' + typeof d.balance_cny + ')', 'success');
+                    log('✅ balance_usdt: ' + d.balance_usdt + ' (类型: ' + typeof d.balance_usdt + ')', 'success');
+
+                    log('<br>4️⃣ 测试数据赋值...');
+                    let userData = {
+                        balance_cny: d.balance_cny,
+                        balance_usdt: d.balance_usdt
+                    };
+                    log('✅ userData.balance_cny = ' + userData.balance_cny, 'success');
+                    log('✅ userData.balance_usdt = ' + userData.balance_usdt, 'success');
+
+                    log('<br>5️⃣ 测试格式化...');
+                    log('✅ CNY 格式化: ' + Number(userData.balance_cny).toFixed(2), 'success');
+                    log('✅ USDT 格式化: ' + Number(userData.balance_usdt).toFixed(2), 'success');
+                } else {
+                    log('❌ API 返回错误: ' + response.message, 'error');
+                }
+            } catch (error) {
+                log('❌ 请求失败: ' + error.message, 'error');
+                log('<pre>' + error.stack + '</pre>');
+            }
+        }
+
+        setTimeout(test, 500);
+    </script>
+</body>
+</html>

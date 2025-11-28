@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>测试显示</title>
+    <style>
+        body { padding: 20px; background: #000; color: #fff; }
+        .test-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+        .test-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试元素显示</h1>
+    <div class="test-card">
+        <div>账号：</div>
+        <div id="testUserName" class="test-value">加载中...</div>
+    </div>
+    <div class="test-card">
+        <div>CNY余额：</div>
+        <div id="testTotalAsset" class="test-value">加载中...</div>
+    </div>
+    <div class="test-card">
+        <div>USDT余额：</div>
+        <div id="testTotalUsdtAsset" class="test-value">加载中...</div>
+    </div>
+    <div class="test-card">
+        <div>CNY收益：</div>
+        <div id="testTotalIncomeCny" class="test-value">加载中...</div>
+    </div>
+    
+    <script src="profile.js"></script>
+    <script>
+        // 直接调用loadUserData测试
+        if (typeof loadUserData === 'function') {
+            loadUserData().then(() => {
+                console.log('数据加载完成');
+            }).catch(err => {
+                console.error('加载失败:', err);
+            });
+        } else {
+            console.error('loadUserData函数不存在');
+        }
+    </script>
+</body>
+</html>

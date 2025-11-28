@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录诊断工具 - Providence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            background: linear-gradient(135deg, #0e2b44 0%, #1a3a5f 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 { 
+            color: #ffd700; 
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .info:last-child { border-bottom: none; }
+        .label { color: #aaa; }
+        .value { 
+            color: #fff; 
+            font-weight: bold;
+            word-break: break-all;
+            max-width: 60%;
+            text-align: right;
+        }
+        .status { padding: 5px 10px; border-radius: 5px; display: inline-block; }
+        .status.success { background: rgba(0, 255, 0, 0.2); color: #0f0; }
+        .status.error { background: rgba(255, 0, 0, 0.2); color: #f00; }
+        .status.warning { background: rgba(255, 165, 0, 0.2); color: #ffa500; }
+        .btn {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #0a1020;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover { opacity: 0.9; }
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="global-scroll-fix.css?v=1763897782">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 登录状态诊断工具</h1>
+
+        <div class="section">
+            <h2>1. API配置检查</h2>
+            <div class="info">
+                <span class="label">API地址:</span>
+                <span class="value" id="apiUrl"></span>
+            </div>
+            <div class="info">
+                <span class="label">配置状态:</span>
+                <span class="value" id="apiStatus"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>2. Token状态</h2>
+            <div class="info">
+                <span class="label">Token存在:</span>
+                <span class="value" id="tokenExists"></span>
+            </div>
+            <div class="info">
+                <span class="label">Token长度:</span>
+                <span class="value" id="tokenLength"></span>
+            </div>
+            <div class="info">
+                <span class="label">Token预览:</span>
+                <span class="value" id="tokenPreview"></span>
+            </div>
+            <button class="btn" onclick="clearToken()">清除Token</button>
+            <button class="btn" onclick="copyToken()">复制Token</button>
+        </div>
+
+        <div class="section">
+            <h2>3. 用户信息API测试</h2>
+            <button class="btn" onclick="testUserAPI()">测试获取用户信息</button>
+            <button class="btn" onclick="testWithoutToken()">无Token测试</button>
+            <pre id="apiResult">点击按钮测试...</pre>
+        </div>
+
+        <div class="section">
+            <h2>4. 数据库用户检查</h2>
+            <button class="btn" onclick="checkDBUsers()">检查测试用户</button>
+            <pre id="dbResult">点击按钮查询...</pre>
+        </div>
+
+        <div class="section">
+            <h2>5. 快速操作</h2>
+            <button class="btn" onclick="gotoLogin()">前往登录</button>
+            <button class="btn" onclick="createTestUser()">创建测试用户</button>
+            <button class="btn" onclick="location.reload()">刷新页面</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://api.4kp3l0iq.top';
+        
+        // 页面加载时执行
+        window.onload = function() {
+            checkAPIConfig();
+            checkToken();
+        };
+
+        function checkAPIConfig() {
+            document.getElementById('apiUrl').textContent = API_BASE;
+            const status = window.API_CONFIG ? '已加载' : '未加载';
+            document.getElementById('apiStatus').innerHTML = 
+                `<span class="status ${window.API_CONFIG ? 'success' : 'error'}">${status}</span>`;
+        }
+
+        function checkToken() {
+            const token = localStorage.getItem('providence_token') || 
+                         localStorage.getItem('token') || '';
+            
+            const exists = token ? '存在' : '不存在';
+            const statusClass = token ? 'success' : 'error';
+            document.getElementById('tokenExists').innerHTML = 
+                `<span class="status ${statusClass}">${exists}</span>`;
+            
+            document.getElementById('tokenLength').textContent = 
+                token ? `${token.length} 字符` : '0';
+            
+            if (token) {
+                const preview = token.substring(0, 20) + '...' + token.substring(token.length - 10);
+                document.getElementById('tokenPreview').textContent = preview;
+            } else {
+                document.getElementById('tokenPreview').textContent = '无';
+            }
+        }
+
+        async function testUserAPI() {
+            const result = document.getElementById('apiResult');
+            result.textContent = '测试中...';
+
+            const token = localStorage.getItem('providence_token') || 
+                         localStorage.getItem('token') || '';
+
+            if (!token) {
+                result.textContent = '❌ 错误: 未找到Token，请先登录';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/user/info`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                        'Token': token
+                    }
+                });
+
+                const data = await response.json();
+                result.textContent = `HTTP ${response.status}\n\n` + JSON.stringify(data, null, 2);
+
+                if (data.code === -1 && data.msg === '用户不存在') {
+                    result.textContent += '\n\n💡 提示：\n';
+                    result.textContent += '1. Token可能无效或已过期\n';
+                    result.textContent += '2. 数据库中可能没有对应用户\n';
+                    result.textContent += '3. 请尝试重新登录\n';
+                    result.textContent += '4. 或检查数据库用户数据';
+                }
+            } catch (error) {
+                result.textContent = '❌ 请求失败:\n' + error.message;
+            }
+        }
+
+        async function testWithoutToken() {
+            const result = document.getElementById('apiResult');
+            result.textContent = '测试中...';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/user/info`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                result.textContent = `HTTP ${response.status} (无Token)\n\n` + JSON.stringify(data, null, 2);
+            } catch (error) {
+                result.textContent = '❌ 请求失败:\n' + error.message;
+            }
+        }
+
+        async function checkDBUsers() {
+            const result = document.getElementById('dbResult');
+            result.textContent = '查询中...';
+
+            try {
+                // 这个接口需要在后端添加
+                const response = await fetch(`${API_BASE}/test/users`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                result.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                result.textContent = '❌ 此功能需要后端支持\n\n';
+                result.textContent += '建议直接登录数据库查询:\n';
+                result.textContent += 'mysql -u root -p\n';
+                result.textContent += 'use providence;\n';
+                result.textContent += 'SELECT id, username, phone, status FROM users LIMIT 10;';
+            }
+        }
+
+        function clearToken() {
+            localStorage.removeItem('providence_token');
+            localStorage.removeItem('token');
+            sessionStorage.clear();
+            alert('✅ Token已清除！');
+            checkToken();
+        }
+
+        function copyToken() {
+            const token = localStorage.getItem('providence_token') || 
+                         localStorage.getItem('token') || '';
+            if (token) {
+                navigator.clipboard.writeText(token);
+                alert('✅ Token已复制到剪贴板');
+            } else {
+                alert('❌ 没有Token可复制');
+            }
+        }
+
+        function gotoLogin() {
+            window.location.href = '/login.html';
+        }
+
+        async function createTestUser() {
+            alert('此功能需要在后端实现。\n\n建议使用SQL直接插入测试用户：\n\nINSERT INTO users (username, phone, password) VALUES ("test", "13800138000", "password_hash");');
+        }
+    </script>
+    <script src="smart-navigation.js?v=1763897782"></script>
+</body>
+</html>

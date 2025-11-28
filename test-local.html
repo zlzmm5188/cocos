@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本地测试 - Providence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a1020 0%, #1a2540 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        h1 {
+            margin-bottom: 30px;
+            text-align: center;
+            color: #d4af37;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .test-section:last-child {
+            border-bottom: none;
+        }
+        .test-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #d4af37;
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 14px;
+        }
+        input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        button {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            color: #0a1020;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .response {
+            background: rgba(0,0,0,0.3);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 12px;
+            font-family: monospace;
+            max-height: 200px;
+            overflow-y: auto;
+            color: #d4af37;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .status.success {
+            background: rgba(0,255,0,0.2);
+            color: #0f0;
+        }
+        .status.error {
+            background: rgba(255,0,0,0.2);
+            color: #f00;
+        }
+        .status.loading {
+            background: rgba(255,200,0,0.2);
+            color: #fd0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Providence 本地测试</h1>
+
+        <!-- 测试配置 -->
+        <div class="test-section">
+            <div class="test-title">📡 API 配置检查</div>
+            <div id="config-info" class="response">加载中...</div>
+        </div>
+
+        <!-- 登录测试 -->
+        <div class="test-section">
+            <div class="test-title">🔐 登录测试</div>
+            <input type="text" id="username" placeholder="用户名 (G138688)" value="G138688">
+            <input type="password" id="password" placeholder="密码 (G138688)" value="G138688">
+            <button onclick="testLogin()">测试登录</button>
+            <div id="login-response" class="response" style="display:none;"></div>
+        </div>
+
+        <!-- API 测试 -->
+        <div class="test-section">
+            <div class="test-title">🔗 API 端点测试</div>
+            <button onclick="testAPI('/api/project/index', 'GET')">测试: GET /api/project/index</button>
+            <button onclick="testAPI('/api/user/info', 'GET')">测试: GET /api/user/info</button>
+            <button onclick="testAPI('/api/invest/orders', 'GET')">测试: GET /api/invest/orders</button>
+            <div id="api-response" class="response" style="display:none;"></div>
+        </div>
+
+        <!-- 问题诊断 -->
+        <div class="test-section">
+            <div class="test-title">🔧 问题诊断</div>
+            <button onclick="checkAllProblems()">运行完整诊断</button>
+            <div id="diagnostic-response" class="response" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+
+        // 显示配置信息
+        function showConfig() {
+            const info = `
+✅ API 配置已加载
+📡 Base URL: ${API_BASE}
+🕐 时间: ${new Date().toLocaleString()}
+🌐 用户代理: ${navigator.userAgent.substring(0, 50)}...
+            `.trim();
+            document.getElementById('config-info').textContent = info;
+        }
+
+        // 显示响应
+        function showResponse(elementId, data, status = 'success') {
+            const el = document.getElementById(elementId);
+            el.style.display = 'block';
+            el.textContent = JSON.stringify(data, null, 2);
+            el.className = 'response status ' + status;
+        }
+
+        // 测试登录
+        async function testLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            showResponse('login-response', '🔄 登录中...', 'loading');
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                showResponse('login-response', data, response.ok ? 'success' : 'error');
+
+                // 如果登录成功，保存token
+                if (data.data && data.data.token) {
+                    localStorage.setItem('providence_token', data.data.token);
+                    console.log('✅ Token已保存');
+                }
+            } catch (error) {
+                showResponse('login-response', { error: error.message }, 'error');
+            }
+        }
+
+        // 测试 API
+        async function testAPI(endpoint, method = 'GET') {
+            showResponse('api-response', '🔄 请求中...', 'loading');
+
+            try {
+                const token = localStorage.getItem('providence_token');
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+
+                if (token) {
+                    options.headers['Authorization'] = `Bearer ${token}`;
+                }
+
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                const data = await response.json();
+                showResponse('api-response', data, response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('api-response', { error: error.message }, 'error');
+            }
+        }
+
+        // 完整诊断
+        async function checkAllProblems() {
+            let output = '🔍 诊断开始...\n\n';
+            showResponse('diagnostic-response', output, 'loading');
+
+            try {
+                // 1. 检查 API 连接
+                output += '1️⃣ 检查 API 连接...\n';
+                const healthCheck = await fetch(`${API_BASE}/health`, { method: 'GET' }).catch(() => null);
+                output += healthCheck ? `   ✅ API 服务正常\n` : `   ⚠️ API 服务不响应\n`;
+
+                // 2. 检查登录
+                output += '\n2️⃣ 检查登录...\n';
+                const loginRes = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: 'G138688', password: 'G138688' })
+                });
+                const loginData = await loginRes.json();
+                if (loginData.data?.token) {
+                    output += `   ✅ 登录成功\n   Token: ${loginData.data.token.substring(0, 20)}...\n`;
+                    localStorage.setItem('providence_token', loginData.data.token);
+                } else {
+                    output += `   ❌ 登录失败: ${loginData.message || '未知错误'}\n`;
+                }
+
+                // 3. 检查关键 API 端点
+                output += '\n3️⃣ 检查关键 API 端点:\n';
+                const endpoints = [
+                    '/api/project/index',
+                    '/api/user/info',
+                    '/api/invest/orders',
+                ];
+
+                const token = localStorage.getItem('providence_token');
+                for (const endpoint of endpoints) {
+                    try {
+                        const res = await fetch(`${API_BASE}${endpoint}`, {
+                            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                        });
+                        output += `   ${res.ok ? '✅' : '❌'} ${endpoint} (${res.status})\n`;
+                    } catch (e) {
+                        output += `   ⚠️ ${endpoint} (连接失败)\n`;
+                    }
+                }
+
+                output += '\n✅ 诊断完成';
+                showResponse('diagnostic-response', output, 'success');
+            } catch (error) {
+                showResponse('diagnostic-response', { error: error.message }, 'error');
+            }
+        }
+
+        // 初始化
+        showConfig();
+    </script>
+</body>
+</html>

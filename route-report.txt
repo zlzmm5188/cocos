@@ -1,0 +1,284 @@
+[34m
+🚀 Providence 路由检查工具[0m
+[90m正在分析项目路由配置...
+[0m
+[36m
+📂 步骤1: 解析后端路由配置
+[0m
+[32m✅ 解析完成: 共 45 个路由[0m
+[90m   🌐 公开路由: 43 个[0m
+[90m   🔒 认证路由: 2 个[0m
+[36m
+📱 步骤2: 扫描前端 API 调用
+[0m
+[32m✅ 扫描完成: 发现 89 个 API 调用[0m
+[36m
+🔍 步骤3: 对比前后端路由一致性
+[0m
+[32m✅ 对比完成[0m
+[33m   ⚠️  前端调用但后端未定义: 75 个[0m
+[90m   📊 后端定义但前端未使用: 31 个[0m
+[34m
+============================================================[0m
+[34m📋 Providence 路由检查报告[0m
+[34m============================================================
+[0m
+[36m【后端路由清单】
+[0m
+[32m🌐 公开路由 (无需认证):[0m
+[90m   POST   /api/auth/register[0m
+[90m   POST   /api/auth/login[0m
+[90m   GET    /api/project/index[0m
+[90m   GET    /api/project/detail[0m
+[90m   POST   /api/auth/forgot-password/step1[0m
+[90m   POST   /api/auth/forgot-password/step2[0m
+[90m   POST   /api/auth/forgot-password/step3[0m
+[90m   POST   /api/auth/forgot-password/check-status[0m
+[90m   POST   /api/payment-v2/sevenpay-notify[0m
+[90m   POST   /api/telegram/webhook[0m
+[90m   POST   /api/auth/logout[0m
+[90m   GET    /api/user/index[0m
+[90m   GET    /api/user/vip-progress[0m
+[90m   GET    /api/user/ribao/head[0m
+[90m   GET    /api/user/ribao/info[0m
+[90m   GET    /api/user/ribao/records[0m
+[90m   POST   /api/user/ribao/transfer-in[0m
+[90m   POST   /api/user/ribao/transfer-out[0m
+[90m   POST   /api/invest/create[0m
+[90m   GET    /api/invest/orders[0m
+[90m   POST   /api/recharge/add[0m
+[90m   GET    /api/recharge/list[0m
+[90m   POST   /api/withdraw/create[0m
+[90m   GET    /api/withdraw/list[0m
+[90m   GET    /api/team/members[0m
+[90m   GET    /api/team/reward-info[0m
+[90m   POST   /api/team/claim-reward[0m
+[90m   GET    /api/points/balance[0m
+[90m   GET    /api/points/logs[0m
+[90m   POST   /api/points/exchange[0m
+[90m   POST   /api/payment-v2/wechat[0m
+[90m   POST   /api/payment-v2/alipay[0m
+[90m   GET    /api/payment-v2/usdt-config[0m
+[90m   POST   /api/payment-v2/usdt-create[0m
+[90m   GET    /api/payment-v2/usdt-check[0m
+[90m   GET    /api/currency/get-usdt-rate[0m
+[90m   POST   /api/currency/exchange-cny-to-usdt[0m
+[90m   POST   /api/ai/chat[0m
+[90m   POST   /api/user/kyc/submit[0m
+[90m   GET    /api/user/kyc/status[0m
+[90m   POST   /api/user/face-upload[0m
+[90m   POST   /api/user/face-verify[0m
+[90m   GET    /api/user/face/status[0m
+[33m
+🔒 认证路由 (需要Token):[0m
+[90m   POST   /api/bot/admin/project/publish[0m
+[90m   GET    /api/bot/admin/finance/stats[0m
+[36m
+【前端 API 调用清单】
+[0m
+[90m   POST   /api/auth/register[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/auth/login[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/user/index[0m
+[90m          调用文件: api-new.js, config.js[0m
+[90m   POST   /api/user/change-password[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/user/forgot-password[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/user/reset-password[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/user/kyc/submit[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/user/bind-bank-card[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/user/bind-usdt-address[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/projects[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/projects/categories[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/projects/${id}[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/projects/${projectId}/invest[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/orders/my-investments[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/orders/earnings[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/finance/recharge[0m
+[90m          调用文件: api-new.js[0m
+[90m   POST   /api/finance/withdraw[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/finance/recharge/list[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/finance/withdraw/list[0m
+[90m          调用文件: api-new.js[0m
+[90m   GET    /api/finance/wallet-logs[0m
+[90m          调用文件: api-new.js[0m
+[90m   ... 还有 69 个API调用[0m
+[33m
+【⚠️  问题清单】
+[0m
+[31m前端调用但后端未定义的API:[0m
+[31m   🔴 POST   /api/user/change-password[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/user/forgot-password[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/user/reset-password[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/user/bind-bank-card[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/user/bind-usdt-address[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/projects[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/projects/categories[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/projects/${id}[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/projects/${projectId}/invest[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/orders/my-investments[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/orders/earnings[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/finance/recharge[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/finance/withdraw[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/finance/recharge/list[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/finance/withdraw/list[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/finance/wallet-logs[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/trial-fund/claim[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/trial-fund/status[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/trial-fund/orders[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/team/info[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/team/referral-rewards[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/team/rewards[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/announcements[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/activities/popup[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 POST   /api/activities/${activityId}/participate[0m
+[90m          调用文件: api-new.js[0m
+[31m   🔴 GET    /api/user/points/balance[0m
+[90m          调用文件: config.js[0m
+[31m   🔴 POST   /api/user/points/exchange[0m
+[90m          调用文件: config.js, shop.html[0m
+[31m   🔴 GET    /api/user/points/logs[0m
+[90m          调用文件: config.js[0m
+[31m   🔴 GET    /api/pay/bank/list[0m
+[90m          调用文件: config.js[0m
+[31m   🔴 GET    /api/pay/us/info[0m
+[90m          调用文件: config.js[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/AUTH/LOGIN /api/index.php/auth/login[0m
+[90m          调用文件: debug-login-request.js[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/KYC-SUBMIT-SIMPLE /api[0m
+[90m          调用文件: kyc-verification-ocr.js[0m
+[31m   🔴 ${API_BASE}/API/USER/INDEX /api/${API_BASE}/api/user/index[0m
+[90m          调用文件: profile.js, diagnose-login.html, profile-fixed.js[0m
+[31m   🔴 PROJECT /api/getDetail[0m
+[90m          调用文件: project-detail.js[0m
+[31m   🔴 FINANCE /api/getUserBalance[0m
+[90m          调用文件: project-detail.js, recharge-new.html, recharge.html, ribao-dual-currency.html, ribao.html, withdraw.html[0m
+[31m   🔴 POST   /api/index.php/user/points/exchange[0m
+[90m          调用文件: shop_blackgold_vip_20251023_160636.html, shop_points_exchange_20251023_155505.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/AUTH/LOGIN /api/auth/login[0m
+[90m          调用文件: check-token.html, test-cors-simple.html[0m
+[31m   🔴 ${API_BASE}/API/USER/SIGN/INFO /api/${API_BASE}/api/user/sign/info[0m
+[90m          调用文件: checkin.js[0m
+[31m   🔴 ${API_BASE}/API/USER/SIGN/SIGN /api/${API_BASE}/api/user/sign/sign[0m
+[90m          调用文件: checkin.js[0m
+[31m   🔴 ${API_BASE}/API/TEST/USERS /api/${API_BASE}/api/test/users[0m
+[90m          调用文件: diagnose-login.html[0m
+[31m   🔴 USER   /api/getInvitePoster[0m
+[90m          调用文件: invite-share.html[0m
+[31m   🔴 USER   /api/getInfo[0m
+[90m          调用文件: invite-share.html[0m
+[31m   🔴 AUTH   /api/requireLogin[0m
+[90m          调用文件: points-exchange-history.html, points-history.html, points-logs.html, recharge-new.html, recharge.html, ribao-dual-currency.html, ribao-history.html, withdraw.html, ribao.html[0m
+[31m   🔴 POINTS /api/getBalance[0m
+[90m          调用文件: points-exchange.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/POINTS/EXCHANGE-HISTORY /api/user/points/exchange-history[0m
+[90m          调用文件: points-history.html[0m
+[31m   🔴 PROJECT /api/getList[0m
+[90m          调用文件: projects-list.html[0m
+[31m   🔴 FINANCE /api/recharge[0m
+[90m          调用文件: recharge-new.html, recharge.html[0m
+[31m   🔴 AUTH   /api/getToken[0m
+[90m          调用文件: recharge-new.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/SUBMITFACEFORREVIEW /api/user/user/submitFaceForReview[0m
+[90m          调用文件: reset-password-new.html, reset-password-optimized.html, reset-password.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/RESETPASSWORD /api/user/user/resetPassword[0m
+[90m          调用文件: reset-password-new.html, reset-password-optimized.html, reset-password.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/CHECKUSERNAME /api/user/user/checkUsername[0m
+[90m          调用文件: reset-password.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/RIBAO/INFO /api/index.php/user/ribao/info[0m
+[90m          调用文件: ribao-debug.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/RIBAO/INFO /api/user/ribao/info[0m
+[90m          调用文件: ribao-dual-currency.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/RIBAO/TRANSFER-IN /api/user/ribao/transfer-in[0m
+[90m          调用文件: ribao-dual-currency.html[0m
+[31m   🔴 RIBAO  /api/getRecords[0m
+[90m          调用文件: ribao-history.html[0m
+[31m   🔴 RIBAO  /api/getInfo[0m
+[90m          调用文件: ribao.html, ribao_CLEAN_1762914403.html, ribao_FINAL.html, ribao_HOME_STYLE.html, ribao_PROJECTS_STYLE.html[0m
+[31m   🔴 RIBAO  /api/transferIn[0m
+[90m          调用文件: ribao.html, ribao_CLEAN_1762914403.html, ribao_FINAL.html, ribao_HOME_STYLE.html, ribao_PROJECTS_STYLE.html[0m
+[31m   🔴 RIBAO  /api/transferOut[0m
+[90m          调用文件: ribao.html, ribao_CLEAN_1762914403.html, ribao_FINAL.html, ribao_HOME_STYLE.html, ribao_PROJECTS_STYLE.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/POINTS/LOGS /api/user/points/logs[0m
+[90m          调用文件: shop.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/INDEX /api/user/user/index[0m
+[90m          调用文件: test-direct.html[0m
+[31m   🔴 ${API_BASE}/API/AUTH/LOGIN /api/${API_BASE}/api/auth/login[0m
+[90m          调用文件: test-login-simple.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/NEWBIE-BONUS-STATUS /api/index.php/user/newbie-bonus-status[0m
+[90m          调用文件: test-newbie-bonus.html[0m
+[31m   🔴 HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/USER/INDEX /api/index.php/user/user/index[0m
+[90m          调用文件: test-newbie-bonus.html[0m
+[31m   🔴 AUTH   /api/ensureLogin[0m
+[90m          调用文件: recharge.html[0m
+[31m   🔴 USER   /api/claimTrial[0m
+[90m          调用文件: trial-money.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/USER/INDEX /api/user/user/index[0m
+[90m          调用文件: invite-share.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/USER/INVITE /api/user/user/invite[0m
+[90m          调用文件: invite-share.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/TEAM/TEAM /api/user/team/team[0m
+[90m          调用文件: invite-share.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/POINTS/EXCHANGE-HISTORY /api/user/points/exchange-history[0m
+[90m          调用文件: points-history.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/USER/SUBMITFACEFORREVIEW /api/user/user/submitFaceForReview[0m
+[90m          调用文件: reset-password-new.html, reset-password-optimized.html, reset-password.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/USER/RESETPASSWORD /api/user/user/resetPassword[0m
+[90m          调用文件: reset-password-new.html, reset-password-optimized.html, reset-password.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/USER/CHECKUSERNAME /api/user/user/checkUsername[0m
+[90m          调用文件: reset-password.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/RIBAO/INFO /api/user/ribao/info[0m
+[90m          调用文件: ribao-dual-currency.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/RIBAO/TRANSFER-IN /api/user/ribao/transfer-in[0m
+[90m          调用文件: ribao-dual-currency.html[0m
+[31m   🔴 HTTPS://APIS.FREVIX.TOP/API/USER/POINTS/LOGS /api/user/points/logs[0m
+[90m          调用文件: shop.html[0m
+[34m
+============================================================[0m
+[36m总结:[0m
+[90m   后端路由总数: 45[0m
+[90m   前端API调用: 89[0m
+[31m   ⚠️  不匹配问题: 75[0m
+[90m   📊 未使用路由: 31[0m
+[34m============================================================
+[0m
+[32m📄 详细报告已保存: /tmp/providence_route_check_report.json
+[0m

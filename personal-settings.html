@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a1020" />
+  <title>个人设置 - Providence</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body{background:linear-gradient(180deg,#0e2b44,#091c2e);background-attachment:fixed;margin:0}
+    .topbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 16px;padding-top:calc(14px + env(safe-area-inset-top,0));background:rgba(10,23,35,.95);backdrop-filter:blur(20px);border-bottom:0.5px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+    .back{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(232,201,145,.15);border:1px solid rgba(232,201,145,.3);color:#e8c991;font-size:20px;cursor:pointer}
+    .title{color:#c7b58a;font-weight:700;font-size:18px}
+    .content{padding:16px; padding-top:calc(60px + env(safe-area-inset-top,0) + 10px); padding-bottom:calc(20px + env(safe-area-inset-bottom,0))}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px;margin-bottom:12px}
+    .card h3{color:#e8c991;margin:0 0 10px 0;font-size:16px}
+    .row{display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,.9);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}
+    .row:last-child{border-bottom:none}
+    .value{color:#fff;font-weight:600}
+    .btns{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{flex:1;min-width:140px;text-align:center;padding:12px;border-radius:10px;border:1px solid rgba(201,169,97,.4);color:#c9a961;background:linear-gradient(135deg,rgba(201,169,97,.25),rgba(212,175,55,.35));font-weight:700;text-decoration:none}
+    .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px}
+    .stat .label{color:rgba(255,255,255,.7);font-size:12px}
+    .stat .num{color:#fff;font-size:18px;font-weight:700;margin-top:4px}
+  </style>
+  <script src="api-new.js"></script>
+  <script src="ios-toast.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="javascript:history.back()">‹</a>
+    <div class="title">个人设置</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <h3>个人信息</h3>
+      <div class="row"><div>用户名</div><div class="value" id="ps-username">加载中...</div></div>
+      <div class="row"><div>UID</div><div class="value" id="ps-uid">-</div></div>
+      <div class="row"><div>VIP等级</div><div class="value" id="ps-vip">VIP0</div></div>
+      <div class="row"><div>实名认证</div><div class="value" id="ps-kyc">未认证</div></div>
+    </div>
+
+    <div class="card">
+      <h3>资产概览</h3>
+      <div class="stat-grid">
+        <div class="stat"><div class="label">人民币(CNY)</div><div class="num" id="ps-cny">0.00</div></div>
+        <div class="stat"><div class="label">USDT</div><div class="num" id="ps-usdt">0.00</div></div>
+        <div class="stat"><div class="label">已购产品(笔)</div><div class="num" id="ps-orders">0</div></div>
+        <div class="stat"><div class="label">返利合计</div><div class="num" id="ps-rebate">0.00</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>安全设置</h3>
+      <div class="btns">
+        <a class="btn" href="set-pay-password.html">修改支付密码</a>
+        <a class="btn" href="reset-password.html">修改登录密码</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (async function init() {
+      try {
+        const token = localStorage.getItem('providence_token') || localStorage.getItem('token');
+        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        let user = null;
+        // 优先统一服务
+        if (window.ApiService?.user?.getInfo) {
+          const res = await window.ApiService.user.getInfo();
+          if (res?.code === 1) user = res.data;
+        }
+        // 兜底
+        if (!user) {
+          const r = await fetch(`${API_BASE}/api/user/info`, { headers: { token } });
+          if (r.ok) {
+            const j = await r.json();
+            if (j?.code === 1) user = j.data;
+          }
+        }
+        // 第二兜底
+        if (!user) {
+          const r = await fetch(`${API_BASE}/api/user/index`, { headers: { token } });
+          const j = await r.json().catch(()=> ({}));
+          if (j?.code === 1) user = j.data;
+        }
+        // 渲染用户
+        if (user) {
+          document.getElementById('ps-username').textContent = user.username || user.name || user.mobile || '-';
+          document.getElementById('ps-uid').textContent = user.uid || user.id || '-';
+          const vip = user.vip ?? user.vip_level ?? 0;
+          document.getElementById('ps-vip').textContent = `VIP${vip}`;
+          const kyc = (user.kyc_status == 2 || user.isKycVerified) ? '已认证' : '未认证';
+          document.getElementById('ps-kyc').textContent = kyc;
+          // 资产
+          const cny = parseFloat(user.cny_balance ?? user.balance ?? user.money ?? 0);
+          const usdt = parseFloat(user.usdt_balance ?? user.usdt ?? 0);
+          document.getElementById('ps-cny').textContent = cny.toFixed(2);
+          document.getElementById('ps-usdt').textContent = usdt.toFixed(2);
+        }
+        // 订单数量
+        try {
+          const r = await fetch(`${API_BASE}/api/invest/orders?page=1&page_size=1`, { headers: { token }});
+          const j = await r.json();
+          if (j?.code === 1) {
+            const total = j.total ?? j.data?.total ?? (Array.isArray(j.data) ? j.data.length : 0) ?? 0;
+            document.getElementById('ps-orders').textContent = total;
+          }
+        } catch(_) {}
+        // 返利金额（没有统一接口时采用0兜底）
+        try {
+          const r = await fetch(`${API_BASE}/api/team/reward-summary`, { headers: { token }});
+          const j = await r.json();
+          if (j?.code === 1) {
+            const sum = parseFloat(j.data?.total_reward ?? j.data?.rebate_total ?? 0);
+            document.getElementById('ps-rebate').textContent = sum.toFixed(2);
+          }
+        } catch(_) {}
+      } catch (e) {
+        console.warn('[personal-settings] 加载失败', e);
+      }
+    })();
+  </script>
+  <script src="page-lifecycle.js"></script>
+</body>
+</html>

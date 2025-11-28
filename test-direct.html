@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>直接测试</title>
+    <style>
+        body { background: #1a1a2e; color: white; font-family: sans-serif; padding: 20px; }
+        .box { background: rgba(255,255,255,0.1); padding: 20px; margin: 10px 0; border-radius: 8px; }
+        .big { font-size: 32px; font-weight: bold; color: #00ff88; }
+        button { background: #667eea; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 8px; cursor: pointer; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 直接数据测试</h1>
+    
+    <button onclick="test1()">测试1: 直接赋值</button>
+    <button onclick="test2()">测试2: 模拟API数据</button>
+    <button onclick="test3()">测试3: 真实API</button>
+    
+    <div class="box">
+        <div>用户名:</div>
+        <div class="big" id="username">--</div>
+    </div>
+    
+    <div class="box">
+        <div>CNY余额:</div>
+        <div class="big" id="cny">0.00</div>
+    </div>
+    
+    <div class="box">
+        <div>USDT余额:</div>
+        <div class="big" id="usdt">0.00</div>
+    </div>
+    
+    <div class="box">
+        <div>VIP等级:</div>
+        <div class="big" id="vip">VIP0</div>
+    </div>
+    
+    <pre id="log" style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; max-height: 300px; overflow-y: auto;"></pre>
+
+    <script>
+        function log(msg) {
+            document.getElementById('log').innerHTML += new Date().toLocaleTimeString() + ' ' + msg + '\n';
+        }
+        
+        // 测试1: 直接硬编码数据
+        function test1() {
+            log('🔵 测试1: 直接赋值硬编码数据...');
+            
+            document.getElementById('username').textContent = 'G138688';
+            document.getElementById('cny').textContent = '28440.00';
+            document.getElementById('usdt').textContent = '2551.00';
+            document.getElementById('vip').textContent = 'VIP8';
+            
+            log('✅ 直接赋值成功！');
+        }
+        
+        // 测试2: 模拟API返回的数据
+        function test2() {
+            log('🟡 测试2: 模拟API数据...');
+            
+            const apiData = {
+                code: 200,
+                data: {
+                    username: 'G138688',
+                    balance_cny: 28440,
+                    balance_usdt: 2551,
+                    vip_level: 8
+                }
+            };
+            
+            log('API数据: ' + JSON.stringify(apiData.data));
+            
+            document.getElementById('username').textContent = apiData.data.username;
+            document.getElementById('cny').textContent = Number(apiData.data.balance_cny).toFixed(2);
+            document.getElementById('usdt').textContent = Number(apiData.data.balance_usdt).toFixed(2);
+            document.getElementById('vip').textContent = 'VIP' + apiData.data.vip_level;
+            
+            log('✅ 模拟数据显示成功！');
+        }
+        
+        // 测试3: 真实API调用
+        async function test3() {
+            log('🟢 测试3: 调用真实API...');
+            
+            const token = localStorage.getItem('providence_token');
+            if (!token) {
+                log('❌ 没有token，请先登录');
+                return;
+            }
+            
+            log('Token: ' + token.substring(0, 30) + '...');
+            
+            try {
+                const res = await fetch('https://api.4kp3l0iq.top/api/user/info', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'token': token
+                    }
+                });
+                
+                const data = await res.json();
+                log('API响应: code=' + data.code);
+                
+                if (data.code === 401) {
+                    log('❌ Token已过期，请重新登录');
+                    return;
+                }
+                
+                if (data.code === 200 || data.code === 1) {
+                    log('✅ API返回成功');
+                    log('username: ' + data.data.username);
+                    log('balance_cny: ' + data.data.balance_cny);
+                    log('balance_usdt: ' + data.data.balance_usdt);
+                    log('vip_level: ' + data.data.vip_level);
+                    
+                    document.getElementById('username').textContent = data.data.username;
+                    document.getElementById('cny').textContent = Number(data.data.balance_cny || 0).toFixed(2);
+                    document.getElementById('usdt').textContent = Number(data.data.balance_usdt || 0).toFixed(2);
+                    document.getElementById('vip').textContent = 'VIP' + data.data.vip_level;
+                    
+                    log('✅ 数据显示成功！');
+                } else {
+                    log('❌ API返回错误: ' + data.message);
+                }
+            } catch (error) {
+                log('❌ 请求失败: ' + error.message);
+            }
+        }
+        
+        log('页面加载完成，请点击按钮测试');
+    </script>
+</body>
+</html>

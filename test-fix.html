@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>测试修复效果</title>
+</head>
+<body>
+    <h1>测试 JS 文件修复效果</h1>
+    <div id="log"></div>
+
+    <script src="api-config.js?v=1763897782"></script>
+    <script src="token-manager.js?v=1763897782"></script>
+    <script src="config.js?v=1763897782"></script>
+
+    <script>
+        const log = document.getElementById('log');
+        
+        function addLog(msg, color = 'black') {
+            const p = document.createElement('p');
+            p.style.color = color;
+            p.textContent = msg;
+            log.appendChild(p);
+        }
+
+        // 测试 api-config.js
+        if (window.API_CONFIG) {
+            addLog('✅ API_CONFIG 已加载', 'green');
+            addLog('  baseURL: ' + window.API_CONFIG.baseURL, 'gray');
+        } else {
+            addLog('❌ API_CONFIG 未加载', 'red');
+        }
+
+        // 测试 token-manager.js
+        if (window.TokenManager) {
+            addLog('✅ TokenManager 已加载', 'green');
+            addLog('  setToken 方法: ' + typeof TokenManager.setToken, 'gray');
+            addLog('  getToken 方法: ' + typeof TokenManager.getToken, 'gray');
+        } else {
+            addLog('❌ TokenManager 未加载', 'red');
+        }
+
+        // 测试 config.js
+        if (window.httpClient) {
+            addLog('✅ httpClient 已加载', 'green');
+        } else {
+            addLog('❌ httpClient 未加载', 'red');
+        }
+
+        // 测试是否有语法错误
+        setTimeout(() => {
+            const errors = [];
+            if (!window.API_CONFIG) errors.push('API_CONFIG');
+            if (!window.TokenManager) errors.push('TokenManager');
+            if (!window.httpClient) errors.push('httpClient');
+
+            if (errors.length === 0) {
+                addLog('\n🎉 所有脚本加载成功，无语法错误！', 'green');
+            } else {
+                addLog('\n⚠️ 以下脚本未加载: ' + errors.join(', '), 'orange');
+            }
+        }, 100);
+    </script>
+</body>
+</html>

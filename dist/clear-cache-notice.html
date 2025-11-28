@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清除缓存 - Providence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            background: linear-gradient(135deg, #0a1929 0%, #1e3a5f 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(232, 201, 145, 0.2);
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #e8c991;
+            margin-bottom: 20px;
+        }
+        
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #e8c991 0%, #b8925a 100%);
+            color: #0a1929;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(232, 201, 145, 0.3);
+        }
+        
+        .version {
+            margin-top: 30px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .steps {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .steps h3 {
+            color: #e8c991;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .steps ol {
+            padding-left: 20px;
+        }
+        
+        .steps li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #e8c991;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🔄</div>
+        <h1>需要清除浏览器缓存</h1>
+        
+        <p>
+            前台所有页面已优化完成！<br>
+            如果你看到的页面样式不统一，请清除缓存：
+        </p>
+        
+        <div class="steps">
+            <h3>快速清除缓存方法：</h3>
+            <ol>
+                <li><strong>Windows</strong>: 按 <span class="code">Ctrl + Shift + R</span></li>
+                <li><strong>Mac</strong>: 按 <span class="code">Cmd + Shift + R</span></li>
+                <li><strong>或</strong>: 按 <span class="code">Ctrl + F5</span></li>
+                <li><strong>或</strong>: 打开隐私模式重新访问</li>
+            </ol>
+        </div>
+        
+        <button class="btn" onclick="clearAndReload()">立即清除缓存</button>
+        <a href="/" class="btn" style="background: rgba(255,255,255,0.1);">返回首页</a>
+        
+        <div class="version">
+            最新版本: v1763813622<br>
+            更新时间: 2025-11-22 12:27
+        </div>
+    </div>
+    
+    <script>
+        function clearAndReload() {
+            // 清除所有缓存
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
+            
+            // 清除 localStorage
+            try {
+                localStorage.clear();
+            } catch(e) {}
+            
+            // 清除 sessionStorage
+            try {
+                sessionStorage.clear();
+            } catch(e) {}
+            
+            // 强制刷新
+            window.location.reload(true);
+        }
+        
+        // 显示当前时间戳
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('当前版本:', '1763813622');
+            console.log('如果看到老版本，请按 Ctrl+Shift+R 强制刷新');
+        });
+    </script>
+</body>
+</html>
+

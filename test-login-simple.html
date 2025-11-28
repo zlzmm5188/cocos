@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单登录测试</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #0a1020; color: #fff; }
+        input, button { display: block; margin: 10px 0; padding: 10px; width: 300px; }
+        button { background: #ffd700; color: #000; border: none; cursor: pointer; }
+        pre { background: #222; padding: 15px; border-radius: 5px; overflow: auto; }
+    </style>
+    <link rel="stylesheet" href="global-scroll-fix.css?v=1763897782">
+</head>
+<body>
+    <h1>🔐 登录测试</h1>
+    <input type="text" id="username" value="G138688" placeholder="用户名">
+    <input type="password" id="password" value="G138688" placeholder="密码">
+    <button onclick="testLogin()">登录</button>
+    <button onclick="checkStorage()">检查存储</button>
+    <pre id="log"></pre>
+
+    <script>
+        const API_BASE = 'https://api.4kp3l0iq.top';
+        const log = document.getElementById('log');
+
+        function addLog(msg) {
+            log.textContent += msg + '\n';
+            console.log(msg);
+        }
+
+        async function testLogin() {
+            log.textContent = '';
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            addLog('1️⃣ 开始登录...');
+            addLog(`   用户名: ${username}`);
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({username, password})
+                });
+
+                addLog(`2️⃣ 响应状态: ${response.status}`);
+
+                const data = await response.json();
+                addLog(`3️⃣ 响应数据: ${JSON.stringify(data, null, 2)}`);
+
+                if (data.code === 1 && data.data && data.data.token) {
+                    const token = data.data.token;
+                    addLog(`\n4️⃣ 获取到Token: ${token.substring(0, 50)}...`);
+
+                    // 保存Token
+                    localStorage.setItem('providence_token', token);
+                    sessionStorage.setItem('providence_token', token);
+                    addLog('5️⃣ Token已保存到localStorage和sessionStorage');
+
+                    // 验证保存
+                    setTimeout(() => {
+                        const saved = localStorage.getItem('providence_token');
+                        if (saved) {
+                            addLog(`\n✅ 验证成功！Token已正确保存`);
+                            addLog(`   localStorage: ${saved.substring(0, 50)}...`);
+                            addLog(`\n6️⃣ 3秒后跳转到profile.html...`);
+                            setTimeout(() => {
+                                window.location.href = 'profile.html';
+                            }, 3000);
+                        } else {
+                            addLog(`\n❌ 验证失败！Token未保存到localStorage`);
+                        }
+                    }, 100);
+                } else {
+                    addLog(`\n❌ 登录失败: ${data.msg}`);
+                }
+            } catch (error) {
+                addLog(`\n❌ 错误: ${error.message}`);
+            }
+        }
+
+        function checkStorage() {
+            log.textContent = '=== 存储检查 ===\n\n';
+            addLog(`localStorage.providence_token:\n${localStorage.getItem('providence_token') || '(null)'}\n`);
+            addLog(`sessionStorage.providence_token:\n${sessionStorage.getItem('providence_token') || '(null)'}\n`);
+            addLog(`\n所有localStorage键: ${Object.keys(localStorage).join(', ')}`);
+        }
+    </script>
+    <script src="smart-navigation.js?v=1763897782"></script>
+</body>
+</html>

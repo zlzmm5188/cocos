@@ -1,0 +1,1998 @@
+{
+  "backendRoutes": {
+    "public": [
+      {
+        "method": "POST",
+        "path": "/auth/register",
+        "fullPath": "/api/auth/register",
+        "line": 8,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/auth/login",
+        "fullPath": "/api/auth/login",
+        "line": 9,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/project/index",
+        "fullPath": "/api/project/index",
+        "line": 12,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/project/detail",
+        "fullPath": "/api/project/detail",
+        "line": 13,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/auth/forgot-password/step1",
+        "fullPath": "/api/auth/forgot-password/step1",
+        "line": 16,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/auth/forgot-password/step2",
+        "fullPath": "/api/auth/forgot-password/step2",
+        "line": 17,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/auth/forgot-password/step3",
+        "fullPath": "/api/auth/forgot-password/step3",
+        "line": 18,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/auth/forgot-password/check-status",
+        "fullPath": "/api/auth/forgot-password/check-status",
+        "line": 19,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/payment-v2/sevenpay-notify",
+        "fullPath": "/api/payment-v2/sevenpay-notify",
+        "line": 22,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/telegram/webhook",
+        "fullPath": "/api/telegram/webhook",
+        "line": 25,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/auth/logout",
+        "fullPath": "/api/auth/logout",
+        "line": 34,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/user/index",
+        "fullPath": "/api/user/index",
+        "line": 37,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/user/vip-progress",
+        "fullPath": "/api/user/vip-progress",
+        "line": 38,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/user/ribao/head",
+        "fullPath": "/api/user/ribao/head",
+        "line": 41,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/user/ribao/info",
+        "fullPath": "/api/user/ribao/info",
+        "line": 42,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/user/ribao/records",
+        "fullPath": "/api/user/ribao/records",
+        "line": 43,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/user/ribao/transfer-in",
+        "fullPath": "/api/user/ribao/transfer-in",
+        "line": 44,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/user/ribao/transfer-out",
+        "fullPath": "/api/user/ribao/transfer-out",
+        "line": 45,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/invest/create",
+        "fullPath": "/api/invest/create",
+        "line": 48,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/invest/orders",
+        "fullPath": "/api/invest/orders",
+        "line": 49,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/recharge/add",
+        "fullPath": "/api/recharge/add",
+        "line": 52,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/recharge/list",
+        "fullPath": "/api/recharge/list",
+        "line": 53,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/withdraw/create",
+        "fullPath": "/api/withdraw/create",
+        "line": 56,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/withdraw/list",
+        "fullPath": "/api/withdraw/list",
+        "line": 57,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/team/members",
+        "fullPath": "/api/team/members",
+        "line": 60,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/team/reward-info",
+        "fullPath": "/api/team/reward-info",
+        "line": 61,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/team/claim-reward",
+        "fullPath": "/api/team/claim-reward",
+        "line": 62,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/points/balance",
+        "fullPath": "/api/points/balance",
+        "line": 65,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/points/logs",
+        "fullPath": "/api/points/logs",
+        "line": 66,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/points/exchange",
+        "fullPath": "/api/points/exchange",
+        "line": 67,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/payment-v2/wechat",
+        "fullPath": "/api/payment-v2/wechat",
+        "line": 70,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/payment-v2/alipay",
+        "fullPath": "/api/payment-v2/alipay",
+        "line": 71,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/payment-v2/usdt-config",
+        "fullPath": "/api/payment-v2/usdt-config",
+        "line": 72,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/payment-v2/usdt-create",
+        "fullPath": "/api/payment-v2/usdt-create",
+        "line": 73,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/payment-v2/usdt-check",
+        "fullPath": "/api/payment-v2/usdt-check",
+        "line": 74,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/currency/get-usdt-rate",
+        "fullPath": "/api/currency/get-usdt-rate",
+        "line": 77,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/currency/exchange-cny-to-usdt",
+        "fullPath": "/api/currency/exchange-cny-to-usdt",
+        "line": 78,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/ai/chat",
+        "fullPath": "/api/ai/chat",
+        "line": 81,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/user/kyc/submit",
+        "fullPath": "/api/user/kyc/submit",
+        "line": 84,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/user/kyc/status",
+        "fullPath": "/api/user/kyc/status",
+        "line": 85,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/user/face-upload",
+        "fullPath": "/api/user/face-upload",
+        "line": 88,
+        "needsAuth": false
+      },
+      {
+        "method": "POST",
+        "path": "/user/face-verify",
+        "fullPath": "/api/user/face-verify",
+        "line": 89,
+        "needsAuth": false
+      },
+      {
+        "method": "GET",
+        "path": "/user/face/status",
+        "fullPath": "/api/user/face/status",
+        "line": 90,
+        "needsAuth": false
+      }
+    ],
+    "protected": [
+      {
+        "method": "POST",
+        "path": "/bot/admin/project/publish",
+        "fullPath": "/api/bot/admin/project/publish",
+        "line": 95,
+        "needsAuth": true
+      },
+      {
+        "method": "GET",
+        "path": "/bot/admin/finance/stats",
+        "fullPath": "/api/bot/admin/finance/stats",
+        "line": 96,
+        "needsAuth": true
+      }
+    ]
+  },
+  "frontendAPIs": [
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/index",
+      "files": [
+        "api-new.js",
+        "config.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/change-password",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/forgot-password",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/reset-password",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/kyc/submit",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/bind-bank-card",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/bind-usdt-address",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/categories",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/${id}",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/${projectId}/invest",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/orders/my-investments",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/orders/earnings",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/finance/recharge",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/finance/withdraw",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/finance/recharge/list",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/finance/withdraw/list",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/finance/wallet-logs",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/trial-fund/claim",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/trial-fund/status",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/trial-fund/orders",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/team/info",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/team/members",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/team/referral-rewards",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/team/rewards",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/announcements",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/activities/popup",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/activities/${activityId}/participate",
+      "files": [
+        "api-new.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/vip-progress",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/ribao/info",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/ribao/transfer-in",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/ribao/transfer-out",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/ribao/records",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/project/index",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/project/detail",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/points/balance",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/points/exchange",
+      "files": [
+        "config.js",
+        "shop.html"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/points/logs",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/recharge/add",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/withdraw/create",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/pay/bank/list",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/pay/us/info",
+      "files": [
+        "config.js"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/AUTH/LOGIN",
+      "path": "/api/index.php/auth/login",
+      "files": [
+        "debug-login-request.js"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/KYC-SUBMIT-SIMPLE",
+      "path": "/api",
+      "files": [
+        "kyc-verification-ocr.js"
+      ]
+    },
+    {
+      "method": "${API_BASE}/API/USER/INDEX",
+      "path": "/api/${API_BASE}/api/user/index",
+      "files": [
+        "profile.js",
+        "diagnose-login.html",
+        "profile-fixed.js"
+      ]
+    },
+    {
+      "method": "PROJECT",
+      "path": "/api/getDetail",
+      "files": [
+        "project-detail.js"
+      ]
+    },
+    {
+      "method": "FINANCE",
+      "path": "/api/getUserBalance",
+      "files": [
+        "project-detail.js",
+        "recharge-new.html",
+        "recharge.html",
+        "ribao-dual-currency.html",
+        "ribao.html",
+        "withdraw.html"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/index.php/user/points/exchange",
+      "files": [
+        "shop_blackgold_vip_20251023_160636.html",
+        "shop_points_exchange_20251023_155505.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/AUTH/LOGIN",
+      "path": "/api/auth/login",
+      "files": [
+        "check-token.html",
+        "test-cors-simple.html"
+      ]
+    },
+    {
+      "method": "${API_BASE}/API/USER/SIGN/INFO",
+      "path": "/api/${API_BASE}/api/user/sign/info",
+      "files": [
+        "checkin.js"
+      ]
+    },
+    {
+      "method": "${API_BASE}/API/USER/SIGN/SIGN",
+      "path": "/api/${API_BASE}/api/user/sign/sign",
+      "files": [
+        "checkin.js"
+      ]
+    },
+    {
+      "method": "${API_BASE}/API/TEST/USERS",
+      "path": "/api/${API_BASE}/api/test/users",
+      "files": [
+        "diagnose-login.html"
+      ]
+    },
+    {
+      "method": "USER",
+      "path": "/api/getInvitePoster",
+      "files": [
+        "invite-share.html"
+      ]
+    },
+    {
+      "method": "USER",
+      "path": "/api/getInfo",
+      "files": [
+        "invite-share.html"
+      ]
+    },
+    {
+      "method": "AUTH",
+      "path": "/api/requireLogin",
+      "files": [
+        "points-exchange-history.html",
+        "points-history.html",
+        "points-logs.html",
+        "recharge-new.html",
+        "recharge.html",
+        "ribao-dual-currency.html",
+        "ribao-history.html",
+        "withdraw.html",
+        "ribao.html"
+      ]
+    },
+    {
+      "method": "POINTS",
+      "path": "/api/getBalance",
+      "files": [
+        "points-exchange.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/POINTS/EXCHANGE-HISTORY",
+      "path": "/api/user/points/exchange-history",
+      "files": [
+        "points-history.html"
+      ]
+    },
+    {
+      "method": "PROJECT",
+      "path": "/api/getList",
+      "files": [
+        "projects-list.html"
+      ]
+    },
+    {
+      "method": "FINANCE",
+      "path": "/api/recharge",
+      "files": [
+        "recharge-new.html",
+        "recharge.html"
+      ]
+    },
+    {
+      "method": "AUTH",
+      "path": "/api/getToken",
+      "files": [
+        "recharge-new.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/SUBMITFACEFORREVIEW",
+      "path": "/api/user/user/submitFaceForReview",
+      "files": [
+        "reset-password-new.html",
+        "reset-password-optimized.html",
+        "reset-password.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/RESETPASSWORD",
+      "path": "/api/user/user/resetPassword",
+      "files": [
+        "reset-password-new.html",
+        "reset-password-optimized.html",
+        "reset-password.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/CHECKUSERNAME",
+      "path": "/api/user/user/checkUsername",
+      "files": [
+        "reset-password.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/RIBAO/INFO",
+      "path": "/api/index.php/user/ribao/info",
+      "files": [
+        "ribao-debug.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/RIBAO/INFO",
+      "path": "/api/user/ribao/info",
+      "files": [
+        "ribao-dual-currency.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/RIBAO/TRANSFER-IN",
+      "path": "/api/user/ribao/transfer-in",
+      "files": [
+        "ribao-dual-currency.html"
+      ]
+    },
+    {
+      "method": "RIBAO",
+      "path": "/api/getRecords",
+      "files": [
+        "ribao-history.html"
+      ]
+    },
+    {
+      "method": "RIBAO",
+      "path": "/api/getInfo",
+      "files": [
+        "ribao.html",
+        "ribao_CLEAN_1762914403.html",
+        "ribao_FINAL.html",
+        "ribao_HOME_STYLE.html",
+        "ribao_PROJECTS_STYLE.html"
+      ]
+    },
+    {
+      "method": "RIBAO",
+      "path": "/api/transferIn",
+      "files": [
+        "ribao.html",
+        "ribao_CLEAN_1762914403.html",
+        "ribao_FINAL.html",
+        "ribao_HOME_STYLE.html",
+        "ribao_PROJECTS_STYLE.html"
+      ]
+    },
+    {
+      "method": "RIBAO",
+      "path": "/api/transferOut",
+      "files": [
+        "ribao.html",
+        "ribao_CLEAN_1762914403.html",
+        "ribao_FINAL.html",
+        "ribao_HOME_STYLE.html",
+        "ribao_PROJECTS_STYLE.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/POINTS/LOGS",
+      "path": "/api/user/points/logs",
+      "files": [
+        "shop.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/INDEX",
+      "path": "/api/user/user/index",
+      "files": [
+        "test-direct.html"
+      ]
+    },
+    {
+      "method": "${API_BASE}/API/AUTH/LOGIN",
+      "path": "/api/${API_BASE}/api/auth/login",
+      "files": [
+        "test-login-simple.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/NEWBIE-BONUS-STATUS",
+      "path": "/api/index.php/user/newbie-bonus-status",
+      "files": [
+        "test-newbie-bonus.html"
+      ]
+    },
+    {
+      "method": "HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/USER/INDEX",
+      "path": "/api/index.php/user/user/index",
+      "files": [
+        "test-newbie-bonus.html"
+      ]
+    },
+    {
+      "method": "AUTH",
+      "path": "/api/ensureLogin",
+      "files": [
+        "recharge.html"
+      ]
+    },
+    {
+      "method": "USER",
+      "path": "/api/claimTrial",
+      "files": [
+        "trial-money.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/INDEX",
+      "path": "/api/user/user/index",
+      "files": [
+        "invite-share.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/INVITE",
+      "path": "/api/user/user/invite",
+      "files": [
+        "invite-share.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/TEAM/TEAM",
+      "path": "/api/user/team/team",
+      "files": [
+        "invite-share.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/POINTS/EXCHANGE-HISTORY",
+      "path": "/api/user/points/exchange-history",
+      "files": [
+        "points-history.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/SUBMITFACEFORREVIEW",
+      "path": "/api/user/user/submitFaceForReview",
+      "files": [
+        "reset-password-new.html",
+        "reset-password-optimized.html",
+        "reset-password.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/RESETPASSWORD",
+      "path": "/api/user/user/resetPassword",
+      "files": [
+        "reset-password-new.html",
+        "reset-password-optimized.html",
+        "reset-password.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/CHECKUSERNAME",
+      "path": "/api/user/user/checkUsername",
+      "files": [
+        "reset-password.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/RIBAO/INFO",
+      "path": "/api/user/ribao/info",
+      "files": [
+        "ribao-dual-currency.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/RIBAO/TRANSFER-IN",
+      "path": "/api/user/ribao/transfer-in",
+      "files": [
+        "ribao-dual-currency.html"
+      ]
+    },
+    {
+      "method": "HTTPS://APIS.FREVIX.TOP/API/USER/POINTS/LOGS",
+      "path": "/api/user/points/logs",
+      "files": [
+        "shop.html"
+      ]
+    }
+  ],
+  "mismatches": [
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/user/change-password",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/user/forgot-password",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/user/reset-password",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/user/bind-bank-card",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/user/bind-usdt-address",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/projects",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/projects/categories",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/projects/${id}",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/projects/${projectId}/invest",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/orders/my-investments",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/orders/earnings",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/finance/recharge",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/finance/withdraw",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/finance/recharge/list",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/finance/withdraw/list",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/finance/wallet-logs",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/trial-fund/claim",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/trial-fund/status",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/trial-fund/orders",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/team/info",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/team/referral-rewards",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/team/rewards",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/announcements",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/activities/popup",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/activities/${activityId}/participate",
+        "files": [
+          "api-new.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/user/points/balance",
+        "files": [
+          "config.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/user/points/exchange",
+        "files": [
+          "config.js",
+          "shop.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/user/points/logs",
+        "files": [
+          "config.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/pay/bank/list",
+        "files": [
+          "config.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "GET",
+        "path": "/api/pay/us/info",
+        "files": [
+          "config.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/AUTH/LOGIN",
+        "path": "/api/index.php/auth/login",
+        "files": [
+          "debug-login-request.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/KYC-SUBMIT-SIMPLE",
+        "path": "/api",
+        "files": [
+          "kyc-verification-ocr.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "${API_BASE}/API/USER/INDEX",
+        "path": "/api/${API_BASE}/api/user/index",
+        "files": [
+          "profile.js",
+          "diagnose-login.html",
+          "profile-fixed.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "PROJECT",
+        "path": "/api/getDetail",
+        "files": [
+          "project-detail.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "FINANCE",
+        "path": "/api/getUserBalance",
+        "files": [
+          "project-detail.js",
+          "recharge-new.html",
+          "recharge.html",
+          "ribao-dual-currency.html",
+          "ribao.html",
+          "withdraw.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POST",
+        "path": "/api/index.php/user/points/exchange",
+        "files": [
+          "shop_blackgold_vip_20251023_160636.html",
+          "shop_points_exchange_20251023_155505.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/AUTH/LOGIN",
+        "path": "/api/auth/login",
+        "files": [
+          "check-token.html",
+          "test-cors-simple.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "${API_BASE}/API/USER/SIGN/INFO",
+        "path": "/api/${API_BASE}/api/user/sign/info",
+        "files": [
+          "checkin.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "${API_BASE}/API/USER/SIGN/SIGN",
+        "path": "/api/${API_BASE}/api/user/sign/sign",
+        "files": [
+          "checkin.js"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "${API_BASE}/API/TEST/USERS",
+        "path": "/api/${API_BASE}/api/test/users",
+        "files": [
+          "diagnose-login.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "USER",
+        "path": "/api/getInvitePoster",
+        "files": [
+          "invite-share.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "USER",
+        "path": "/api/getInfo",
+        "files": [
+          "invite-share.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "AUTH",
+        "path": "/api/requireLogin",
+        "files": [
+          "points-exchange-history.html",
+          "points-history.html",
+          "points-logs.html",
+          "recharge-new.html",
+          "recharge.html",
+          "ribao-dual-currency.html",
+          "ribao-history.html",
+          "withdraw.html",
+          "ribao.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "POINTS",
+        "path": "/api/getBalance",
+        "files": [
+          "points-exchange.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/POINTS/EXCHANGE-HISTORY",
+        "path": "/api/user/points/exchange-history",
+        "files": [
+          "points-history.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "PROJECT",
+        "path": "/api/getList",
+        "files": [
+          "projects-list.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "FINANCE",
+        "path": "/api/recharge",
+        "files": [
+          "recharge-new.html",
+          "recharge.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "AUTH",
+        "path": "/api/getToken",
+        "files": [
+          "recharge-new.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/SUBMITFACEFORREVIEW",
+        "path": "/api/user/user/submitFaceForReview",
+        "files": [
+          "reset-password-new.html",
+          "reset-password-optimized.html",
+          "reset-password.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/RESETPASSWORD",
+        "path": "/api/user/user/resetPassword",
+        "files": [
+          "reset-password-new.html",
+          "reset-password-optimized.html",
+          "reset-password.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/CHECKUSERNAME",
+        "path": "/api/user/user/checkUsername",
+        "files": [
+          "reset-password.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/RIBAO/INFO",
+        "path": "/api/index.php/user/ribao/info",
+        "files": [
+          "ribao-debug.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/RIBAO/INFO",
+        "path": "/api/user/ribao/info",
+        "files": [
+          "ribao-dual-currency.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/RIBAO/TRANSFER-IN",
+        "path": "/api/user/ribao/transfer-in",
+        "files": [
+          "ribao-dual-currency.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "RIBAO",
+        "path": "/api/getRecords",
+        "files": [
+          "ribao-history.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "RIBAO",
+        "path": "/api/getInfo",
+        "files": [
+          "ribao.html",
+          "ribao_CLEAN_1762914403.html",
+          "ribao_FINAL.html",
+          "ribao_HOME_STYLE.html",
+          "ribao_PROJECTS_STYLE.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "RIBAO",
+        "path": "/api/transferIn",
+        "files": [
+          "ribao.html",
+          "ribao_CLEAN_1762914403.html",
+          "ribao_FINAL.html",
+          "ribao_HOME_STYLE.html",
+          "ribao_PROJECTS_STYLE.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "RIBAO",
+        "path": "/api/transferOut",
+        "files": [
+          "ribao.html",
+          "ribao_CLEAN_1762914403.html",
+          "ribao_FINAL.html",
+          "ribao_HOME_STYLE.html",
+          "ribao_PROJECTS_STYLE.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/POINTS/LOGS",
+        "path": "/api/user/points/logs",
+        "files": [
+          "shop.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/USER/USER/INDEX",
+        "path": "/api/user/user/index",
+        "files": [
+          "test-direct.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "${API_BASE}/API/AUTH/LOGIN",
+        "path": "/api/${API_BASE}/api/auth/login",
+        "files": [
+          "test-login-simple.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/NEWBIE-BONUS-STATUS",
+        "path": "/api/index.php/user/newbie-bonus-status",
+        "files": [
+          "test-newbie-bonus.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://API.4KP3L0IQ.TOP/API/INDEX.PHP/USER/USER/INDEX",
+        "path": "/api/index.php/user/user/index",
+        "files": [
+          "test-newbie-bonus.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "AUTH",
+        "path": "/api/ensureLogin",
+        "files": [
+          "recharge.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "USER",
+        "path": "/api/claimTrial",
+        "files": [
+          "trial-money.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/INDEX",
+        "path": "/api/user/user/index",
+        "files": [
+          "invite-share.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/INVITE",
+        "path": "/api/user/user/invite",
+        "files": [
+          "invite-share.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/TEAM/TEAM",
+        "path": "/api/user/team/team",
+        "files": [
+          "invite-share.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/POINTS/EXCHANGE-HISTORY",
+        "path": "/api/user/points/exchange-history",
+        "files": [
+          "points-history.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/SUBMITFACEFORREVIEW",
+        "path": "/api/user/user/submitFaceForReview",
+        "files": [
+          "reset-password-new.html",
+          "reset-password-optimized.html",
+          "reset-password.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/RESETPASSWORD",
+        "path": "/api/user/user/resetPassword",
+        "files": [
+          "reset-password-new.html",
+          "reset-password-optimized.html",
+          "reset-password.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/USER/CHECKUSERNAME",
+        "path": "/api/user/user/checkUsername",
+        "files": [
+          "reset-password.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/RIBAO/INFO",
+        "path": "/api/user/ribao/info",
+        "files": [
+          "ribao-dual-currency.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/RIBAO/TRANSFER-IN",
+        "path": "/api/user/ribao/transfer-in",
+        "files": [
+          "ribao-dual-currency.html"
+        ]
+      }
+    },
+    {
+      "type": "frontend_not_in_backend",
+      "api": {
+        "method": "HTTPS://APIS.FREVIX.TOP/API/USER/POINTS/LOGS",
+        "path": "/api/user/points/logs",
+        "files": [
+          "shop.html"
+        ]
+      }
+    }
+  ],
+  "unused": [
+    {
+      "method": "POST",
+      "path": "/auth/forgot-password/step1",
+      "fullPath": "/api/auth/forgot-password/step1",
+      "line": 16,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/auth/forgot-password/step2",
+      "fullPath": "/api/auth/forgot-password/step2",
+      "line": 17,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/auth/forgot-password/step3",
+      "fullPath": "/api/auth/forgot-password/step3",
+      "line": 18,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/auth/forgot-password/check-status",
+      "fullPath": "/api/auth/forgot-password/check-status",
+      "line": 19,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/payment-v2/sevenpay-notify",
+      "fullPath": "/api/payment-v2/sevenpay-notify",
+      "line": 22,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/telegram/webhook",
+      "fullPath": "/api/telegram/webhook",
+      "line": 25,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/auth/logout",
+      "fullPath": "/api/auth/logout",
+      "line": 34,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/user/ribao/head",
+      "fullPath": "/api/user/ribao/head",
+      "line": 41,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/invest/create",
+      "fullPath": "/api/invest/create",
+      "line": 48,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/invest/orders",
+      "fullPath": "/api/invest/orders",
+      "line": 49,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/recharge/list",
+      "fullPath": "/api/recharge/list",
+      "line": 53,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/withdraw/list",
+      "fullPath": "/api/withdraw/list",
+      "line": 57,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/team/reward-info",
+      "fullPath": "/api/team/reward-info",
+      "line": 61,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/team/claim-reward",
+      "fullPath": "/api/team/claim-reward",
+      "line": 62,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/points/balance",
+      "fullPath": "/api/points/balance",
+      "line": 65,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/points/logs",
+      "fullPath": "/api/points/logs",
+      "line": 66,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/points/exchange",
+      "fullPath": "/api/points/exchange",
+      "line": 67,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/payment-v2/wechat",
+      "fullPath": "/api/payment-v2/wechat",
+      "line": 70,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/payment-v2/alipay",
+      "fullPath": "/api/payment-v2/alipay",
+      "line": 71,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/payment-v2/usdt-config",
+      "fullPath": "/api/payment-v2/usdt-config",
+      "line": 72,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/payment-v2/usdt-create",
+      "fullPath": "/api/payment-v2/usdt-create",
+      "line": 73,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/payment-v2/usdt-check",
+      "fullPath": "/api/payment-v2/usdt-check",
+      "line": 74,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/currency/get-usdt-rate",
+      "fullPath": "/api/currency/get-usdt-rate",
+      "line": 77,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/currency/exchange-cny-to-usdt",
+      "fullPath": "/api/currency/exchange-cny-to-usdt",
+      "line": 78,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/ai/chat",
+      "fullPath": "/api/ai/chat",
+      "line": 81,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/user/kyc/status",
+      "fullPath": "/api/user/kyc/status",
+      "line": 85,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/user/face-upload",
+      "fullPath": "/api/user/face-upload",
+      "line": 88,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/user/face-verify",
+      "fullPath": "/api/user/face-verify",
+      "line": 89,
+      "needsAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "/user/face/status",
+      "fullPath": "/api/user/face/status",
+      "line": 90,
+      "needsAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "/bot/admin/project/publish",
+      "fullPath": "/api/bot/admin/project/publish",
+      "line": 95,
+      "needsAuth": true
+    },
+    {
+      "method": "GET",
+      "path": "/bot/admin/finance/stats",
+      "fullPath": "/api/bot/admin/finance/stats",
+      "line": 96,
+      "needsAuth": true
+    }
+  ]
+}

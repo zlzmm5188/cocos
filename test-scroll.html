@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚动测试</title>
+    <link rel="stylesheet" href="global-scroll-fix.css">
+    <style>
+        body {
+            background: linear-gradient(180deg, #0a1723, #08141f);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .block {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            min-height: 150px;
+        }
+        h1 { color: #ffd700; }
+        .test-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,215,0,0.9);
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        滚动位置: <span id="scroll">0</span>px
+    </div>
+    
+    <h1>📜 滚动测试页面</h1>
+    <p>这个页面用于测试滚动是否正常工作，同时没有橡皮筋效果。</p>
+    
+    <div class="block">
+        <h2>测试块 1</h2>
+        <p>向下滚动测试页面是否可以正常滚动...</p>
+    </div>
+    
+    <div class="block">
+        <h2>测试块 2</h2>
+        <p>同时观察是否有橡皮筋弹性效果（iOS）</p>
+    </div>
+    
+    <div class="block">
+        <h2>测试块 3</h2>
+        <p>✅ 应该能正常滚动</p>
+        <p>❌ 但不应该有橡皮筋效果</p>
+    </div>
+    
+    <div class="block">
+        <h2>测试块 4</h2>
+        <p>继续向下滚动...</p>
+    </div>
+    
+    <div class="block">
+        <h2>测试块 5</h2>
+        <p>还能继续滚动吗？</p>
+    </div>
+    
+    <div class="block">
+        <h2>测试块 6</h2>
+        <p>如果能看到这里，说明滚动正常！</p>
+    </div>
+    
+    <div class="block">
+        <h2>测试块 7</h2>
+        <p>最后一个测试块</p>
+    </div>
+    
+    <div class="block" style="margin-bottom: 100px;">
+        <h2>✅ 测试完成</h2>
+        <p>如果：</p>
+        <ul>
+            <li>✅ 能看到这里 = 滚动正常</li>
+            <li>✅ 没有橡皮筋弹性 = 优化成功</li>
+        </ul>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('scroll').textContent = Math.round(window.scrollY);
+        });
+    </script>
+    <script src="smart-navigation.js?v=1763897782"></script>
+</body>
+</html>

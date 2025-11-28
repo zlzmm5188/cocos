@@ -1,0 +1,88 @@
+=====================================================
+4kp3l0iq.top 登录和用户数据加载修复报告
+时间: 2025-11-21 08:15:58
+=====================================================
+
+✅ 已完成的修复：
+
+1. 【登录功能】
+   - 修复 login.js 的表单ID匹配（loginUsername/loginPassword）
+   - 修复 API 地址（全站替换为 4kp3l0iq.top）
+   - 确保 token 正确保存到 localStorage
+   - 更新版本号: login.js?v=1763684094
+
+2. 【弹窗样式】  
+   - 统一使用 iOS 自定义弹窗（showToast/showConfirm）
+   - 去除所有原生 alert/confirm
+   - 修复弹窗消息中的URL过滤
+
+3. 【用户数据加载】
+   - 修复 config.js 的 token header 发送逻辑
+   - 修复 profile.js 的 API 路径（/user/user/index）
+   - 确保兼容 code=1 的API响应
+   - 修复数据字段映射（uid/cny_balance/usdt_balance）
+   - 更新版本号: profile.js?v=1763684094, config.js?v=1763684094
+
+4. 【缓存问题】
+   - 修复 nginx 的 JS/CSS 缓存配置（改为不缓存）
+   - 所有文件添加时间戳版本号
+
+5. 【语法错误】
+   - 修复 profile.js 的全局 return 语法错误
+
+=====================================================
+✅ API 测试结果（已验证）：
+
+接口: /api/index.php/user/user/index
+方法: GET
+Header: token: [JWT]
+
+响应示例:
+{
+  code: 1,
+  message: 操作成功, 
+  data: {
+    uid: G138688,
+    username: G138688,
+    cny_balance: 28440,
+    usdt_balance: 2551,
+    vip_level: 8
+  }
+}
+
+✅ 状态: API 正常工作
+
+=====================================================
+📱 用户操作指南：
+
+1. 完全关闭手机浏览器（不是刷新）
+2. 重新打开浏览器
+3. 访问 https://4kp3l0iq.top/login.html
+4. 输入账号密码登录
+5. 应该能看到：
+   - 用户ID: G138688
+   - CNY余额: 28440
+   - USDT余额: 2551
+   - VIP等级: VIP8
+
+如果还是看不到，请清除浏览器缓存或使用无痕模式访问。
+
+=====================================================
+🔧 技术细节：
+
+前端配置:
+- baseURL: https://api.4kp3l0iq.top/api/index.php
+- tokenKey: providence_token
+- 弹窗: ios-toast.js (iOS风格)
+
+后端API:
+- 路由映射: /user/user/index → user/user/index.php
+- Token验证: Auth::user()
+- 响应格式: {code: 1, data: {...}}
+
+关键修复:
+- httpClient 同时发送 Authorization 和 token header
+- profile.js 兼容 code=1 和 code=200
+- 所有API路径去除.php后缀（由路由处理）
+
+=====================================================

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>API测试</title>
+</head>
+<body>
+    <h2>测试登录接口</h2>
+    <button onclick="testLogin()">测试登录</button>
+    <button onclick="testProjects()">测试项目列表</button>
+    <pre id="result"></pre>
+    
+    <script>
+    const API_BASE = 'https://api.4kp3l0iq.top';
+    
+    async function testLogin() {
+        const result = document.getElementById('result');
+        result.textContent = '正在测试登录...';
+        
+        try {
+            const response = await fetch(`${API_BASE}/api/auth/login`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: 'G138688', password: 'G138688'})
+            });
+            const data = await response.json();
+            result.textContent = '登录成功:\n' + JSON.stringify(data, null, 2);
+            
+            if (data.code === 0) {
+                localStorage.setItem('token', data.data.accessToken);
+            }
+        } catch (e) {
+            result.textContent = '登录失败: ' + e.message;
+        }
+    }
+    
+    async function testProjects() {
+        const result = document.getElementById('result');
+        result.textContent = '正在获取项目列表...';
+        
+        try {
+            const response = await fetch(`${API_BASE}/api/project/index`);
+            const data = await response.json();
+            result.textContent = '项目列表:\n' + JSON.stringify(data, null, 2);
+        } catch (e) {
+            result.textContent = '获取失败: ' + e.message;
+        }
+    }
+    </script>
+</body>
+</html>
