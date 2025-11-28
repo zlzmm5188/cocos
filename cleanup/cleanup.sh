@@ -138,6 +138,28 @@ EXAMPLES:
 EOF
 }
 
+# Enumerate files matching patterns (used by dry_run)
+# Arguments: $1 = label (BINARY/BACKUP), $2... = patterns array
+enumerate_files() {
+    local label="$1"
+    shift
+    local patterns=("$@")
+    local count=0
+    local relative_path
+    
+    for pattern in "${patterns[@]}"; do
+        while IFS= read -r -d '' file; do
+            relative_path="${file#"$REPO_ROOT"/}"
+            if [[ "$relative_path" != cleanup_backups/* ]] && [[ "$relative_path" != .git/* ]]; then
+                echo "  [$label] $relative_path"
+                count=$((count + 1))
+            fi
+        done < <(find "$REPO_ROOT" -type f -name "$pattern" ! -path "$REPO_ROOT/.git/*" ! -path "$BACKUP_DIR/*" -print0 2>/dev/null)
+    done
+    
+    echo "$count"
+}
+
 # Dry run mode - show what would be archived (no directories/files created)
 dry_run() {
     echo "[INFO] === DRY RUN MODE - No files will be modified ==="
@@ -146,33 +168,23 @@ dry_run() {
     echo "Files that would be archived:"
     echo "=============================="
     
-    local count=0
-    local relative_path
+    # Capture counts (last line of enumerate_files output is the count)
+    local binary_output
+    binary_output=$(enumerate_files "BINARY" "${BINARY_PATTERNS[@]}")
+    local binary_count
+    binary_count=$(echo "$binary_output" | tail -1)
+    echo "$binary_output" | head -n -1
     
-    # Check binary files
-    for pattern in "${BINARY_PATTERNS[@]}"; do
-        while IFS= read -r -d '' file; do
-            relative_path="${file#"$REPO_ROOT"/}"
-            if [[ "$relative_path" != cleanup_backups/* ]] && [[ "$relative_path" != .git/* ]]; then
-                echo "  [BINARY] $relative_path"
-                count=$((count + 1))
-            fi
-        done < <(find "$REPO_ROOT" -type f -name "$pattern" ! -path "$REPO_ROOT/.git/*" ! -path "$BACKUP_DIR/*" -print0 2>/dev/null)
-    done
+    local backup_output
+    backup_output=$(enumerate_files "BACKUP" "${BACKUP_PATTERNS[@]}")
+    local backup_count
+    backup_count=$(echo "$backup_output" | tail -1)
+    echo "$backup_output" | head -n -1
     
-    # Check backup files
-    for pattern in "${BACKUP_PATTERNS[@]}"; do
-        while IFS= read -r -d '' file; do
-            relative_path="${file#"$REPO_ROOT"/}"
-            if [[ "$relative_path" != cleanup_backups/* ]] && [[ "$relative_path" != .git/* ]]; then
-                echo "  [BACKUP] $relative_path"
-                count=$((count + 1))
-            fi
-        done < <(find "$REPO_ROOT" -type f -name "$pattern" ! -path "$REPO_ROOT/.git/*" ! -path "$BACKUP_DIR/*" -print0 2>/dev/null)
-    done
+    local total_count=$((binary_count + backup_count))
     
     echo ""
-    echo "Total files that would be archived: $count"
+    echo "Total files that would be archived: $total_count"
     echo "Run without --dry-run to perform the actual cleanup."
 }
 
