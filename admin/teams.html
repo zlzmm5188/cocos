@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 团队管理</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item"><i class="fas fa-tachometer-alt"></i><span>仪表盘</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item"><i class="fas fa-users"></i><span>用户列表</span></a>
+                    <a href="kyc.html" class="menu-item"><i class="fas fa-id-card"></i><span>实名认证</span></a>
+                    <a href="teams.html" class="menu-item active"><i class="fas fa-sitemap"></i><span>团队管理</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item"><i class="fas fa-box"></i><span>投资产品</span></a>
+                    <a href="orders.html" class="menu-item"><i class="fas fa-file-invoice-dollar"></i><span>投资订单</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item"><i class="fas fa-plus-circle"></i><span>充值审核</span></a>
+                    <a href="withdrawals.html" class="menu-item"><i class="fas fa-minus-circle"></i><span>提现审核</span></a>
+                    <a href="ribao.html" class="menu-item"><i class="fas fa-piggy-bank"></i><span>日利宝</span></a>
+                    <a href="transactions.html" class="menu-item"><i class="fas fa-exchange-alt"></i><span>交易记录</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item"><i class="fas fa-crown"></i><span>VIP配置</span></a>
+                    <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+                </div>
+            </nav>
+        </aside>
+        
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>用户管理</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">团队管理</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <!-- Stats -->
+                <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>团队总数</h3>
+                            <div class="value">2,856</div>
+                        </div>
+                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日新增</h3>
+                            <div class="value">45</div>
+                        </div>
+                        <div class="stat-icon green"><i class="fas fa-user-plus"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>总返佣金额</h3>
+                            <div class="value">¥1,258,600</div>
+                        </div>
+                        <div class="stat-icon orange"><i class="fas fa-coins"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日返佣</h3>
+                            <div class="value">¥15,680</div>
+                        </div>
+                        <div class="stat-icon red"><i class="fas fa-hand-holding-usd"></i></div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">团队列表</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="搜索用户ID/邀请码">
+                            </div>
+                            <div class="filter-group">
+                                <select class="form-control" id="levelFilter" style="width: 150px;">
+                                    <option value="">全部层级</option>
+                                    <option value="1">一级成员</option>
+                                    <option value="2">二级成员</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>用户</th>
+                                    <th>邀请码</th>
+                                    <th>VIP等级</th>
+                                    <th>一级成员</th>
+                                    <th>二级成员</th>
+                                    <th>团队投资</th>
+                                    <th>累计返佣</th>
+                                    <th>注册时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teamTableBody">
+                                <!-- Content loaded dynamically -->
+                            </tbody>
+                        </table>
+                        
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Team Detail Modal -->
+    <div class="modal" id="teamModal">
+        <div class="modal-content" style="min-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">团队详情</h3>
+                <button class="modal-close" onclick="closeModal('teamModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="teamModalBody">
+                <!-- Content loaded dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('teamModal')">关闭</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        let currentPage = 1;
+        let pageSize = 20;
+        let totalRecords = 0;
+        let teamsData = [];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            loadTeams();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        async function loadTeams() {
+            try {
+                const mockTeams = generateMockTeams();
+                teamsData = mockTeams;
+                totalRecords = 156;
+                
+                renderTeams(mockTeams);
+                renderPagination();
+            } catch (error) {
+                console.error('Failed to load teams:', error);
+                AdminToast.error('加载团队数据失败');
+            }
+        }
+        
+        function generateMockTeams() {
+            const teams = [];
+            for (let i = 0; i < 20; i++) {
+                const level1 = Math.floor(Math.random() * 50);
+                const level2 = Math.floor(Math.random() * 200);
+                const teamInvest = (level1 + level2) * Math.random() * 50000;
+                const commission = teamInvest * 0.05;
+                
+                teams.push({
+                    id: 10000 + i,
+                    userId: 10000 + i,
+                    username: 'user_' + (10000 + i),
+                    phone: '138****' + String(1000 + i).padStart(4, '0'),
+                    inviteCode: 'INV' + String(100000 + i),
+                    vipLevel: Math.floor(Math.random() * 9),
+                    level1Count: level1,
+                    level2Count: level2,
+                    teamInvest: teamInvest,
+                    totalCommission: commission,
+                    createdAt: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString()
+                });
+            }
+            return teams;
+        }
+        
+        function renderTeams(teams) {
+            const tbody = document.getElementById('teamTableBody');
+            
+            if (teams.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>暂无团队数据</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = teams.map(team => `
+                <tr>
+                    <td>
+                        <div>${team.username}</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">${team.phone}</div>
+                    </td>
+                    <td><code onclick="AdminUtils.copyToClipboard('${team.inviteCode}')" style="cursor: pointer;">${team.inviteCode}</code></td>
+                    <td>${AdminUtils.getVipBadge(team.vipLevel)}</td>
+                    <td style="color: var(--primary-color); font-weight: 500;">${team.level1Count}</td>
+                    <td style="color: var(--text-secondary);">${team.level2Count}</td>
+                    <td>¥${AdminUtils.formatMoney(team.teamInvest, 0)}</td>
+                    <td style="color: var(--success-color); font-weight: 500;">¥${AdminUtils.formatMoney(team.totalCommission, 0)}</td>
+                    <td style="font-size: 12px;">${AdminUtils.formatDate(team.createdAt, 'YYYY-MM-DD')}</td>
+                    <td class="actions">
+                        <button class="btn btn-sm btn-outline" onclick="viewTeam(${team.id})" title="查看团队">
+                            <i class="fas fa-sitemap"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderPagination() {
+            const totalPages = Math.ceil(totalRecords / pageSize);
+            const pagination = document.getElementById('pagination');
+            
+            let html = `
+                <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <span style="margin-left: 16px; color: var(--text-secondary);">共 ${totalRecords} 条</span>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > Math.ceil(totalRecords / pageSize)) return;
+            currentPage = page;
+            loadTeams();
+        }
+        
+        function viewTeam(id) {
+            const team = teamsData.find(t => t.id === id);
+            if (!team) return;
+            
+            document.getElementById('teamModalBody').innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+                    <div>
+                        <h4 style="margin-bottom: 16px;">用户信息</h4>
+                        <p><strong>用户名:</strong> ${team.username}</p>
+                        <p><strong>手机号:</strong> ${team.phone}</p>
+                        <p><strong>邀请码:</strong> ${team.inviteCode}</p>
+                        <p><strong>VIP等级:</strong> ${AdminUtils.getVipBadge(team.vipLevel)}</p>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 16px;">团队数据</h4>
+                        <p><strong>一级成员:</strong> ${team.level1Count} 人</p>
+                        <p><strong>二级成员:</strong> ${team.level2Count} 人</p>
+                        <p><strong>团队投资:</strong> ¥${AdminUtils.formatMoney(team.teamInvest, 0)}</p>
+                        <p><strong>累计返佣:</strong> <span style="color: var(--success-color);">¥${AdminUtils.formatMoney(team.totalCommission, 0)}</span></p>
+                    </div>
+                </div>
+                
+                <h4 style="margin-bottom: 16px;">一级成员 (最近10位)</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>用户</th>
+                            <th>VIP</th>
+                            <th>投资额</th>
+                            <th>注册时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${Array(Math.min(10, team.level1Count)).fill(0).map((_, i) => `
+                            <tr>
+                                <td>member_${team.id}${i}</td>
+                                <td>${AdminUtils.getVipBadge(Math.floor(Math.random() * 5))}</td>
+                                <td>¥${AdminUtils.formatMoney(Math.random() * 100000, 0)}</td>
+                                <td style="font-size: 12px;">${AdminUtils.formatDate(new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000), 'YYYY-MM-DD')}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            openModal('teamModal');
+        }
+        
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+</html>

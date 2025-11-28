@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 投资产品</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>仪表盘</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>用户列表</span>
+                    </a>
+                    <a href="kyc.html" class="menu-item">
+                        <i class="fas fa-id-card"></i>
+                        <span>实名认证</span>
+                    </a>
+                    <a href="teams.html" class="menu-item">
+                        <i class="fas fa-sitemap"></i>
+                        <span>团队管理</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item active">
+                        <i class="fas fa-box"></i>
+                        <span>投资产品</span>
+                    </a>
+                    <a href="orders.html" class="menu-item">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>投资订单</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>充值审核</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <span>提现审核</span>
+                    </a>
+                    <a href="ribao.html" class="menu-item">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>日利宝</span>
+                    </a>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>交易记录</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item">
+                        <i class="fas fa-crown"></i>
+                        <span>VIP配置</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>产品管理</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">投资产品</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">投资产品列表</h3>
+                        <button class="btn btn-primary" onclick="addProduct()">
+                            <i class="fas fa-plus"></i> 新增产品
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="搜索产品名称">
+                            </div>
+                            <div class="filter-group">
+                                <select class="form-control" id="categoryFilter" onchange="filterProducts()" style="width: 120px;">
+                                    <option value="">全部分类</option>
+                                    <option value="ipo">新股申购</option>
+                                    <option value="bond">债券基金</option>
+                                    <option value="fund">混合基金</option>
+                                    <option value="convertible">可转债</option>
+                                </select>
+                                <select class="form-control" id="statusFilter" onchange="filterProducts()" style="width: 120px;">
+                                    <option value="">全部状态</option>
+                                    <option value="open">募集中</option>
+                                    <option value="close">已关闭</option>
+                                    <option value="finish">已结束</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>产品名称</th>
+                                    <th>分类</th>
+                                    <th>年化收益</th>
+                                    <th>周期(天)</th>
+                                    <th>起投金额</th>
+                                    <th>募集进度</th>
+                                    <th>状态</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTableBody">
+                                <tr>
+                                    <td colspan="10" class="loading"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content" style="min-width: 700px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="productModalTitle">新增产品</h3>
+                <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="productId">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">产品名称 *</label>
+                        <input type="text" class="form-control" id="productTitle" placeholder="例如：新能源债券A">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">产品分类 *</label>
+                        <select class="form-control" id="productCategory">
+                            <option value="ipo">新股申购</option>
+                            <option value="bond">债券基金</option>
+                            <option value="fund">混合基金</option>
+                            <option value="convertible">可转债</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label">产品简介</label>
+                        <input type="text" class="form-control" id="productSubtitle" placeholder="简短描述产品特点">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">基础年化收益率 (%) *</label>
+                        <input type="number" class="form-control" id="productAPR" placeholder="例如：9.2" step="0.1" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">投资周期 (天) *</label>
+                        <input type="number" class="form-control" id="productCycle" placeholder="例如：30" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">起投金额 (元) *</label>
+                        <input type="number" class="form-control" id="productMinInvest" placeholder="例如：1000" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">总募集金额 (元)</label>
+                        <input type="number" class="form-control" id="productTotalAmount" placeholder="不填则无限额">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">产品状态</label>
+                        <select class="form-control" id="productStatus">
+                            <option value="open">募集中</option>
+                            <option value="close">已关闭</option>
+                            <option value="finish">已结束</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">风险等级</label>
+                        <select class="form-control" id="productRisk">
+                            <option value="lowdd">低风险</option>
+                            <option value="balanced">中等风险</option>
+                            <option value="aggressive">高风险</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">策略说明 (Markdown)</label>
+                    <textarea class="form-control" id="productStrategy" rows="6" placeholder="产品投资策略说明..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('productModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveProduct()">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        let currentPage = 1;
+        let pageSize = 20;
+        let totalProducts = 0;
+        let productsData = [];
+        
+        const categoryMap = {
+            ipo: '新股申购',
+            bond: '债券基金',
+            fund: '混合基金',
+            convertible: '可转债'
+        };
+        
+        const statusMap = {
+            open: { text: '募集中', class: 'tag-success' },
+            close: { text: '已关闭', class: 'tag-warning' },
+            finish: { text: '已结束', class: 'tag-default' }
+        };
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            loadProducts();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        async function loadProducts() {
+            try {
+                const mockProducts = generateMockProducts();
+                productsData = mockProducts;
+                totalProducts = 35;
+                
+                renderProducts(mockProducts);
+                renderPagination();
+            } catch (error) {
+                console.error('Failed to load products:', error);
+                AdminToast.error('加载产品列表失败');
+            }
+        }
+        
+        function generateMockProducts() {
+            const categories = ['ipo', 'bond', 'fund', 'convertible'];
+            const statuses = ['open', 'close', 'finish'];
+            const products = [];
+            
+            const names = [
+                '新能源债券A', '科技成长基金', '稳健收益债券', '短期理财计划', '混合增长基金',
+                '可转债精选', 'IPO打新专享', '蓝筹债券组合', '高收益债券B', '平衡型基金'
+            ];
+            
+            for (let i = 0; i < 15; i++) {
+                const category = categories[Math.floor(Math.random() * categories.length)];
+                const status = i < 10 ? (Math.random() > 0.3 ? 'open' : 'close') : statuses[Math.floor(Math.random() * statuses.length)];
+                const total = [500000, 1000000, 2000000, 5000000][Math.floor(Math.random() * 4)];
+                const raised = status === 'open' ? Math.floor(total * Math.random()) : (status === 'finish' ? total : Math.floor(total * Math.random() * 0.5));
+                
+                products.push({
+                    id: 100 + i,
+                    title: names[i % names.length],
+                    subtitle: '稳健增长，收益可观',
+                    category: category,
+                    baseAPR: (5 + Math.random() * 10).toFixed(1),
+                    cycleDays: [7, 15, 30, 60, 90][Math.floor(Math.random() * 5)],
+                    minInvest: [1000, 5000, 10000, 50000][Math.floor(Math.random() * 4)],
+                    totalAmount: total,
+                    raisedAmount: raised,
+                    status: status,
+                    riskStyle: ['lowdd', 'balanced', 'aggressive'][Math.floor(Math.random() * 3)],
+                    createdAt: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString()
+                });
+            }
+            return products;
+        }
+        
+        function renderProducts(products) {
+            const tbody = document.getElementById('productTableBody');
+            
+            if (products.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>暂无产品数据</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = products.map(product => {
+                const progress = product.totalAmount ? Math.floor(product.raisedAmount / product.totalAmount * 100) : 0;
+                const statusInfo = statusMap[product.status] || statusMap.open;
+                
+                return `
+                    <tr>
+                        <td>${product.id}</td>
+                        <td>
+                            <div style="font-weight: 500;">${product.title}</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">${product.subtitle || ''}</div>
+                        </td>
+                        <td><span class="tag tag-blue">${categoryMap[product.category] || product.category}</span></td>
+                        <td style="color: var(--danger-color); font-weight: 600;">${product.baseAPR}%</td>
+                        <td>${product.cycleDays}天</td>
+                        <td>¥${AdminUtils.formatMoney(product.minInvest, 0)}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="flex: 1; height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden;">
+                                    <div style="width: ${progress}%; height: 100%; background: ${progress >= 80 ? 'var(--danger-color)' : 'var(--primary-color)'}; transition: width 0.3s;"></div>
+                                </div>
+                                <span style="font-size: 12px; color: var(--text-secondary);">${progress}%</span>
+                            </div>
+                            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">
+                                ${AdminUtils.formatMoney(product.raisedAmount, 0)} / ${AdminUtils.formatMoney(product.totalAmount, 0)}
+                            </div>
+                        </td>
+                        <td><span class="tag ${statusInfo.class}">${statusInfo.text}</span></td>
+                        <td style="font-size: 12px;">${AdminUtils.formatDate(product.createdAt, 'YYYY-MM-DD')}</td>
+                        <td class="actions">
+                            <button class="btn btn-sm btn-outline" onclick="editProduct(${product.id})" title="编辑">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-${product.status === 'open' ? 'warning' : 'success'}" onclick="toggleStatus(${product.id})" title="${product.status === 'open' ? '关闭' : '开启'}">
+                                <i class="fas fa-${product.status === 'open' ? 'pause' : 'play'}"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteProduct(${product.id})" title="删除">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function renderPagination() {
+            const totalPages = Math.ceil(totalProducts / pageSize);
+            const pagination = document.getElementById('pagination');
+            
+            let html = `
+                <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <span style="margin-left: 16px; color: var(--text-secondary);">共 ${totalProducts} 条</span>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > Math.ceil(totalProducts / pageSize)) return;
+            currentPage = page;
+            loadProducts();
+        }
+        
+        function filterProducts() {
+            currentPage = 1;
+            loadProducts();
+        }
+        
+        function addProduct() {
+            document.getElementById('productModalTitle').textContent = '新增产品';
+            document.getElementById('productId').value = '';
+            document.getElementById('productTitle').value = '';
+            document.getElementById('productSubtitle').value = '';
+            document.getElementById('productCategory').value = 'bond';
+            document.getElementById('productAPR').value = '';
+            document.getElementById('productCycle').value = '';
+            document.getElementById('productMinInvest').value = '';
+            document.getElementById('productTotalAmount').value = '';
+            document.getElementById('productStatus').value = 'open';
+            document.getElementById('productRisk').value = 'balanced';
+            document.getElementById('productStrategy').value = '';
+            
+            openModal('productModal');
+        }
+        
+        function editProduct(id) {
+            const product = productsData.find(p => p.id === id);
+            if (!product) return;
+            
+            document.getElementById('productModalTitle').textContent = '编辑产品';
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productTitle').value = product.title;
+            document.getElementById('productSubtitle').value = product.subtitle || '';
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productAPR').value = product.baseAPR;
+            document.getElementById('productCycle').value = product.cycleDays;
+            document.getElementById('productMinInvest').value = product.minInvest;
+            document.getElementById('productTotalAmount').value = product.totalAmount || '';
+            document.getElementById('productStatus').value = product.status;
+            document.getElementById('productRisk').value = product.riskStyle || 'balanced';
+            document.getElementById('productStrategy').value = product.strategyMd || '';
+            
+            openModal('productModal');
+        }
+        
+        async function saveProduct() {
+            const id = document.getElementById('productId').value;
+            const title = document.getElementById('productTitle').value.trim();
+            const apr = parseFloat(document.getElementById('productAPR').value);
+            const cycle = parseInt(document.getElementById('productCycle').value);
+            const minInvest = parseInt(document.getElementById('productMinInvest').value);
+            
+            if (!title) {
+                AdminToast.warning('请输入产品名称');
+                return;
+            }
+            if (!apr || apr <= 0) {
+                AdminToast.warning('请输入有效的年化收益率');
+                return;
+            }
+            if (!cycle || cycle <= 0) {
+                AdminToast.warning('请输入有效的投资周期');
+                return;
+            }
+            if (!minInvest || minInvest <= 0) {
+                AdminToast.warning('请输入有效的起投金额');
+                return;
+            }
+            
+            try {
+                // In production: call API
+                AdminToast.success(id ? '产品已更新' : '产品已创建');
+                closeModal('productModal');
+                loadProducts();
+            } catch (error) {
+                AdminToast.error('保存失败: ' + error.message);
+            }
+        }
+        
+        async function toggleStatus(id) {
+            const product = productsData.find(p => p.id === id);
+            if (!product) return;
+            
+            const newStatus = product.status === 'open' ? 'close' : 'open';
+            const confirmed = await AdminUtils.confirm(`确定要${newStatus === 'open' ? '开启' : '关闭'}该产品吗？`, '更改状态');
+            if (!confirmed) return;
+            
+            try {
+                // In production: call API
+                AdminToast.success(`产品已${newStatus === 'open' ? '开启' : '关闭'}`);
+                loadProducts();
+            } catch (error) {
+                AdminToast.error('操作失败: ' + error.message);
+            }
+        }
+        
+        async function deleteProduct(id) {
+            const confirmed = await AdminUtils.confirm('确定要删除该产品吗？此操作不可恢复！', '删除产品');
+            if (!confirmed) return;
+            
+            try {
+                // In production: call API
+                AdminToast.success('产品已删除');
+                loadProducts();
+            } catch (error) {
+                AdminToast.error('删除失败: ' + error.message);
+            }
+        }
+        
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+</html>

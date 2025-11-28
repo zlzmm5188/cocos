@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 登录</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-page {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .login-logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .remember-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .remember-row label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .error-msg {
+            color: var(--danger-color);
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+        .error-msg.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.style.display='none'">
+                <h1>Providence 后台管理</h1>
+                <p>资金盘返利管理系统</p>
+            </div>
+            
+            <form class="login-form" id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">管理员账号</label>
+                    <div class="input-wrapper">
+                        <input type="text" class="form-control" id="username" placeholder="请输入管理员账号" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">登录密码</label>
+                    <div class="input-wrapper">
+                        <input type="password" class="form-control" id="password" placeholder="请输入登录密码" required>
+                        <i class="fas fa-eye-slash password-toggle" onclick="togglePassword()"></i>
+                    </div>
+                </div>
+                
+                <div class="remember-row">
+                    <label>
+                        <input type="checkbox" id="rememberMe">
+                        <span>记住账号</span>
+                    </label>
+                    <a href="javascript:void(0)" style="color: var(--primary-color); font-size: 14px;">忘记密码?</a>
+                </div>
+                
+                <div class="error-msg" id="errorMsg"></div>
+                
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>登 录</span>
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 24px; color: var(--text-secondary); font-size: 12px;">
+                <p>默认账号: admin / admin123</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/admin-config.js"></script>
+    <script>
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('admin_token');
+            if (token) {
+                window.location.href = 'index.html';
+            }
+            
+            // Load saved username
+            const savedUsername = localStorage.getItem('admin_username');
+            if (savedUsername) {
+                document.getElementById('username').value = savedUsername;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+        
+        function togglePassword() {
+            const pwd = document.getElementById('password');
+            const icon = document.querySelector('.password-toggle');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                pwd.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        }
+        
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (!username || !password) {
+                showError('请输入账号和密码');
+                return false;
+            }
+            
+            // Show loading
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 登录中...';
+            errorMsg.classList.remove('show');
+            
+            try {
+                // For demo purposes, using local validation
+                // In production, this should call the backend API
+                const validAdmins = [
+                    { username: 'admin', password: 'admin123', name: '超级管理员', role: 'super_admin' },
+                    { username: 'manager', password: 'manager123', name: '运营经理', role: 'manager' },
+                    { username: 'operator', password: 'operator123', name: '客服人员', role: 'operator' }
+                ];
+                
+                const admin = validAdmins.find(a => a.username === username && a.password === password);
+                
+                if (admin) {
+                    // Generate mock token
+                    const token = 'admin_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('admin_token', token);
+                    localStorage.setItem('admin_info', JSON.stringify({
+                        id: 1,
+                        username: admin.username,
+                        name: admin.name,
+                        role: admin.role,
+                        avatar: ''
+                    }));
+                    
+                    if (rememberMe) {
+                        localStorage.setItem('admin_username', username);
+                    } else {
+                        localStorage.removeItem('admin_username');
+                    }
+                    
+                    // Redirect to dashboard
+                    window.location.href = 'index.html';
+                } else {
+                    showError('账号或密码错误');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('网络错误，请重试');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> <span>登 录</span>';
+            }
+            
+            return false;
+        }
+        
+        function showError(msg) {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = msg;
+            errorMsg.classList.add('show');
+        }
+    </script>
+</body>
+</html>

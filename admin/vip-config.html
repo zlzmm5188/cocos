@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - VIP配置</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>仪表盘</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>用户列表</span>
+                    </a>
+                    <a href="kyc.html" class="menu-item">
+                        <i class="fas fa-id-card"></i>
+                        <span>实名认证</span>
+                    </a>
+                    <a href="teams.html" class="menu-item">
+                        <i class="fas fa-sitemap"></i>
+                        <span>团队管理</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item">
+                        <i class="fas fa-box"></i>
+                        <span>投资产品</span>
+                    </a>
+                    <a href="orders.html" class="menu-item">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>投资订单</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>充值审核</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <span>提现审核</span>
+                    </a>
+                    <a href="ribao.html" class="menu-item">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>日利宝</span>
+                    </a>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>交易记录</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item active">
+                        <i class="fas fa-crown"></i>
+                        <span>VIP配置</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>系统设置</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">VIP配置</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">VIP等级配置</h3>
+                        <button class="btn btn-primary" onclick="saveAllConfig()">
+                            <i class="fas fa-save"></i> 保存所有
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-bottom: 16px; padding: 12px; background: #e6f7ff; border: 1px solid #91d5ff; border-radius: 4px;">
+                            <i class="fas fa-info-circle" style="color: var(--primary-color);"></i>
+                            <span style="margin-left: 8px;">VIP等级根据用户累计投资金额自动升级，等级越高享受的加息和返佣比例越高</span>
+                        </div>
+                        
+                        <table class="data-table" id="vipConfigTable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">等级</th>
+                                    <th>累计投资额要求 (元)</th>
+                                    <th>VIP加息 (%)</th>
+                                    <th>一级返佣 (%)</th>
+                                    <th>二级返佣 (%)</th>
+                                    <th style="width: 80px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vipConfigBody">
+                                <!-- Content loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">VIP用户分布</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: grid; grid-template-columns: repeat(9, 1fr); gap: 16px;">
+                            <div id="vipStats"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        // VIP配置数据
+        let vipConfigData = [
+            { level: 0, name: 'VIP0', investAmount: 0, interestAdd: 0, commissionL1: 0, commissionL2: 0 },
+            { level: 1, name: 'VIP1', investAmount: 10000, interestAdd: 0.2, commissionL1: 5, commissionL2: 2 },
+            { level: 2, name: 'VIP2', investAmount: 50000, interestAdd: 0.4, commissionL1: 6, commissionL2: 2.5 },
+            { level: 3, name: 'VIP3', investAmount: 100000, interestAdd: 0.6, commissionL1: 7, commissionL2: 3 },
+            { level: 4, name: 'VIP4', investAmount: 300000, interestAdd: 0.8, commissionL1: 8, commissionL2: 3.5 },
+            { level: 5, name: 'VIP5', investAmount: 500000, interestAdd: 1.0, commissionL1: 9, commissionL2: 4 },
+            { level: 6, name: 'VIP6', investAmount: 1000000, interestAdd: 1.2, commissionL1: 10, commissionL2: 4.5 },
+            { level: 7, name: 'VIP7', investAmount: 3000000, interestAdd: 1.5, commissionL1: 11, commissionL2: 5 },
+            { level: 8, name: 'VIP8', investAmount: 5000000, interestAdd: 2.0, commissionL1: 12, commissionL2: 6 }
+        ];
+        
+        // VIP用户分布
+        const vipUserStats = [
+            { level: 0, count: 3256, color: '#f5f5f5' },
+            { level: 1, count: 2580, color: '#e6f7ff' },
+            { level: 2, count: 1890, color: '#fff7e6' },
+            { level: 3, count: 1256, color: '#fff0f6' },
+            { level: 4, count: 856, color: '#f9f0ff' },
+            { level: 5, count: 512, color: '#fff1f0' },
+            { level: 6, count: 286, color: '#ffd700' },
+            { level: 7, count: 125, color: '#ff6b35' },
+            { level: 8, count: 56, color: '#7c3aed' }
+        ];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            renderVipConfig();
+            renderVipStats();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        function renderVipConfig() {
+            const tbody = document.getElementById('vipConfigBody');
+            
+            tbody.innerHTML = vipConfigData.map((config, index) => `
+                <tr>
+                    <td>
+                        ${AdminUtils.getVipBadge(config.level)}
+                    </td>
+                    <td>
+                        ${config.level === 0 ? 
+                            '<span style="color: var(--text-secondary);">无要求</span>' : 
+                            `<input type="number" class="form-control" id="invest_${config.level}" value="${config.investAmount}" style="width: 150px;" min="0">`
+                        }
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <input type="number" class="form-control" id="interest_${config.level}" value="${config.interestAdd}" style="width: 80px;" min="0" max="10" step="0.1">
+                            <span>%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <input type="number" class="form-control" id="comm1_${config.level}" value="${config.commissionL1}" style="width: 80px;" min="0" max="50" step="0.5">
+                            <span>%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <input type="number" class="form-control" id="comm2_${config.level}" value="${config.commissionL2}" style="width: 80px;" min="0" max="50" step="0.5">
+                            <span>%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="saveVipLevel(${config.level})">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderVipStats() {
+            const container = document.getElementById('vipStats');
+            container.parentElement.innerHTML = vipUserStats.map(stat => `
+                <div style="text-align: center; padding: 16px; background: ${stat.color}; border-radius: 8px;">
+                    <div style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">${stat.count.toLocaleString()}</div>
+                    <div>${AdminUtils.getVipBadge(stat.level)}</div>
+                </div>
+            `).join('');
+        }
+        
+        function saveVipLevel(level) {
+            const config = vipConfigData.find(c => c.level === level);
+            if (!config) return;
+            
+            const investAmount = level === 0 ? 0 : parseFloat(document.getElementById(`invest_${level}`).value) || 0;
+            const interestAdd = parseFloat(document.getElementById(`interest_${level}`).value) || 0;
+            const commissionL1 = parseFloat(document.getElementById(`comm1_${level}`).value) || 0;
+            const commissionL2 = parseFloat(document.getElementById(`comm2_${level}`).value) || 0;
+            
+            // Validate
+            if (level > 0 && investAmount <= 0) {
+                AdminToast.warning('投资额要求必须大于0');
+                return;
+            }
+            
+            if (interestAdd < 0 || interestAdd > 10) {
+                AdminToast.warning('加息比例必须在0-10%之间');
+                return;
+            }
+            
+            if (commissionL1 < 0 || commissionL1 > 50) {
+                AdminToast.warning('一级返佣必须在0-50%之间');
+                return;
+            }
+            
+            if (commissionL2 < 0 || commissionL2 > 50) {
+                AdminToast.warning('二级返佣必须在0-50%之间');
+                return;
+            }
+            
+            // Update local data
+            config.investAmount = investAmount;
+            config.interestAdd = interestAdd;
+            config.commissionL1 = commissionL1;
+            config.commissionL2 = commissionL2;
+            
+            // In production: call API to save
+            AdminToast.success(`VIP${level} 配置已保存`);
+        }
+        
+        async function saveAllConfig() {
+            // Validate all levels
+            for (let level = 1; level < vipConfigData.length; level++) {
+                const prevLevel = vipConfigData[level - 1];
+                const currLevel = vipConfigData[level];
+                
+                const investAmount = parseFloat(document.getElementById(`invest_${level}`).value) || 0;
+                
+                if (level > 1 && investAmount <= prevLevel.investAmount) {
+                    AdminToast.warning(`VIP${level} 的投资额要求必须大于 VIP${level - 1}`);
+                    return;
+                }
+            }
+            
+            // Save all
+            for (let level = 0; level < vipConfigData.length; level++) {
+                saveVipLevel(level);
+            }
+            
+            AdminToast.success('所有VIP配置已保存');
+        }
+        
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+</html>

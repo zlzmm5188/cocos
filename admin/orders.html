@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 投资订单</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>仪表盘</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>用户列表</span>
+                    </a>
+                    <a href="kyc.html" class="menu-item">
+                        <i class="fas fa-id-card"></i>
+                        <span>实名认证</span>
+                    </a>
+                    <a href="teams.html" class="menu-item">
+                        <i class="fas fa-sitemap"></i>
+                        <span>团队管理</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item">
+                        <i class="fas fa-box"></i>
+                        <span>投资产品</span>
+                    </a>
+                    <a href="orders.html" class="menu-item active">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>投资订单</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>充值审核</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <span>提现审核</span>
+                    </a>
+                    <a href="ribao.html" class="menu-item">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>日利宝</span>
+                    </a>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>交易记录</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item">
+                        <i class="fas fa-crown"></i>
+                        <span>VIP配置</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>产品管理</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">投资订单</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <!-- Stats -->
+                <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日订单</h3>
+                            <div class="value" id="todayOrders">0</div>
+                            <div class="trend up">金额 ¥<span id="todayAmount">0</span></div>
+                        </div>
+                        <div class="stat-icon blue">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>进行中订单</h3>
+                            <div class="value" id="activeOrders">0</div>
+                            <div class="trend">投资金额 ¥<span id="activeAmount">0</span></div>
+                        </div>
+                        <div class="stat-icon green">
+                            <i class="fas fa-spinner"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日收益</h3>
+                            <div class="value" id="todayProfit">¥0</div>
+                            <div class="trend up">累计 ¥<span id="totalProfit">0</span></div>
+                        </div>
+                        <div class="stat-icon orange">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>已完成订单</h3>
+                            <div class="value" id="completedOrders">0</div>
+                            <div class="trend">总金额 ¥<span id="completedAmount">0</span></div>
+                        </div>
+                        <div class="stat-icon red">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">订单列表</h3>
+                        <button class="btn btn-primary" onclick="exportOrders()">
+                            <i class="fas fa-download"></i> 导出
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="搜索订单号/用户">
+                            </div>
+                            <div class="filter-group">
+                                <select class="form-control" id="statusFilter" onchange="filterOrders()" style="width: 120px;">
+                                    <option value="">全部状态</option>
+                                    <option value="active">进行中</option>
+                                    <option value="completed">已完成</option>
+                                    <option value="cancelled">已取消</option>
+                                </select>
+                                <input type="date" class="form-control" id="startDate" onchange="filterOrders()" style="width: 140px;">
+                                <span style="color: var(--text-secondary);">至</span>
+                                <input type="date" class="form-control" id="endDate" onchange="filterOrders()" style="width: 140px;">
+                            </div>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>订单号</th>
+                                    <th>用户</th>
+                                    <th>产品</th>
+                                    <th>投资金额</th>
+                                    <th>年化收益</th>
+                                    <th>预计收益</th>
+                                    <th>周期</th>
+                                    <th>状态</th>
+                                    <th>到期时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderTableBody">
+                                <tr>
+                                    <td colspan="10" class="loading"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Order Detail Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content" style="min-width: 600px;">
+            <div class="modal-header">
+                <h3 class="modal-title">订单详情</h3>
+                <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="orderModalBody">
+                <!-- Content loaded dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('orderModal')">关闭</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        let currentPage = 1;
+        let pageSize = 20;
+        let totalOrders = 0;
+        let ordersData = [];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            loadStats();
+            loadOrders();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        async function loadStats() {
+            document.getElementById('todayOrders').textContent = '28';
+            document.getElementById('todayAmount').textContent = '1,580,000';
+            document.getElementById('activeOrders').textContent = '156';
+            document.getElementById('activeAmount').textContent = '12,680,000';
+            document.getElementById('todayProfit').textContent = '¥35,600';
+            document.getElementById('totalProfit').textContent = '2,580,000';
+            document.getElementById('completedOrders').textContent = '892';
+            document.getElementById('completedAmount').textContent = '68,500,000';
+        }
+        
+        async function loadOrders() {
+            try {
+                const mockOrders = generateMockOrders();
+                ordersData = mockOrders;
+                totalOrders = 156;
+                
+                renderOrders(mockOrders);
+                renderPagination();
+            } catch (error) {
+                console.error('Failed to load orders:', error);
+                AdminToast.error('加载订单列表失败');
+            }
+        }
+        
+        function generateMockOrders() {
+            const products = ['新能源债券A', '科技成长基金', '稳健收益债券', '短期理财计划', '混合增长基金'];
+            const statuses = ['active', 'completed', 'cancelled'];
+            const orders = [];
+            
+            for (let i = 0; i < 20; i++) {
+                const amount = [10000, 20000, 50000, 100000, 200000][Math.floor(Math.random() * 5)];
+                const apr = (5 + Math.random() * 10).toFixed(1);
+                const cycle = [7, 15, 30, 60, 90][Math.floor(Math.random() * 5)];
+                const profit = (amount * apr / 100 / 365 * cycle).toFixed(2);
+                const status = i < 12 ? 'active' : statuses[Math.floor(Math.random() * statuses.length)];
+                
+                const startDate = new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000);
+                const endDate = new Date(startDate.getTime() + cycle * 24 * 60 * 60 * 1000);
+                
+                orders.push({
+                    id: 3000 + i,
+                    orderNo: 'ORD' + Date.now().toString().slice(-10) + String(i).padStart(3, '0'),
+                    userId: 10000 + Math.floor(Math.random() * 1000),
+                    username: 'user_' + (10000 + Math.floor(Math.random() * 1000)),
+                    phone: '138****' + String(1000 + i).padStart(4, '0'),
+                    product: products[Math.floor(Math.random() * products.length)],
+                    amount: amount,
+                    apr: apr,
+                    profit: parseFloat(profit),
+                    cycle: cycle,
+                    status: status,
+                    startDate: startDate.toISOString(),
+                    endDate: endDate.toISOString()
+                });
+            }
+            return orders;
+        }
+        
+        function renderOrders(orders) {
+            const tbody = document.getElementById('orderTableBody');
+            
+            if (orders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>暂无订单数据</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = orders.map(order => {
+                const now = new Date();
+                const endDate = new Date(order.endDate);
+                const daysLeft = Math.max(0, Math.ceil((endDate - now) / (24 * 60 * 60 * 1000)));
+                
+                return `
+                    <tr>
+                        <td><code style="font-size: 11px;">${order.orderNo}</code></td>
+                        <td>
+                            <div>${order.username}</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">${order.phone}</div>
+                        </td>
+                        <td>${order.product}</td>
+                        <td style="font-weight: 600;">¥${AdminUtils.formatMoney(order.amount, 0)}</td>
+                        <td style="color: var(--danger-color); font-weight: 500;">${order.apr}%</td>
+                        <td style="color: var(--success-color);">+¥${AdminUtils.formatMoney(order.profit)}</td>
+                        <td>${order.cycle}天</td>
+                        <td>${AdminUtils.getOrderStatus(order.status)}</td>
+                        <td>
+                            <div style="font-size: 12px;">${AdminUtils.formatDate(order.endDate, 'YYYY-MM-DD')}</div>
+                            ${order.status === 'active' ? `<div style="font-size: 11px; color: var(--warning-color);">剩余${daysLeft}天</div>` : ''}
+                        </td>
+                        <td class="actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewOrder(${order.id})" title="详情">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${order.status === 'active' ? `
+                                <button class="btn btn-sm btn-success" onclick="completeOrder(${order.id})" title="结算">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            ` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function renderPagination() {
+            const totalPages = Math.ceil(totalOrders / pageSize);
+            const pagination = document.getElementById('pagination');
+            
+            let html = `
+                <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <span style="margin-left: 16px; color: var(--text-secondary);">共 ${totalOrders} 条</span>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > Math.ceil(totalOrders / pageSize)) return;
+            currentPage = page;
+            loadOrders();
+        }
+        
+        function filterOrders() {
+            currentPage = 1;
+            loadOrders();
+        }
+        
+        function viewOrder(id) {
+            const order = ordersData.find(o => o.id === id);
+            if (!order) return;
+            
+            document.getElementById('orderModalBody').innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">订单号</label>
+                        <input type="text" class="form-control" value="${order.orderNo}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">状态</label>
+                        <input type="text" class="form-control" value="${order.status === 'active' ? '进行中' : order.status === 'completed' ? '已完成' : '已取消'}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">用户</label>
+                        <input type="text" class="form-control" value="${order.username} (${order.phone})" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">产品</label>
+                        <input type="text" class="form-control" value="${order.product}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">投资金额</label>
+                        <input type="text" class="form-control" value="¥${AdminUtils.formatMoney(order.amount, 0)}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">年化收益率</label>
+                        <input type="text" class="form-control" value="${order.apr}%" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">投资周期</label>
+                        <input type="text" class="form-control" value="${order.cycle}天" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">预计收益</label>
+                        <input type="text" class="form-control" value="+¥${AdminUtils.formatMoney(order.profit)}" disabled style="color: var(--success-color);">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">开始时间</label>
+                        <input type="text" class="form-control" value="${AdminUtils.formatDate(order.startDate)}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">到期时间</label>
+                        <input type="text" class="form-control" value="${AdminUtils.formatDate(order.endDate)}" disabled>
+                    </div>
+                </div>
+            `;
+            
+            openModal('orderModal');
+        }
+        
+        async function completeOrder(id) {
+            const order = ordersData.find(o => o.id === id);
+            if (!order) return;
+            
+            const confirmed = await AdminUtils.confirm(
+                `确定要结算订单 ${order.orderNo} 吗？\n\n投资金额：¥${AdminUtils.formatMoney(order.amount, 0)}\n预计收益：+¥${AdminUtils.formatMoney(order.profit)}`,
+                '结算订单'
+            );
+            if (!confirmed) return;
+            
+            try {
+                // In production: call API
+                AdminToast.success('订单已结算');
+                loadStats();
+                loadOrders();
+            } catch (error) {
+                AdminToast.error('操作失败: ' + error.message);
+            }
+        }
+        
+        function exportOrders() {
+            AdminToast.info('导出功能开发中...');
+        }
+        
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+</html>
