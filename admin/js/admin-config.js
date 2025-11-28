@@ -172,6 +172,13 @@ window.AdminToast = {
     container: null,
     
     init() {
+        // Check if container already exists in DOM
+        const existing = document.querySelector('.toast-container');
+        if (existing) {
+            this.container = existing;
+            return;
+        }
+        
         if (!this.container) {
             this.container = document.createElement('div');
             this.container.className = 'toast-container';

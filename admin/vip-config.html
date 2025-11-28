@@ -291,14 +291,19 @@
         }
         
         async function saveAllConfig() {
-            // Validate all levels
+            // Collect all form values first
+            const formValues = [];
+            for (let level = 0; level < vipConfigData.length; level++) {
+                const investAmount = level === 0 ? 0 : parseFloat(document.getElementById(`invest_${level}`).value) || 0;
+                formValues.push(investAmount);
+            }
+            
+            // Validate all levels using form values
             for (let level = 1; level < vipConfigData.length; level++) {
-                const prevLevel = vipConfigData[level - 1];
-                const currLevel = vipConfigData[level];
+                const prevInvestAmount = formValues[level - 1];
+                const currInvestAmount = formValues[level];
                 
-                const investAmount = parseFloat(document.getElementById(`invest_${level}`).value) || 0;
-                
-                if (level > 1 && investAmount <= prevLevel.investAmount) {
+                if (level > 1 && currInvestAmount <= prevInvestAmount) {
                     AdminToast.warning(`VIP${level} 的投资额要求必须大于 VIP${level - 1}`);
                     return;
                 }
