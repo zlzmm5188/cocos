@@ -1,0 +1,53 @@
+// Admin Backend Database Schema
+// Providence Admin Service - SQLite for zero-ops local setup
+// Generated: 2025-11-29
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Application configuration - key-value store for misc settings
+model AppConfig {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String   // JSON stored as string (SQLite doesn't support JSON type)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("app_config")
+}
+
+// VIP rules configuration
+model VipRule {
+  id                  Int      @id @default(autoincrement())
+  level               Int      @unique // VIP level (1-8)
+  minCumulativeInvest BigInt   // Minimum cumulative investment required
+  extraRatePercent    Decimal  // Extra rate percent bonus (e.g., 0.05 for +0.05%)
+  inviteLevel1Percent Decimal  // Level 1 invite commission percent
+  inviteLevel2Percent Decimal  // Level 2 invite commission percent
+  signinPoints        Int      // Points awarded for daily sign-in
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("vip_rule")
+}
+
+// Audit log for configuration changes
+model ConfigAudit {
+  id        Int      @id @default(autoincrement())
+  key       String   // Configuration key that was changed
+  oldValue  String?  // Previous value (JSON as string)
+  newValue  String   // New value (JSON as string)
+  changedBy String   // Who made the change (admin identifier)
+  reason    String   // Reason for the change
+  changedAt DateTime @default(now())
+
+  @@map("config_audit")
+  @@index([key])
+  @@index([changedAt])
+}
