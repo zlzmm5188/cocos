@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadCommissionRules() {
     try {
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top;
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php;
         const response = await fetch(API_BASE + '/user/vip/commission_rules');
 
         if (!response.ok) {

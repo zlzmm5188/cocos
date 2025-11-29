@@ -332,7 +332,7 @@
       }
 
       (function () {
-          const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+          const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
           const TOKEN_KEY = 'providence_token';
 
           let currentFilter = 'all';
@@ -417,7 +417,7 @@
                       recordsList.innerHTML = '';
                   }
 
-                  const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                  const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                   const response = await fetch(`${API_BASE}/api/user/transaction/records?page=${currentPage}&pageSize=20`, {
                       method: 'GET',
                       headers: {

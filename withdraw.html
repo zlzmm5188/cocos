@@ -1081,7 +1081,7 @@ body {
         try {
           // 修复：使用正确的 API 域名和路径
           const API_BASE =
-            window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+            window.API_CONFIG?.baseURL || "/backend/api.php";
           const res = await fetch(`${API_BASE}/pay/bank/list`, {
             method: "GET",
             headers: {
@@ -1188,7 +1188,7 @@ body {
         try {
           // 修复：使用正确的 API 域名和路径
           const API_BASE =
-            window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+            window.API_CONFIG?.baseURL || "/backend/api.php";
           const res = await fetch(`${API_BASE}/pay/us/info`, {
             method: "GET",
             headers: {
@@ -1309,7 +1309,7 @@ body {
         try {
           // 修复：使用正确的 API 域名和路径
           const API_BASE =
-            window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+            window.API_CONFIG?.baseURL || "/backend/api.php";
           // 修复：使用正确的兑换接口
           const res = await fetch(`${API_BASE}/pay/currency-exchange`, {
             method: "POST",
@@ -1429,7 +1429,7 @@ body {
         try {
           // 修复：使用正确的 API 域名和路径
           const API_BASE =
-            window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+            window.API_CONFIG?.baseURL || "/backend/api.php";
           const res = await fetch(`${API_BASE}/pay/pay/withdraw`, {
             method: "POST",
             headers: {

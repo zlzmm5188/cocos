@@ -61,7 +61,7 @@ async function loadCheckinStatus() {
 
     try {
         await waitForAPI();
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const response = await fetch(API_BASE + '/api/user/sign/info', {
             method: 'GET',
             headers: {
@@ -173,7 +173,7 @@ async function performCheckin() {
 
     try {
         await waitForAPI();
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const response = await fetch(API_BASE + '/api/user/sign/sign', {
             method: 'POST',
             headers: {

@@ -225,7 +225,7 @@ async function init() {
 // 加载项目数据（保留兼容）
 async function loadProject(id) {
     try {
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const token = TokenManager.getToken() || localStorage.getItem('providence_token') || '';
 
         // 添加超时控制（8秒）
@@ -255,7 +255,7 @@ async function loadProject(id) {
         // 降级方案：直接调用API
         if (!data) {
             try {
-                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                 // 使用正确的后端接口
                 const url = `${API_BASE}/api/project/detail?id=${id}`;
                 console.log('📡 请求项目详情:', url);
@@ -556,7 +556,7 @@ function startCountdown(countdownData, element) {
 let exchangeRate = 0;
 async function initExchange() {
     try {
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const token = TokenManager.getToken() || localStorage.getItem('providence_token') || '';
 
         const response = await fetch(`${API_BASE}/currency/get-usdt-rate`, {
@@ -613,7 +613,7 @@ async function handleExchange() {
     }
 
     try {
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const token = TokenManager.getToken() || localStorage.getItem('providence_token') || '';
 
         const response = await fetch(`${API_BASE}/currency/exchange-cny-to-usdt`, {
@@ -659,7 +659,7 @@ function showManagerDetail() {
 // 加载用户余额（CNY和USDT）
 async function loadUserBalance() {
     try {
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const token = TokenManager.getToken() || localStorage.getItem('providence_token') || '';
 
         if (!token) {
@@ -801,7 +801,7 @@ async function calculateProfit() {
     clearTimeout(calculateTimer);
     calculateTimer = setTimeout(async () => {
         try {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const token = TokenManager.getToken() || localStorage.getItem('providence_token') || '';
             const projectId = getUrlParam('id');
 
@@ -900,7 +900,7 @@ async function investProject() {
     }
 
     try {
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
         // 生成幂等性键
         const idempotencyKey = 'INV_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);

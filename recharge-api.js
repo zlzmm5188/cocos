@@ -5,7 +5,7 @@
 
 class RechargeAPI {
     constructor() {
-        this.baseURL = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        this.baseURL = window.API_CONFIG?.baseURL || '/backend/api.php';
     }
 
     /**

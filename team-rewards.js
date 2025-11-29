@@ -56,7 +56,7 @@ function initPage() {
 async function loadRewardsData() {
     try {
         await waitForAPI();
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const response = await fetch(API_BASE + '/user/team/rewards_status', {
             method: 'GET',
             headers: {
@@ -169,7 +169,7 @@ function renderRules() {
 async function claimReward(rewardId) {
     try {
         await waitForAPI();
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const response = await fetch(API_BASE + '/user/team/claim_reward', {
             method: 'POST',
             headers: {

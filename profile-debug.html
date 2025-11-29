@@ -126,7 +126,7 @@ localStorage: ${localToken ? '✓ 存在' : '✗ 不存在'}
                     return;
                 }
 
-                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                 const url = `${API_BASE}/api/user/info`;
 
                 console.log('请求URL:', url);

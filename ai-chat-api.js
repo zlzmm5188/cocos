@@ -7,7 +7,7 @@
 
     console.log('[AIChatAPI] 加载 v1.0');
 
-    const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+    const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
     async function apiRequest(endpoint, options = {}) {
         const token = window.TokenManager?.getToken() || localStorage.getItem('providence_token') || '';

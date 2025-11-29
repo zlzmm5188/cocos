@@ -427,7 +427,7 @@
       await waitForAPI();
 
       const token = localStorage.getItem('providence_token') || localStorage.getItem('token') || '';
-      const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+      const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
       if (!token) {
         showLogin();
@@ -641,7 +641,7 @@
       btn.innerHTML = '领取中<span class="loading"></span>';
 
       const token = localStorage.getItem('providence_token') || localStorage.getItem('token') || '';
-      const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+      const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
       try {
         const res = await fetch(`${API_BASE}/index.php/user/claim-newbie-bonus`, {

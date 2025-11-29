@@ -11,7 +11,7 @@
 
 // API 配置
 export const API_CONFIG = {
-    BASE_URL: 'https://api.4kp3l0iq.top',
+    BASE_URL: '/backend/api.php',
     TIMEOUT: 30000,
     RETRY_TIMES: 2
 };

@@ -685,7 +685,7 @@
 
           log("[分享] 开始获取邀请链接...");
 
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           let inviteCode = null;
           let uid = null;
 
@@ -791,7 +791,7 @@
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token");
           if (!token) return;
 
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
 
           // 调用团队奖励信息接口，后端会自动过滤有效成员
           const response = await fetch(`${API_BASE}/api/team/reward-info`, {

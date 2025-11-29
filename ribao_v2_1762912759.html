@@ -858,7 +858,7 @@ async function loadRibaoData() {
             return;
         }
 
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top;
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php;
         const url = `${API_BASE}/user/api/ribao/info`;
 
         console.log('📡 请求日利宝数据:', url);
@@ -911,7 +911,7 @@ async function loadUserData() {
         const token = localStorage.getItem('providence_token');
         if (!token) return;
 
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top;
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php;
         const url = `${API_BASE}/api/user/info`;
 
         console.log('🔑 Token:', token ? token.substring(0, 20) + '...' : 'null');
@@ -1023,7 +1023,7 @@ async function confirm(type) {
             return;
         }
 
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top;
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php;
         const endpoint = type === 'in' ? '/user/api/ribao/transfer-in' : '/user/api/ribao/transfer-out';
         const url = `${API_BASE}${endpoint}`;
 

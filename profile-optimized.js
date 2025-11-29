@@ -99,7 +99,7 @@
                 return;
             }
 
-            const API_BASE = 'https://api.4kp3l0iq.top';
+            const API_BASE = '/backend/api.php';
             const response = await fetch(API_BASE + '/api/user/info', {
                 method: 'GET',
                 headers: {

@@ -294,7 +294,7 @@ function bindEvents() {
 // API请求（降级方案）
 async function apiRequest(endpoint, data = {}, method = 'GET') {
     await waitForAPI();
-    const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+    const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
     const url = API_BASE + endpoint;
     const options = {
         method: method,

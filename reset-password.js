@@ -88,7 +88,7 @@ async function captureFace() {
 
     try {
         await waitForAPI();
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         // 调用后端人脸比对接口
         const response = await fetch(API_BASE + '/user/user/verifyFaceReset', {
             method: 'POST',
@@ -207,7 +207,7 @@ async function resetPassword() {
 
     try {
         await waitForAPI();
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         // 调用密码重置接口
         const response = await fetch(API_BASE + '/user/user/resetPassword', {
             method: 'POST',

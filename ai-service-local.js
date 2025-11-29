@@ -11,7 +11,7 @@ const AI_SERVICE_LOCAL = {
 
     // 配置
     config: {
-        apiBase: 'https://api.4kp3l0iq.top',
+        apiBase: '/backend/api.php',
         enableSmartReply: true,
         enableContextMemory: true,
         maxHistoryLength: 10,

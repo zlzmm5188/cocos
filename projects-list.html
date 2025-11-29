@@ -973,7 +973,7 @@ async function loadProjects() {
     try {
         await waitForAPI();
 
-        const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+        const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
         // 统一使用TokenManager获取Token
         const token = (typeof TokenManager !== 'undefined' && TokenManager.getToken)
             ? TokenManager.getToken()

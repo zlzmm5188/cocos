@@ -215,8 +215,8 @@
             isLoading = true;
 
             try {
-                // 使用正确的API地址（config.js中baseURL是 https://api.4kp3l0iq.top）
-                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                // 使用正确的API地址（config.js中baseURL是 /backend/api.php）
+                const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                 const token = localStorage.getItem('providence_token') || localStorage.getItem('token') || '';
                 let url = `${API_BASE}/user/points/exchange-history?page=${page}&limit=20`;
 

@@ -23,7 +23,7 @@ const __dirname = path.dirname(__filename);
 const CONFIG = {
   frontendPath: '/www/wwwroot/copla/providence',
   backendPath: '/www/wwwroot/copla/providence-admin/api',
-  apiBaseURL: 'https://api.4kp3l0iq.top/api',
+  apiBaseURL: '/backend/api.php/api',
   apiPrefix: '/index.php/',
   backendRoutesFile: '/www/wwwroot/copla/providence-admin/api/index.php',
 };

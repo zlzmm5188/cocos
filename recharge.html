@@ -1570,7 +1570,7 @@
       async function checkPendingOrder() {
         try {
           // 检查待支付订单：从充值列表接口获取待支付订单
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
           const response = await fetch(`${API_BASE}/api/recharge/list?status=0&limit=1`, {
             headers: {
@@ -1659,7 +1659,7 @@
         const modal = document.getElementById('pendingOrderModal');
 
         try {
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
 
           // 根据支付方式选择取消接口
@@ -1852,7 +1852,7 @@
         _usdtAddressLoaded = true;
 
         try {
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
 
           // 非阻塞式fetch：catch返回null，避免UI被hang住
@@ -2097,7 +2097,7 @@
         rechargeAmount = amount;
 
         // 获取银行卡收款信息
-        const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+        const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
         const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
 
         let bankInfo = {
@@ -2222,7 +2222,7 @@
           return;
         }
 
-        const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+        const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
         const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
 
         // 使用 FormData 上传文件
@@ -2277,7 +2277,7 @@
         }
 
         try {
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
           // 使用后端实际存在的接口路径
           const apiPath = paymentMethod === 'wechat'
@@ -2384,7 +2384,7 @@
       // 检查支付订单状态的核心逻辑
       async function checkPaymentOrderStatus(orderNo) {
         try {
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
           // 使用充值列表接口查询订单状态
           const response = await fetch(`${API_BASE}/api/recharge/list?order_no=${orderNo}`, {
@@ -2600,7 +2600,7 @@
 
         // 立即检查一次订单状态
         try {
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
           // 使用后端实际存在的接口路径：GET /pay/usdt-check
           const response = await fetch(`${API_BASE}/pay/usdt-check?order_no=${usdtOrderNo}`, {
@@ -2703,7 +2703,7 @@
           const orderNo = getOrGenerateUsdtOrderNo();
           usdtOrderNo = orderNo;
 
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
           // 使用后端实际存在的接口路径：POST /pay/usdt-create
           const response = await fetch(`${API_BASE}/pay/usdt-create`, {
@@ -2813,7 +2813,7 @@
       // 检查USDT支付状态的核心逻辑
       async function checkUsdtPaymentStatus(orderNo) {
         try {
-          const API_BASE = window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+          const API_BASE = window.API_CONFIG?.baseURL || "/backend/api.php";
           const token = localStorage.getItem("providence_token") || localStorage.getItem("token") || "";
           // 使用后端实际存在的接口路径：GET /pay/usdt-check
           const response = await fetch(`${API_BASE}/pay/usdt-check?order_no=${orderNo}`, {

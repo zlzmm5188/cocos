@@ -124,7 +124,7 @@
         const startTime = Date.now();
 
         // 获取 API 基地址
-        const apiBase = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const apiBase = window.API_CONFIG?.baseURL || '/backend/api.php';
 
         // 定义所有需要加载的数据
         const dataLoaders = {

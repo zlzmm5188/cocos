@@ -99,7 +99,7 @@
         state.loadPromise = (async () => {
             try {
                 const startTime = Date.now();
-                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                 const token = localStorage.getItem('providence_token');
 
                 if (!token) {
