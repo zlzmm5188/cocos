@@ -261,50 +261,30 @@
         
         async function loadOrders() {
             try {
-                const mockOrders = generateMockOrders();
-                ordersData = mockOrders;
-                totalOrders = 156;
+                const params = {
+                    page: currentPage,
+                    pageSize: pageSize,
+                    status: currentStatus !== 'all' ? currentStatus : undefined
+                };
                 
-                renderOrders(mockOrders);
-                renderPagination();
+                const result = await AdminAPI.get('/admin/orders', params);
+                
+                if (result.code === 1 && result.data) {
+                    ordersData = result.data.list || [];
+                    totalOrders = result.data.total || 0;
+                    renderOrders(ordersData);
+                    renderPagination();
+                } else {
+                    AdminToast.error(result.msg || '加载失败');
+                    ordersData = [];
+                    renderOrders([]);
+                }
             } catch (error) {
                 console.error('Failed to load orders:', error);
                 AdminToast.error('加载订单列表失败');
+                ordersData = [];
+                renderOrders([]);
             }
-        }
-        
-        function generateMockOrders() {
-            const products = ['新能源债券A', '科技成长基金', '稳健收益债券', '短期理财计划', '混合增长基金'];
-            const statuses = ['active', 'completed', 'cancelled'];
-            const orders = [];
-            
-            for (let i = 0; i < 20; i++) {
-                const amount = [10000, 20000, 50000, 100000, 200000][Math.floor(Math.random() * 5)];
-                const apr = (5 + Math.random() * 10).toFixed(1);
-                const cycle = [7, 15, 30, 60, 90][Math.floor(Math.random() * 5)];
-                const profit = (amount * apr / 100 / 365 * cycle).toFixed(2);
-                const status = i < 12 ? 'active' : statuses[Math.floor(Math.random() * statuses.length)];
-                
-                const startDate = new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000);
-                const endDate = new Date(startDate.getTime() + cycle * 24 * 60 * 60 * 1000);
-                
-                orders.push({
-                    id: 3000 + i,
-                    orderNo: 'ORD' + Date.now().toString().slice(-10) + String(i).padStart(3, '0'),
-                    userId: 10000 + Math.floor(Math.random() * 1000),
-                    username: 'user_' + (10000 + Math.floor(Math.random() * 1000)),
-                    phone: '138****' + String(1000 + i).padStart(4, '0'),
-                    product: products[Math.floor(Math.random() * products.length)],
-                    amount: amount,
-                    apr: apr,
-                    profit: parseFloat(profit),
-                    cycle: cycle,
-                    status: status,
-                    startDate: startDate.toISOString(),
-                    endDate: endDate.toISOString()
-                });
-            }
-            return orders;
         }
         
         function renderOrders(orders) {

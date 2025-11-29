@@ -320,44 +320,30 @@
         
         async function loadKycRecords() {
             try {
-                const mockRecords = generateMockKycRecords();
-                kycData = mockRecords;
-                totalRecords = 45;
+                const params = {
+                    page: currentPage,
+                    pageSize: pageSize,
+                    status: currentStatus !== 'all' ? currentStatus : undefined
+                };
                 
-                renderKycRecords(mockRecords);
-                renderPagination();
+                const result = await AdminAPI.get('/admin/kyc-list', params);
+                
+                if (result.code === 1 && result.data) {
+                    kycData = result.data.list || [];
+                    totalRecords = result.data.total || 0;
+                    renderKycRecords(kycData);
+                    renderPagination();
+                } else {
+                    AdminToast.error(result.msg || '加载失败');
+                    kycData = [];
+                    renderKycRecords([]);
+                }
             } catch (error) {
                 console.error('Failed to load KYC records:', error);
                 AdminToast.error('加载认证记录失败');
+                kycData = [];
+                renderKycRecords([]);
             }
-        }
-        
-        function generateMockKycRecords() {
-            const names = ['张三', '李四', '王五', '赵六', '陈七', '刘八', '周九', '吴十'];
-            const statuses = [1, 2, 3]; // 1=待审核, 2=已通过, 3=已拒绝
-            const records = [];
-            
-            for (let i = 0; i < 15; i++) {
-                const status = i < 3 ? 1 : statuses[Math.floor(Math.random() * statuses.length)];
-                const name = names[Math.floor(Math.random() * names.length)];
-                
-                records.push({
-                    id: 5000 + i,
-                    userId: 10000 + Math.floor(Math.random() * 1000),
-                    username: 'user_' + (10000 + Math.floor(Math.random() * 1000)),
-                    phone: '138****' + String(1000 + i).padStart(4, '0'),
-                    realname: name,
-                    idcard: '110101199' + String(i).padStart(1, '0') + '0101' + String(1000 + i),
-                    idcardFront: 'https://via.placeholder.com/300x200?text=ID+Front',
-                    idcardBack: 'https://via.placeholder.com/300x200?text=ID+Back',
-                    faceImage: 'https://via.placeholder.com/150x200?text=Face',
-                    status: status,
-                    rejectReason: status === 3 ? '照片模糊，无法识别' : '',
-                    submittedAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
-                    reviewedAt: status !== 1 ? new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString() : null
-                });
-            }
-            return records;
         }
         
         function renderKycRecords(records) {

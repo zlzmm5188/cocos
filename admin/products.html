@@ -280,50 +280,29 @@
         
         async function loadProducts() {
             try {
-                const mockProducts = generateMockProducts();
-                productsData = mockProducts;
-                totalProducts = 35;
+                const params = {
+                    page: currentPage,
+                    pageSize: pageSize
+                };
                 
-                renderProducts(mockProducts);
-                renderPagination();
+                const result = await AdminAPI.get('/admin/products', params);
+                
+                if (result.code === 1 && result.data) {
+                    productsData = result.data.list || [];
+                    totalProducts = result.data.total || 0;
+                    renderProducts(productsData);
+                    renderPagination();
+                } else {
+                    AdminToast.error(result.msg || '加载失败');
+                    productsData = [];
+                    renderProducts([]);
+                }
             } catch (error) {
                 console.error('Failed to load products:', error);
                 AdminToast.error('加载产品列表失败');
+                productsData = [];
+                renderProducts([]);
             }
-        }
-        
-        function generateMockProducts() {
-            const categories = ['ipo', 'bond', 'fund', 'convertible'];
-            const statuses = ['open', 'close', 'finish'];
-            const products = [];
-            
-            const names = [
-                '新能源债券A', '科技成长基金', '稳健收益债券', '短期理财计划', '混合增长基金',
-                '可转债精选', 'IPO打新专享', '蓝筹债券组合', '高收益债券B', '平衡型基金'
-            ];
-            
-            for (let i = 0; i < 15; i++) {
-                const category = categories[Math.floor(Math.random() * categories.length)];
-                const status = i < 10 ? (Math.random() > 0.3 ? 'open' : 'close') : statuses[Math.floor(Math.random() * statuses.length)];
-                const total = [500000, 1000000, 2000000, 5000000][Math.floor(Math.random() * 4)];
-                const raised = status === 'open' ? Math.floor(total * Math.random()) : (status === 'finish' ? total : Math.floor(total * Math.random() * 0.5));
-                
-                products.push({
-                    id: 100 + i,
-                    title: names[i % names.length],
-                    subtitle: '稳健增长，收益可观',
-                    category: category,
-                    baseAPR: (5 + Math.random() * 10).toFixed(1),
-                    cycleDays: [7, 15, 30, 60, 90][Math.floor(Math.random() * 5)],
-                    minInvest: [1000, 5000, 10000, 50000][Math.floor(Math.random() * 4)],
-                    totalAmount: total,
-                    raisedAmount: raised,
-                    status: status,
-                    riskStyle: ['lowdd', 'balanced', 'aggressive'][Math.floor(Math.random() * 3)],
-                    createdAt: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString()
-                });
-            }
-            return products;
         }
         
         function renderProducts(products) {

@@ -321,43 +321,30 @@
         
         async function loadRecharges() {
             try {
-                // Mock data
-                const mockRecharges = generateMockRecharges();
-                rechargesData = mockRecharges;
-                totalRecords = 85;
+                const params = {
+                    page: currentPage,
+                    pageSize: pageSize,
+                    status: currentStatus !== 'all' ? currentStatus : undefined
+                };
                 
-                renderRecharges(mockRecharges);
-                renderPagination();
+                const result = await AdminAPI.get('/admin/recharges', params);
+                
+                if (result.code === 1 && result.data) {
+                    rechargesData = result.data.list || [];
+                    totalRecords = result.data.total || 0;
+                    renderRecharges(rechargesData);
+                    renderPagination();
+                } else {
+                    AdminToast.error(result.msg || '加载失败');
+                    rechargesData = [];
+                    renderRecharges([]);
+                }
             } catch (error) {
                 console.error('Failed to load recharges:', error);
                 AdminToast.error('加载充值记录失败');
+                rechargesData = [];
+                renderRecharges([]);
             }
-        }
-        
-        function generateMockRecharges() {
-            const methods = ['alipay', 'wechat', 'bank', 'usdt'];
-            const methodNames = { alipay: '支付宝', wechat: '微信', bank: '银行卡', usdt: 'USDT' };
-            const statuses = ['pending', 'approved', 'rejected'];
-            
-            const records = [];
-            for (let i = 0; i < 20; i++) {
-                const method = methods[Math.floor(Math.random() * methods.length)];
-                const status = i < 5 ? 'pending' : statuses[Math.floor(Math.random() * statuses.length)];
-                records.push({
-                    id: 1000 + i,
-                    orderNo: 'RCH' + Date.now().toString().slice(-10) + i,
-                    userId: 10000 + Math.floor(Math.random() * 1000),
-                    username: 'user_' + (10000 + Math.floor(Math.random() * 1000)),
-                    phone: '138****' + String(1000 + i).padStart(4, '0'),
-                    amount: [1000, 5000, 10000, 20000, 50000][Math.floor(Math.random() * 5)],
-                    method: method,
-                    methodName: methodNames[method],
-                    voucher: method === 'usdt' ? '' : 'https://via.placeholder.com/200x300?text=Voucher',
-                    status: status,
-                    createdAt: new Date(Date.now() - Math.random() * 3 * 24 * 60 * 60 * 1000).toISOString()
-                });
-            }
-            return records;
         }
         
         function renderRecharges(records) {

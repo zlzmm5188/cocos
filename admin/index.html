@@ -358,43 +358,35 @@
         
         async function loadDashboardData() {
             try {
-                // For demo, use mock data
-                // In production, call the actual API
+                // 调用真实API获取统计数据
+                const result = await AdminAPI.get('/admin/stats');
                 
-                // Mock statistics
-                const stats = {
-                    totalUsers: 12568,
-                    todayUsers: 45,
-                    totalInvest: 125680000,
-                    todayInvest: 1580000,
-                    pendingRecharges: 8,
-                    pendingRechargeAmount: 156000,
-                    pendingWithdrawals: 5,
-                    pendingWithdrawAmount: 89000,
-                    pendingKyc: 3,
-                    todayOrders: 28
-                };
-                
-                // Update stats
-                document.getElementById('totalUsers').textContent = stats.totalUsers.toLocaleString();
-                document.getElementById('todayUsers').textContent = stats.todayUsers;
-                document.getElementById('totalInvest').textContent = AdminUtils.formatMoney(stats.totalInvest, 0);
-                document.getElementById('todayInvest').textContent = '¥' + AdminUtils.formatMoney(stats.todayInvest, 0);
-                document.getElementById('pendingRecharges').textContent = stats.pendingRecharges;
-                document.getElementById('pendingRechargeAmount').textContent = AdminUtils.formatMoney(stats.pendingRechargeAmount, 0);
-                document.getElementById('pendingWithdrawals').textContent = stats.pendingWithdrawals;
-                document.getElementById('pendingWithdrawAmount').textContent = AdminUtils.formatMoney(stats.pendingWithdrawAmount, 0);
-                
-                // Quick action counts
-                document.getElementById('quickRechargeCount').textContent = stats.pendingRecharges + ' 待处理';
-                document.getElementById('quickWithdrawCount').textContent = stats.pendingWithdrawals + ' 待处理';
-                document.getElementById('quickKycCount').textContent = stats.pendingKyc + ' 待处理';
-                document.getElementById('quickOrderCount').textContent = stats.todayOrders + ' 笔';
+                if (result.code === 1 && result.data) {
+                    const stats = result.data;
+                    
+                    // Update stats
+                    document.getElementById('totalUsers').textContent = (stats.totalUsers || 0).toLocaleString();
+                    document.getElementById('todayUsers').textContent = stats.todayUsers || 0;
+                    document.getElementById('totalInvest').textContent = AdminUtils.formatMoney(stats.totalInvest || 0, 0);
+                    document.getElementById('todayInvest').textContent = '¥' + AdminUtils.formatMoney(stats.todayInvest || 0, 0);
+                    document.getElementById('pendingRecharges').textContent = stats.pendingRecharges || 0;
+                    document.getElementById('pendingRechargeAmount').textContent = AdminUtils.formatMoney(stats.pendingRechargeAmount || 0, 0);
+                    document.getElementById('pendingWithdrawals').textContent = stats.pendingWithdrawals || 0;
+                    document.getElementById('pendingWithdrawAmount').textContent = AdminUtils.formatMoney(stats.pendingWithdrawAmount || 0, 0);
+                    
+                    // Quick action counts
+                    document.getElementById('quickRechargeCount').textContent = (stats.pendingRecharges || 0) + ' 待处理';
+                    document.getElementById('quickWithdrawCount').textContent = (stats.pendingWithdrawals || 0) + ' 待处理';
+                    document.getElementById('quickKycCount').textContent = (stats.pendingKyc || 0) + ' 待处理';
+                    document.getElementById('quickOrderCount').textContent = (stats.todayOrders || 0) + ' 笔';
+                } else {
+                    AdminToast.error(result.msg || '加载统计数据失败');
+                }
                 
                 // Load recent orders
                 loadRecentOrders();
                 
-                // Load charts (placeholder)
+                // Load charts
                 loadCharts();
                 
             } catch (error) {
@@ -403,27 +395,31 @@
             }
         }
         
-        function loadRecentOrders() {
-            // Mock data
-            const orders = [
-                { orderNo: 'ORD202411280001', user: 'zhang***', product: '新能源债券A', amount: 50000, status: 'active', time: '2024-11-28 10:30:00' },
-                { orderNo: 'ORD202411280002', user: 'li****', product: '科技成长基金', amount: 100000, status: 'active', time: '2024-11-28 09:45:00' },
-                { orderNo: 'ORD202411270015', user: 'wang**', product: '稳健收益债券', amount: 30000, status: 'completed', time: '2024-11-27 18:20:00' },
-                { orderNo: 'ORD202411270014', user: 'chen**', product: '新能源债券A', amount: 80000, status: 'active', time: '2024-11-27 16:10:00' },
-                { orderNo: 'ORD202411270013', user: 'liu***', product: '短期理财计划', amount: 20000, status: 'completed', time: '2024-11-27 14:30:00' }
-            ];
-            
-            const tbody = document.getElementById('recentOrders');
-            tbody.innerHTML = orders.map(order => `
-                <tr>
-                    <td><code style="font-size: 12px;">${order.orderNo}</code></td>
-                    <td>${order.user}</td>
-                    <td>${order.product}</td>
-                    <td>¥${AdminUtils.formatMoney(order.amount, 0)}</td>
-                    <td>${AdminUtils.getOrderStatus(order.status)}</td>
-                    <td style="font-size: 12px; color: var(--text-secondary);">${order.time}</td>
-                </tr>
-            `).join('');
+        async function loadRecentOrders() {
+            try {
+                const result = await AdminAPI.get('/admin/recent-orders', { limit: 5 });
+                
+                const tbody = document.getElementById('recentOrders');
+                
+                if (result.code === 1 && result.data && result.data.length > 0) {
+                    const orders = result.data;
+                    tbody.innerHTML = orders.map(order => `
+                        <tr>
+                            <td><code style="font-size: 12px;">${order.orderNo || order.order_no}</code></td>
+                            <td>${order.user || order.username}</td>
+                            <td>${order.product || order.project_title}</td>
+                            <td>¥${AdminUtils.formatMoney(order.amount, 0)}</td>
+                            <td>${AdminUtils.getOrderStatus(order.status)}</td>
+                            <td style="font-size: 12px; color: var(--text-secondary);">${order.time || order.created_at}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">暂无订单数据</td></tr>';
+                }
+            } catch (error) {
+                console.error('Failed to load recent orders:', error);
+                document.getElementById('recentOrders').innerHTML = '<tr><td colspan="6" class="empty-state">加载失败</td></tr>';
+            }
         }
         
         function loadCharts() {

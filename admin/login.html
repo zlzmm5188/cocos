@@ -153,28 +153,26 @@
             errorMsg.classList.remove('show');
             
             try {
-                // For demo purposes, using local validation
-                // In production, this should call the backend API
-                const validAdmins = [
-                    { username: 'admin', password: 'admin123', name: '超级管理员', role: 'super_admin' },
-                    { username: 'manager', password: 'manager123', name: '运营经理', role: 'manager' },
-                    { username: 'operator', password: 'operator123', name: '客服人员', role: 'operator' }
-                ];
+                // 调用真实API登录
+                const response = await fetch(ADMIN_CONFIG.adminApiPrefix + '/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
                 
-                const admin = validAdmins.find(a => a.username === username && a.password === password);
+                const result = await response.json();
                 
-                if (admin) {
-                    // Generate mock token
-                    const token = 'admin_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                    
-                    // Save to localStorage
-                    localStorage.setItem('admin_token', token);
+                if (result.code === 1 && result.data) {
+                    // 保存token和用户信息
+                    localStorage.setItem('admin_token', result.data.token);
                     localStorage.setItem('admin_info', JSON.stringify({
-                        id: 1,
-                        username: admin.username,
-                        name: admin.name,
-                        role: admin.role,
-                        avatar: ''
+                        id: result.data.id,
+                        username: result.data.username,
+                        name: result.data.name || result.data.username,
+                        role: result.data.role || 'admin',
+                        avatar: result.data.avatar || ''
                     }));
                     
                     if (rememberMe) {
@@ -186,7 +184,7 @@
                     // Redirect to dashboard
                     window.location.href = 'index.html';
                 } else {
-                    showError('账号或密码错误');
+                    showError(result.msg || '账号或密码错误');
                 }
             } catch (error) {
                 console.error('Login error:', error);

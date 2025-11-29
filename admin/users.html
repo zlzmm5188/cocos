@@ -262,37 +262,30 @@
         
         async function loadUsers() {
             try {
-                // Mock data - in production, call AdminAPI.get('/users', { page, pageSize, ...filters })
-                const mockUsers = generateMockUsers();
-                usersData = mockUsers;
-                totalUsers = 156;
+                const params = {
+                    page: currentPage,
+                    pageSize: pageSize,
+                    ...filters
+                };
                 
-                renderUsers(mockUsers);
-                renderPagination();
+                const result = await AdminAPI.get('/admin/users', params);
+                
+                if (result.code === 1 && result.data) {
+                    usersData = result.data.list || [];
+                    totalUsers = result.data.total || 0;
+                    renderUsers(usersData);
+                    renderPagination();
+                } else {
+                    AdminToast.error(result.msg || '加载失败');
+                    usersData = [];
+                    renderUsers([]);
+                }
             } catch (error) {
                 console.error('Failed to load users:', error);
                 AdminToast.error('加载用户列表失败');
+                usersData = [];
+                renderUsers([]);
             }
-        }
-        
-        function generateMockUsers() {
-            const users = [];
-            for (let i = 0; i < 20; i++) {
-                const id = 10000 + (currentPage - 1) * 20 + i;
-                users.push({
-                    id: id,
-                    uid: 'UID' + id,
-                    phone: '138****' + String(1000 + i).padStart(4, '0'),
-                    username: 'user_' + id,
-                    realname: ['张', '李', '王', '赵', '陈'][i % 5] + '**',
-                    vipLevel: Math.floor(Math.random() * 9),
-                    money: Math.random() * 1000000,
-                    totalInvest: Math.random() * 5000000,
-                    kycStatus: Math.floor(Math.random() * 4),
-                    createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString()
-                });
-            }
-            return users;
         }
         
         function renderUsers(users) {
