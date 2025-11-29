@@ -61,6 +61,9 @@ try {
     require_once __DIR__ . '/controllers/TeamController.php';
     require_once __DIR__ . '/controllers/ConfigController.php';
     require_once __DIR__ . '/controllers/LogController.php';
+    require_once __DIR__ . '/controllers/VipConfigController.php';
+    require_once __DIR__ . '/controllers/CommissionController.php';
+    require_once __DIR__ . '/controllers/CurrencyController.php';
     
     // 路由分发
     switch (true) {
@@ -268,6 +271,92 @@ try {
         case $path === '/admin/ribao-distribute' && $method === 'POST':
             require_once __DIR__ . '/controllers/RibaoController.php';
             RibaoController::distribute();
+            break;
+            
+        case $path === '/admin/ribao-earnings' && $method === 'GET':
+            require_once __DIR__ . '/controllers/RibaoController.php';
+            RibaoController::earningRecords();
+            break;
+            
+        case $path === '/admin/ribao-transfers' && $method === 'GET':
+            require_once __DIR__ . '/controllers/RibaoController.php';
+            RibaoController::transferRecords();
+            break;
+            
+        case $path === '/admin/ribao-stats' && $method === 'GET':
+            require_once __DIR__ . '/controllers/RibaoController.php';
+            RibaoController::stats();
+            break;
+            
+        // ============ VIP完整配置 ============
+        case $path === '/admin/vip-full-config' && $method === 'GET':
+            VipConfigController::getFullConfig();
+            break;
+            
+        case $path === '/admin/vip-invite-rewards' && $method === 'POST':
+            VipConfigController::saveInviteRewards();
+            break;
+            
+        case $path === '/admin/vip-upgrade-rules' && $method === 'POST':
+            VipConfigController::saveUpgradeRules();
+            break;
+            
+        case $path === '/admin/vip-checkin-points' && $method === 'POST':
+            VipConfigController::saveCheckinPoints();
+            break;
+            
+        case $path === '/admin/vip-team-awards' && $method === 'POST':
+            VipConfigController::saveTeamAwards();
+            break;
+            
+        // ============ 返佣管理 ============
+        case $path === '/admin/commissions' && $method === 'GET':
+            CommissionController::list();
+            break;
+            
+        case $path === '/admin/commissions/pending' && $method === 'GET':
+            CommissionController::pendingList();
+            break;
+            
+        case $path === '/admin/commissions/stats' && $method === 'GET':
+            CommissionController::stats();
+            break;
+            
+        case $path === '/admin/commission-pay' && $method === 'POST':
+            CommissionController::pay();
+            break;
+            
+        case $path === '/admin/commission-batch-pay' && $method === 'POST':
+            CommissionController::batchPay();
+            break;
+            
+        case $path === '/admin/commission-auto-distribute' && $method === 'POST':
+            CommissionController::autoDistribute();
+            break;
+            
+        // ============ 币种管理 ============
+        case $path === '/admin/currency-config' && $method === 'GET':
+            CurrencyController::config();
+            break;
+            
+        case $path === '/admin/currency-config' && $method === 'POST':
+            CurrencyController::saveConfig();
+            break;
+            
+        case $path === '/admin/currency-exchanges' && $method === 'GET':
+            CurrencyController::exchangeRecords();
+            break;
+            
+        case $path === '/admin/currency-exchange-review' && $method === 'POST':
+            CurrencyController::reviewExchange();
+            break;
+            
+        case $path === '/admin/user-balances' && $method === 'GET':
+            CurrencyController::userBalances();
+            break;
+            
+        case $path === '/admin/adjust-currency-balance' && $method === 'POST':
+            CurrencyController::adjustBalance();
             break;
             
         // ============ 默认 ============
