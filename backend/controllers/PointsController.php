@@ -43,8 +43,11 @@ class PointsController {
         if ($this->db && $this->db->isConnected()) {
             $total = $this->db->count('points_logs', 'user_id = ?', [$user['user_id']]);
 
-            $sql = "SELECT * FROM points_logs WHERE user_id = ? ORDER BY created_at DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
-            $logs = $this->db->fetchAll($sql, [$user['user_id']]);
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT * FROM points_logs WHERE user_id = ? ORDER BY created_at DESC LIMIT ?, ?";
+            $logs = $this->db->fetchAll($sql, [$user['user_id'], $offset, $pageSize]);
 
             $items = array_map(function($l) {
                 return [

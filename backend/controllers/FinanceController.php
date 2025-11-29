@@ -29,7 +29,12 @@ class FinanceController {
 
             $total = $this->db->count('recharge_records', $where, $params);
             
-            $sql = "SELECT * FROM recharge_records WHERE $where ORDER BY created_at DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT * FROM recharge_records WHERE $where ORDER BY created_at DESC LIMIT ?, ?";
+            $params[] = $offset;
+            $params[] = $pageSize;
             $records = $this->db->fetchAll($sql, $params);
 
             $items = array_map(function($r) {
@@ -119,7 +124,12 @@ class FinanceController {
 
             $total = $this->db->count('withdraw_records', $where, $params);
             
-            $sql = "SELECT * FROM withdraw_records WHERE $where ORDER BY created_at DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT * FROM withdraw_records WHERE $where ORDER BY created_at DESC LIMIT ?, ?";
+            $params[] = $offset;
+            $params[] = $pageSize;
             $records = $this->db->fetchAll($sql, $params);
 
             $items = array_map(function($r) {
@@ -272,7 +282,12 @@ class FinanceController {
 
             $total = $this->db->count('balance_logs', $where, $params);
             
-            $sql = "SELECT * FROM balance_logs WHERE $where ORDER BY created_at DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT * FROM balance_logs WHERE $where ORDER BY created_at DESC LIMIT ?, ?";
+            $params[] = $offset;
+            $params[] = $pageSize;
             $logs = $this->db->fetchAll($sql, $params);
 
             $items = array_map(function($l) {

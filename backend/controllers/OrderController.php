@@ -29,12 +29,17 @@ class OrderController {
 
             $total = $this->db->count('user_investments ui', $where, $params);
 
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
             $sql = "SELECT ui.*, p.title as project_title, p.cover_image, p.currency 
                     FROM user_investments ui 
                     LEFT JOIN projects p ON ui.project_id = p.id 
                     WHERE $where 
                     ORDER BY ui.created_at DESC 
-                    LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
+                    LIMIT ?, ?";
+            $params[] = $offset;
+            $params[] = $pageSize;
             $orders = $this->db->fetchAll($sql, $params);
 
             $items = array_map(function($o) {
@@ -121,14 +126,17 @@ class OrderController {
         if ($this->db && $this->db->isConnected()) {
             $total = $this->db->count('earnings_records', 'user_id = ?', [$user['user_id']]);
 
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
             $sql = "SELECT er.*, ui.order_no, p.title as project_title 
                     FROM earnings_records er 
                     LEFT JOIN user_investments ui ON er.investment_id = ui.id 
                     LEFT JOIN projects p ON ui.project_id = p.id 
                     WHERE er.user_id = ? 
                     ORDER BY er.earn_date DESC 
-                    LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
-            $earnings = $this->db->fetchAll($sql, [$user['user_id']]);
+                    LIMIT ?, ?";
+            $earnings = $this->db->fetchAll($sql, [$user['user_id'], $offset, $pageSize]);
 
             $items = array_map(function($e) {
                 return [

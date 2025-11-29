@@ -34,7 +34,12 @@ class ProjectController {
 
             $total = $this->db->count('projects', $where, $params);
 
-            $sql = "SELECT * FROM projects WHERE $where ORDER BY sort_order DESC, id DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT * FROM projects WHERE $where ORDER BY sort_order DESC, id DESC LIMIT ?, ?";
+            $params[] = $offset;
+            $params[] = $pageSize;
             $projects = $this->db->fetchAll($sql, $params);
 
             $items = array_map(function($p) {

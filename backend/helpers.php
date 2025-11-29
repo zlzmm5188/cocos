@@ -103,7 +103,13 @@ function maskBankCard($cardNo) {
  */
 function getPagination() {
     $page = max(1, intval(getQuery('page', 1)));
-    $pageSize = min(MAX_PAGE_SIZE, max(1, intval(getQuery('limit', getQuery('pageSize', DEFAULT_PAGE_SIZE)))));
+    
+    // 先检查 limit 参数，再检查 pageSize 参数，最后使用默认值
+    $limitParam = getQuery('limit');
+    $pageSizeParam = getQuery('pageSize');
+    $rawPageSize = $limitParam !== null ? $limitParam : ($pageSizeParam !== null ? $pageSizeParam : DEFAULT_PAGE_SIZE);
+    $pageSize = min(MAX_PAGE_SIZE, max(1, intval($rawPageSize)));
+    
     $offset = ($page - 1) * $pageSize;
     
     return [

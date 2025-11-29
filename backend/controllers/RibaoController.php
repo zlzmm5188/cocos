@@ -263,7 +263,12 @@ class RibaoController {
 
             $total = $this->db->count('ribao_records', $where, $params);
 
-            $sql = "SELECT * FROM ribao_records WHERE $where ORDER BY created_at DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT * FROM ribao_records WHERE $where ORDER BY created_at DESC LIMIT ?, ?";
+            $params[] = $offset;
+            $params[] = $pageSize;
             $records = $this->db->fetchAll($sql, $params);
 
             $items = array_map(function($r) {

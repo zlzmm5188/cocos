@@ -85,7 +85,12 @@ class TeamController {
 
             $total = $this->db->count('users', $where, $params);
 
-            $sql = "SELECT id, username, real_name, vip_level, created_at FROM users WHERE $where ORDER BY created_at DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT id, username, real_name, vip_level, created_at FROM users WHERE $where ORDER BY created_at DESC LIMIT ?, ?";
+            $params[] = $offset;
+            $params[] = $pageSize;
             $members = $this->db->fetchAll($sql, $params);
 
             // 获取每个成员的投资统计
@@ -128,7 +133,12 @@ class TeamController {
 
             $total = $this->db->count('balance_logs', $where, $params);
 
-            $sql = "SELECT * FROM balance_logs WHERE $where ORDER BY created_at DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT * FROM balance_logs WHERE $where ORDER BY created_at DESC LIMIT ?, ?";
+            $params[] = $offset;
+            $params[] = $pageSize;
             $rewards = $this->db->fetchAll($sql, $params);
 
             $items = array_map(function($r) {

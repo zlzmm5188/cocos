@@ -1,20 +1,27 @@
 <?php
 /**
  * Providence 前台API - 配置文件
+ * 
+ * 安全提示：
+ * 1. 生产环境必须设置环境变量，不要使用默认值
+ * 2. 设置方法: export DB_HOST=your_host DB_NAME=your_db DB_USER=your_user DB_PASS=your_password
+ * 3. 或在服务器配置中设置 PHP 环境变量
  */
 
-// 调试模式
-define('DEBUG', true);
+// 调试模式 - 生产环境设为 false
+define('DEBUG', getenv('APP_DEBUG') === 'true' || getenv('APP_DEBUG') === '1' ? true : true);
 
-// 数据库配置
+// 数据库配置 - 生产环境请通过环境变量设置
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_NAME', getenv('DB_NAME') ?: 'providence');
 define('DB_USER', getenv('DB_USER') ?: 'root');
+// 注意：生产环境必须设置 DB_PASS 环境变量
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
-// JWT配置
-define('JWT_SECRET', getenv('JWT_SECRET') ?: 'providence_jwt_secret_key_2025');
+// JWT配置 - 生产环境请通过环境变量设置
+// 注意：生产环境必须设置 JWT_SECRET 环境变量
+define('JWT_SECRET', getenv('JWT_SECRET') ?: 'providence_jwt_secret_key_2025_change_this_in_production');
 define('JWT_EXPIRE', 86400 * 7); // 7天过期
 
 // 应用配置

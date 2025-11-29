@@ -19,8 +19,11 @@ class SystemController {
         if ($this->db && $this->db->isConnected()) {
             $total = $this->db->count('announcements', 'status = 1');
 
-            $sql = "SELECT * FROM announcements WHERE status = 1 ORDER BY is_top DESC, created_at DESC LIMIT {$pagination['offset']}, {$pagination['pageSize']}";
-            $announcements = $this->db->fetchAll($sql);
+            // 使用参数绑定防止SQL注入
+            $offset = intval($pagination['offset']);
+            $pageSize = intval($pagination['pageSize']);
+            $sql = "SELECT * FROM announcements WHERE status = 1 ORDER BY is_top DESC, created_at DESC LIMIT ?, ?";
+            $announcements = $this->db->fetchAll($sql, [$offset, $pageSize]);
 
             $items = array_map(function($a) {
                 return [
