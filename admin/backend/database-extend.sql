@@ -141,8 +141,8 @@ CREATE TABLE IF NOT EXISTS `team_award_records` (
 -- 插入默认VIP配置
 -- ============================================
 
--- 清空并重新插入VIP等级
-TRUNCATE TABLE `vip_levels`;
+-- 清空并重新插入VIP等级（如果表存在）
+DELETE FROM `vip_levels` WHERE 1=1;
 
 INSERT INTO `vip_levels` (`id`, `name`, `min_invest`, `daily_withdraw_limit`, `withdraw_fee_rate`, `invite_reward_rate`, `privileges`) VALUES
 (0, 'VIP0', 0, 5000, 0.01, 0.01, '{"checkin_points": 6, "level1_rate": 1, "level2_rate": 0, "extra_rate": 0}'),

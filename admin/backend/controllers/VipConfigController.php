@@ -317,10 +317,15 @@ class VipConfigController {
     
     /**
      * 获取指定VIP等级的额外加息
+     * VIP0 没有额外加息，VIP1-8 有额外加息
      */
     public static function getExtraRate($vipLevel) {
         $config = self::loadConfig();
         $level = max(0, min(8, (int)$vipLevel));
+        // VIP0 没有额外加息，返回0
+        if ($level === 0) {
+            return 0;
+        }
         return $config['upgrade_rules'][$level]['extra_rate'] ?? 0;
     }
     

@@ -8,6 +8,9 @@
  * - 根据用户VIP等级确定返利比例
  */
 
+// 引入VIP配置控制器
+require_once __DIR__ . '/VipConfigController.php';
+
 class CommissionController {
     
     /**
@@ -331,8 +334,7 @@ class CommissionController {
         );
         
         if ($level1Parent) {
-            // 获取一级返利比例
-            require_once __DIR__ . '/VipConfigController.php';
+            // 获取一级返利比例（VipConfigController已在文件顶部引入）
             $rates = VipConfigController::getInviteRewardRates($level1Parent['vip_level']);
             $level1Rate = (float)$rates['level1'] / 100;
             $level1Amount = $investAmount * $level1Rate;
@@ -387,9 +389,14 @@ class CommissionController {
     
     /**
      * 自动发放已完成项目的返佣
+     * 每次最多处理的记录数可通过 limit 参数配置，默认1000
      */
     public static function autoDistribute() {
         requirePermission('commission_pay');
+        
+        // 从配置或参数获取批量处理限制
+        $limit = input('limit', 1000);
+        $limit = max(100, min(10000, (int)$limit)); // 限制在100-10000之间
         
         // 查找所有待发放的返佣（关联投资已完成）
         $records = db()->fetchAll(
@@ -397,13 +404,21 @@ class CommissionController {
              FROM commission_records c
              LEFT JOIN user_investments i ON c.investment_id = i.id
              WHERE c.status = 0 AND i.status = 2
-             LIMIT 1000"
+             LIMIT $limit"
         );
         
         if (empty($records)) {
             success(['count' => 0, 'total_amount' => 0], '没有待发放的返佣');
             return;
         }
+        
+        // 检查是否还有更多待处理
+        $pendingCount = db()->fetchOne(
+            "SELECT COUNT(*) as count 
+             FROM commission_records c
+             LEFT JOIN user_investments i ON c.investment_id = i.id
+             WHERE c.status = 0 AND i.status = 2"
+        )['count'] ?? 0;
         
         db()->beginTransaction();
         
@@ -424,10 +439,17 @@ class CommissionController {
                 'total_amount' => $totalAmount
             ]);
             
+            $remainingCount = (int)$pendingCount - $successCount;
+            $message = "自动发放成功，共 $successCount 条，金额 " . formatMoney($totalAmount) . " 元";
+            if ($remainingCount > 0) {
+                $message .= "（还有 $remainingCount 条待处理）";
+            }
+            
             success([
                 'count' => $successCount,
-                'total_amount' => $totalAmount
-            ], "自动发放成功，共 $successCount 条，金额 " . formatMoney($totalAmount) . " 元");
+                'total_amount' => $totalAmount,
+                'remaining_count' => $remainingCount
+            ], $message);
             
         } catch (Exception $e) {
             db()->rollback();

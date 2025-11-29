@@ -37,9 +37,15 @@ class CurrencyController {
         foreach ($configs as $config) {
             $key = $config['key'];
             if (isset($result[$key])) {
-                $result[$key] = is_numeric($config['value']) 
-                    ? (float)$config['value'] 
-                    : $config['value'];
+                $value = $config['value'];
+                // 布尔值字段特殊处理
+                if (in_array($key, ['cny_to_usdt_enabled', 'points_to_cny_enabled'])) {
+                    $result[$key] = ($value === '1' || $value === 'true' || $value === true);
+                } elseif (is_numeric($value)) {
+                    $result[$key] = (float)$value;
+                } else {
+                    $result[$key] = $value;
+                }
             }
         }
         
