@@ -310,13 +310,23 @@
         }
         
         async function loadStats() {
-            // Mock stats
-            document.getElementById('pendingCount').textContent = '8';
-            document.getElementById('pendingAmount').textContent = '156,000';
-            document.getElementById('approvedCount').textContent = '23';
-            document.getElementById('approvedAmount').textContent = '580,000';
-            document.getElementById('rejectedCount').textContent = '2';
-            document.getElementById('rejectedAmount').textContent = '5,000';
+            try {
+                const result = await AdminAPI.get('/admin/recharges/stats');
+                if (result.code === 1 && result.data) {
+                    document.getElementById('pendingCount').textContent = result.data.pending_count || '0';
+                    document.getElementById('pendingAmount').textContent = formatNumber(result.data.pending_amount || 0);
+                    document.getElementById('approvedCount').textContent = result.data.approved_count || '0';
+                    document.getElementById('approvedAmount').textContent = formatNumber(result.data.approved_amount || 0);
+                    document.getElementById('rejectedCount').textContent = result.data.rejected_count || '0';
+                    document.getElementById('rejectedAmount').textContent = formatNumber(result.data.rejected_amount || 0);
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+        
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
         
         async function loadRecharges() {
