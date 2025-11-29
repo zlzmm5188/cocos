@@ -71,6 +71,46 @@ class DashboardController {
     }
     
     /**
+     * 统计图表数据（自定义天数）
+     */
+    public static function statsChart() {
+        requireLogin();
+        
+        $days = isset($_GET['days']) ? (int)$_GET['days'] : 7;
+        if ($days < 1) $days = 7;
+        if ($days > 30) $days = 30;
+        
+        $data = db()->fetchAll(
+            "SELECT 
+                DATE(created_at) as date,
+                COALESCE(SUM(invest_amount), 0) as amount,
+                COUNT(*) as count
+             FROM user_investments 
+             WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+             GROUP BY DATE(created_at)
+             ORDER BY date ASC",
+            [$days]
+        );
+        
+        // 填充缺失的日期
+        $result = [];
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $date = date('Y-m-d', strtotime("-$i days"));
+            $dayData = array_filter($data, fn($d) => $d['date'] === $date);
+            $dayData = reset($dayData);
+            
+            $result[] = [
+                'date' => $date,
+                'label' => date('m-d', strtotime($date)),
+                'amount' => $dayData ? (float)$dayData['amount'] : 0,
+                'count' => $dayData ? (int)$dayData['count'] : 0
+            ];
+        }
+        
+        success($result);
+    }
+    
+    /**
      * 投资趋势图表数据（近7天）
      */
     public static function investTrend() {

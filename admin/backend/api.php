@@ -89,6 +89,10 @@ try {
             DashboardController::stats();
             break;
             
+        case $path === '/admin/stats/chart' && $method === 'GET':
+            DashboardController::statsChart();
+            break;
+            
         case $path === '/admin/chart/invest-trend' && $method === 'GET':
             DashboardController::investTrend();
             break;
