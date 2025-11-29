@@ -88,34 +88,44 @@
 
 ## 快速开始
 
-### 方式一：静态文件访问
+### 部署步骤
 
-直接用浏览器打开 `admin/login.html` 文件即可使用（使用Mock数据）。
-
-### 方式二：使用Mock服务器
+1. **导入数据库**
 
 ```bash
-# 进入项目目录
-cd cocos
-
-# 启动Mock服务器
-node admin/api/mock-server.cjs
-
-# 访问后台
-# http://localhost:3000/admin/
+mysql -u root -p providence < database-design.sql
+mysql -u root -p providence < admin/backend/database-extend.sql
 ```
 
-### 方式三：集成到后端
+2. **配置数据库连接**
 
-将 `admin` 目录部署到你的Web服务器，并确保后端API路由与 `admin/api/admin-routes.js` 中定义的一致。
+编辑 `admin/backend/config.php` 或设置环境变量：
+
+```bash
+export DB_HOST=localhost
+export DB_NAME=providence
+export DB_USER=root
+export DB_PASS=your_password
+export JWT_SECRET=your_secret_key
+```
+
+3. **部署到PHP服务器**
+
+将整个项目部署到PHP服务器（Apache/Nginx + PHP 7.4+）
+
+4. **访问后台管理**
+
+```
+http://your-domain/admin/login.html
+```
 
 ## 默认账号
 
-| 账号 | 密码 | 角色 |
-|------|------|------|
-| admin | admin123 | 超级管理员 |
-| manager | manager123 | 运营经理 |
-| operator | operator123 | 客服人员 |
+首次使用需要在数据库中创建管理员账号，或使用初始化脚本。
+
+| 账号 | 说明 |
+|------|------|
+| 根据数据库配置 | 请在部署时创建管理员账号 |
 
 ## 目录结构
 
@@ -138,9 +148,15 @@ admin/
 │   └── admin.css       # 管理后台样式
 ├── js/
 │   └── admin-config.js # 配置和工具函数
+├── backend/            # PHP后端API
+│   ├── api.php         # API入口
+│   ├── config.php      # 数据库配置
+│   ├── database.php    # 数据库类
+│   ├── auth.php        # JWT认证
+│   ├── helpers.php     # 辅助函数
+│   └── controllers/    # API控制器 (15个)
 └── api/
-    ├── admin-routes.js # API路由定义
-    └── mock-server.cjs # Mock服务器
+    └── admin-routes.js # API路由定义
 ```
 
 ## API 接口

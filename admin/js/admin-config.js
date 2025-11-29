@@ -4,13 +4,11 @@
  */
 
 window.ADMIN_CONFIG = {
-    // API Base URL - 使用与前台相同的API配置
-    // 生产环境使用后端PHP API
-    apiBase: window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top',
+    // API Base URL - 使用当前域名（相对路径）
+    // 部署后，后端API位于同一站点
+    apiBase: '',
     
     // Admin API prefix - 后端PHP API路径
-    // 生产环境: /admin/backend/api.php
-    // Mock服务器: /index.php (用于开发测试)
     adminApiPrefix: '/admin/backend/api.php',
     
     // Token key in localStorage
