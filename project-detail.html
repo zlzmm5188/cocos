@@ -1741,7 +1741,7 @@ async function confirmInvest() {
   try {
     const projectId = new URLSearchParams(window.location.search).get('id');
     const token = (typeof TokenManager !== 'undefined' && TokenManager.getToken()) || localStorage.getItem('providence_token') || '';
-    const API_BASE = (window.API_CONFIG && window.API_CONFIG.baseURL) || 'https://api.4kp3l0iq.top';
+    const API_BASE = (window.API_CONFIG && window.API_CONFIG.baseURL) || '/backend/api.php';
 
     const response = await fetch(`${API_BASE}/api/invest/create`, {
       method: 'POST',

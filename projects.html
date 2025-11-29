@@ -891,7 +891,7 @@
           await waitForAPI();
           // 修复：使用正确的 API 域名和路径
           const API_BASE =
-            window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+            window.API_CONFIG?.baseURL || "/backend/api.php";
 
           // 添加超时控制（8秒）
           const controller = new AbortController();
@@ -971,7 +971,7 @@
           if (!data) {
             // 修复：使用正确的 API 域名和路径
             const API_BASE =
-              window.API_CONFIG?.baseURL || "https://api.4kp3l0iq.top";
+              window.API_CONFIG?.baseURL || "/backend/api.php";
             const token = localStorage.getItem('providence_token') || localStorage.getItem('token') || '';
 
             // 添加超时控制（8秒）

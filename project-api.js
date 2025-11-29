@@ -7,7 +7,7 @@
 
     console.log('[ProjectAPI] 加载 v1.0');
 
-    const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+    const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
     // 通用API请求函数
     async function apiRequest(endpoint, options = {}) {

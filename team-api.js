@@ -4,7 +4,7 @@
     if (window.__TEAM_API_JS__) return;
     window.__TEAM_API_JS__ = true;
 
-    const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+    const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
     async function apiRequest(endpoint, options = {}) {
         // 统一使用TokenManager获取Token

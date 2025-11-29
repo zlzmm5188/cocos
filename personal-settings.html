@@ -64,7 +64,7 @@
     (async function init() {
       try {
         const token = localStorage.getItem('providence_token') || localStorage.getItem('token');
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         let user = null;
         // 优先统一服务
         if (window.ApiService?.user?.getInfo) {

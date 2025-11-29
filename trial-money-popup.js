@@ -382,7 +382,7 @@ const TrialMoneyPopup = {
         }
 
         // 检查实名状态并跳转
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         fetch(API_BASE + '/index.php/api/user/info', {
             headers: { 'Token': token }
         })

@@ -87,7 +87,7 @@ window.callAPI = function(category, action, options = {}) {
     return Promise.reject(new Error(`Invalid API path: ${category}.${action}`));
   }
   
-  const apiBase = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+  const apiBase = window.API_CONFIG?.baseURL || '/backend/api.php';
   const url = `${apiBase}${path}`;
   
   const token = localStorage.getItem('providence_token') || 

@@ -17,7 +17,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const LOGIN_CONFIG = {
-    API_BASE: 'https://api.4kp3l0iq.top',
+    API_BASE: '/backend/api.php',
     TOKEN_KEY: 'providence_token',
     USER_ID_KEY: 'providence_user_id',
     USER_NAME_KEY: 'providence_user_name',

@@ -167,7 +167,7 @@ async function submitIdCardInfo() {
 
     try {
         // 调用后端身份证验证接口
-        const response = await fetch('https://api.4kp3l0iq.topuser/verify/idcard', {
+        const response = await fetch('/backend/api.phpuser/verify/idcard', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -311,7 +311,7 @@ async function captureAIFace() {
     }
 
     try {
-        const response = await fetch('https://api.4kp3l0iq.topuser/verify/face-idcard', {
+        const response = await fetch('/backend/api.phpuser/verify/face-idcard', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -434,7 +434,7 @@ async function submitNewPassword() {
     addBotMessage('⏳ 正在重置密码...');
 
     try {
-        const response = await fetch('https://api.4kp3l0iq.topuser/password/reset-verified', {
+        const response = await fetch('/backend/api.phpuser/password/reset-verified', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

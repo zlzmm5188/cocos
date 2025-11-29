@@ -39,7 +39,7 @@ async function sendFgSms(){
         // 手机号找回密码
         try{
             await waitForAPI();
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const res = await fetch(API_BASE + '/login/sms/forget',{
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
@@ -114,7 +114,7 @@ async function handleReset(){
         // 手机号重置密码
         try{
             await waitForAPI();
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const res = await fetch(API_BASE + '/user/user/resetPassword',{
                 method:'POST',
                 headers:{'Content-Type':'application/json'},

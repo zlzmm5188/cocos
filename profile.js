@@ -192,7 +192,7 @@ async function loadUserData() {
 
         // 降级方案：直接使用fetch
         if (!response) {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const token = TokenManager.getToken() || localStorage.getItem('providence_token') || '';
             const apiUrl = `${API_BASE}/api/user/info`;  // ✅ 正确的API路径是 /api/user/info，不是 ' + API_MAP.USER.INFO + '
             console.log('[加载用户数据] API地址:', apiUrl);
@@ -548,7 +548,7 @@ async function updateUpgradeProgress() {
 
         // 降级方案
         if (!response) {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const res = await fetch(API_BASE + '/api/user/vip-progress', {
                 method: 'GET',
                 headers: {

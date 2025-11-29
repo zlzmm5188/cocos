@@ -10,9 +10,9 @@ const testData = {
 console.log('准备发送的数据:', JSON.stringify(testData, null, 2));
 console.log('Content-Type: application/json');
 console.log('Method: POST');
-console.log('URL: https://api.4kp3l0iq.top/index.php/auth/login');
+console.log('URL: /backend/api.php/index.php/auth/login');
 
-fetch('https://api.4kp3l0iq.top/index.php/auth/login', {
+fetch('/backend/api.php/index.php/auth/login', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'

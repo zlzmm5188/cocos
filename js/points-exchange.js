@@ -5,7 +5,7 @@
 // 配置
 const EXCHANGE_RATE = 0.1;  // 1积分 = 0.1元（1000积分 = 100元）
 const MIN_POINTS = 100;     // 最低兑换100积分
-const API_BASE = 'https://api.4kp3l0iq.top';
+const API_BASE = '/backend/api.php';
 
 // 全局变量
 let currentPoints = 0;

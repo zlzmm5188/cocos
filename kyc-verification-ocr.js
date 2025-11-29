@@ -554,7 +554,8 @@ async function submitKYC() {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 调用简化版KYC提交API（直接提交审核，不做人脸识别）
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    const response = await fetch('https://api.4kp3l0iq.top/user/kyc-submit-simple', {
+    const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
+    const response = await fetch(API_BASE + '/user/kyc-submit-simple', {
       method: 'POST',
       body: formData
     });

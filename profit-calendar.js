@@ -52,7 +52,7 @@ async function loadProfitData() {
         };
 
         // 降级方案：直接使用fetch
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         const response = await fetch(API_BASE + '/user/profit/calendar', {
             method: 'POST',
             headers: {

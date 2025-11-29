@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { chromium } from 'playwright';
 
-const API_BASE = 'https://api.4kp3l0iq.top/api';
+const API_BASE = '/backend/api.php/api';
 const TEST_PAGES = [
     'index.html',
     'login.html',

@@ -13,7 +13,7 @@ window.API_CONFIG = {
     // baseURL: 'http://localhost:8888/api',
 
     // 🚀 生产环境（72.60.196.188服务器）
-    baseURL: 'https://api.4kp3l0iq.top',
+    baseURL: '/backend/api.php',
 
     // 管理后台地址
     adminURL: 'https://admin.4kp3l0iq.top',

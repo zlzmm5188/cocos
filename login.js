@@ -203,7 +203,7 @@ async function handleLogin() {
             console.log('[登录] 检测到本地环境，强制使用本地 API:', API_BASE);
         } else {
             // 生产环境：使用 API_CONFIG 或备用地址
-            API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             console.log('[登录] 生产环境，使用 API_CONFIG:', API_BASE);
         }
 
@@ -373,7 +373,7 @@ function wechatLogin() {
         const rtn = encodeURIComponent(location.origin + '/providence/index.html');
         // 统一后端发起入口，自动判断是否在微信内
         // 修复：使用正确的 API 域名 copla.top
-        const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+        const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
         location.href = API_BASE + '/auth/wechat/start?return=' + rtn;
     } catch (e) {
         console.error(e);

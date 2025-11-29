@@ -361,7 +361,7 @@
 
                 // Fallback: 直接使用fetch
                 if (!result) {
-                    const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                    const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                     let url = `${API_BASE}/user/api/ribao/records?page=${page}&pageSize=20`;
                     if (currentFilter.type) {
                         url += `&type=${currentFilter.type}`;

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 实名认证审核</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>仪表盘</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>用户列表</span>
+                    </a>
+                    <a href="kyc.html" class="menu-item active">
+                        <i class="fas fa-id-card"></i>
+                        <span>实名认证</span>
+                    </a>
+                    <a href="teams.html" class="menu-item">
+                        <i class="fas fa-sitemap"></i>
+                        <span>团队管理</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item">
+                        <i class="fas fa-box"></i>
+                        <span>投资产品</span>
+                    </a>
+                    <a href="orders.html" class="menu-item">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>投资订单</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>充值审核</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <span>提现审核</span>
+                    </a>
+                    <a href="ribao.html" class="menu-item">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>日利宝</span>
+                    </a>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>交易记录</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item">
+                        <i class="fas fa-crown"></i>
+                        <span>VIP配置</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>用户管理</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">实名认证审核</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <!-- Stats -->
+                <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>待审核</h3>
+                            <div class="value" id="pendingCount">0</div>
+                        </div>
+                        <div class="stat-icon orange">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日通过</h3>
+                            <div class="value" id="approvedCount">0</div>
+                        </div>
+                        <div class="stat-icon green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日拒绝</h3>
+                            <div class="value" id="rejectedCount">0</div>
+                        </div>
+                        <div class="stat-icon red">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>总认证用户</h3>
+                            <div class="value" id="totalVerified">0</div>
+                        </div>
+                        <div class="stat-icon blue">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">认证申请列表</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="搜索用户ID/姓名/身份证号">
+                            </div>
+                            <div class="filter-group">
+                                <select class="form-control" id="statusFilter" onchange="filterRecords()" style="width: 120px;">
+                                    <option value="">全部状态</option>
+                                    <option value="1">待审核</option>
+                                    <option value="2">已通过</option>
+                                    <option value="3">已拒绝</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>用户</th>
+                                    <th>真实姓名</th>
+                                    <th>身份证号</th>
+                                    <th>证件照片</th>
+                                    <th>人脸照片</th>
+                                    <th>状态</th>
+                                    <th>提交时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kycTableBody">
+                                <tr>
+                                    <td colspan="8" class="loading"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content" style="min-width: 700px; max-width: 900px;">
+            <div class="modal-header">
+                <h3 class="modal-title">实名认证审核</h3>
+                <button class="modal-close" onclick="closeModal('reviewModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="reviewId">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div>
+                        <h4 style="margin-bottom: 16px; font-size: 14px; color: var(--text-secondary);">用户信息</h4>
+                        <div class="form-group">
+                            <label class="form-label">用户ID</label>
+                            <input type="text" class="form-control" id="reviewUserId" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">真实姓名</label>
+                            <input type="text" class="form-control" id="reviewRealname" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">身份证号</label>
+                            <input type="text" class="form-control" id="reviewIdcard" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">提交时间</label>
+                            <input type="text" class="form-control" id="reviewTime" disabled>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 16px; font-size: 14px; color: var(--text-secondary);">证件照片</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div>
+                                <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">身份证正面</p>
+                                <img id="reviewFront" src="" style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px; background: #f5f5f5; cursor: pointer;" onclick="previewImage(this.src)">
+                            </div>
+                            <div>
+                                <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">身份证反面</p>
+                                <img id="reviewBack" src="" style="width: 100%; height: 120px; object-fit: cover; border-radius: 4px; background: #f5f5f5; cursor: pointer;" onclick="previewImage(this.src)">
+                            </div>
+                        </div>
+                        <div style="margin-top: 16px;">
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">人脸照片</p>
+                            <img id="reviewFace" src="" style="width: 100px; height: 120px; object-fit: cover; border-radius: 4px; background: #f5f5f5; cursor: pointer;" onclick="previewImage(this.src)">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="rejectReasonGroup" style="margin-top: 24px; display: none;">
+                    <label class="form-label">拒绝原因</label>
+                    <select class="form-control" id="rejectReason">
+                        <option value="">请选择原因</option>
+                        <option value="照片模糊">照片模糊，无法识别</option>
+                        <option value="信息不符">身份信息与照片不符</option>
+                        <option value="证件过期">身份证已过期</option>
+                        <option value="人脸不清晰">人脸照片不清晰</option>
+                        <option value="证件遮挡">证件信息有遮挡</option>
+                        <option value="other">其他原因</option>
+                    </select>
+                </div>
+                <div class="form-group" id="customReasonGroup" style="display: none;">
+                    <label class="form-label">其他原因</label>
+                    <textarea class="form-control" id="customReason" rows="2" placeholder="请输入拒绝原因"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('reviewModal')">取消</button>
+                <button class="btn btn-danger" onclick="showRejectReason()">
+                    <i class="fas fa-times"></i> 拒绝
+                </button>
+                <button class="btn btn-success" onclick="approveKyc()">
+                    <i class="fas fa-check"></i> 通过
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Image Preview Modal -->
+    <div class="modal" id="imageModal" style="background: rgba(0,0,0,0.85);">
+        <div class="modal-content" style="background: transparent; box-shadow: none; max-width: 90vw;">
+            <button class="modal-close" onclick="closeModal('imageModal')" style="position: absolute; right: 10px; top: 10px; color: #fff; font-size: 30px;">&times;</button>
+            <img id="previewImage" src="" style="max-width: 100%; max-height: 80vh; border-radius: 8px;">
+        </div>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        let currentPage = 1;
+        let pageSize = 20;
+        let totalRecords = 0;
+        let kycData = [];
+        let currentKycId = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            document.getElementById('rejectReason').addEventListener('change', function() {
+                document.getElementById('customReasonGroup').style.display = 
+                    this.value === 'other' ? 'block' : 'none';
+            });
+            
+            loadStats();
+            loadKycRecords();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        async function loadStats() {
+            document.getElementById('pendingCount').textContent = '3';
+            document.getElementById('approvedCount').textContent = '15';
+            document.getElementById('rejectedCount').textContent = '2';
+            document.getElementById('totalVerified').textContent = '8,562';
+        }
+        
+        async function loadKycRecords() {
+            try {
+                const params = {
+                    page: currentPage,
+                    pageSize: pageSize,
+                    status: currentStatus !== 'all' ? currentStatus : undefined
+                };
+                
+                const result = await AdminAPI.get('/admin/kyc-list', params);
+                
+                if (result.code === 1 && result.data) {
+                    kycData = result.data.list || [];
+                    totalRecords = result.data.total || 0;
+                    renderKycRecords(kycData);
+                    renderPagination();
+                } else {
+                    AdminToast.error(result.msg || '加载失败');
+                    kycData = [];
+                    renderKycRecords([]);
+                }
+            } catch (error) {
+                console.error('Failed to load KYC records:', error);
+                AdminToast.error('加载认证记录失败');
+                kycData = [];
+                renderKycRecords([]);
+            }
+        }
+        
+        function renderKycRecords(records) {
+            const tbody = document.getElementById('kycTableBody');
+            
+            if (records.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>暂无认证记录</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            const statusMap = {
+                1: { text: '待审核', class: 'tag-warning' },
+                2: { text: '已通过', class: 'tag-success' },
+                3: { text: '已拒绝', class: 'tag-danger' }
+            };
+            
+            tbody.innerHTML = records.map(record => {
+                const statusInfo = statusMap[record.status] || statusMap[1];
+                
+                return `
+                    <tr>
+                        <td>
+                            <div>${record.username}</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">${record.phone}</div>
+                        </td>
+                        <td style="font-weight: 500;">${record.realname}</td>
+                        <td><code style="font-size: 11px;">${AdminUtils.maskIdCard(record.idcard)}</code></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline" onclick="previewImage('${record.idcardFront}')">
+                                <i class="fas fa-id-card"></i> 正面
+                            </button>
+                            <button class="btn btn-sm btn-outline" onclick="previewImage('${record.idcardBack}')">
+                                <i class="fas fa-id-card"></i> 反面
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline" onclick="previewImage('${record.faceImage}')">
+                                <i class="fas fa-user"></i> 查看
+                            </button>
+                        </td>
+                        <td><span class="tag ${statusInfo.class}">${statusInfo.text}</span></td>
+                        <td style="font-size: 12px;">${AdminUtils.formatDate(record.submittedAt, 'MM-DD HH:mm')}</td>
+                        <td class="actions">
+                            ${record.status === 1 ? `
+                                <button class="btn btn-sm btn-primary" onclick="reviewKyc(${record.id})" title="审核">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            ` : `
+                                <button class="btn btn-sm btn-outline" onclick="viewKyc(${record.id})" title="详情">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            `}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function renderPagination() {
+            const totalPages = Math.ceil(totalRecords / pageSize);
+            const pagination = document.getElementById('pagination');
+            
+            let html = `
+                <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <span style="margin-left: 16px; color: var(--text-secondary);">共 ${totalRecords} 条</span>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > Math.ceil(totalRecords / pageSize)) return;
+            currentPage = page;
+            loadKycRecords();
+        }
+        
+        function filterRecords() {
+            currentPage = 1;
+            loadKycRecords();
+        }
+        
+        function previewImage(url) {
+            document.getElementById('previewImage').src = url;
+            openModal('imageModal');
+        }
+        
+        function reviewKyc(id) {
+            const record = kycData.find(r => r.id === id);
+            if (!record) return;
+            
+            currentKycId = id;
+            document.getElementById('reviewId').value = id;
+            document.getElementById('reviewUserId').value = record.username + ' (' + record.phone + ')';
+            document.getElementById('reviewRealname').value = record.realname;
+            document.getElementById('reviewIdcard').value = record.idcard;
+            document.getElementById('reviewTime').value = AdminUtils.formatDate(record.submittedAt);
+            document.getElementById('reviewFront').src = record.idcardFront;
+            document.getElementById('reviewBack').src = record.idcardBack;
+            document.getElementById('reviewFace').src = record.faceImage;
+            
+            // Reset reject reason
+            document.getElementById('rejectReasonGroup').style.display = 'none';
+            document.getElementById('customReasonGroup').style.display = 'none';
+            document.getElementById('rejectReason').value = '';
+            document.getElementById('customReason').value = '';
+            
+            openModal('reviewModal');
+        }
+        
+        function viewKyc(id) {
+            reviewKyc(id);
+        }
+        
+        function showRejectReason() {
+            document.getElementById('rejectReasonGroup').style.display = 'block';
+        }
+        
+        async function approveKyc() {
+            if (!currentKycId) return;
+            
+            try {
+                // In production: call API
+                AdminToast.success('认证已通过');
+                closeModal('reviewModal');
+                loadStats();
+                loadKycRecords();
+            } catch (error) {
+                AdminToast.error('操作失败: ' + error.message);
+            }
+        }
+        
+        async function rejectKyc() {
+            if (!currentKycId) return;
+            
+            let reason = document.getElementById('rejectReason').value;
+            if (reason === 'other') {
+                reason = document.getElementById('customReason').value.trim();
+            }
+            
+            if (!reason) {
+                AdminToast.warning('请选择或输入拒绝原因');
+                return;
+            }
+            
+            try {
+                // In production: call API
+                AdminToast.success('已拒绝认证');
+                closeModal('reviewModal');
+                loadStats();
+                loadKycRecords();
+            } catch (error) {
+                AdminToast.error('操作失败: ' + error.message);
+            }
+        }
+        
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+</html>

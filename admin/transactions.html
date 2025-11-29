@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 交易记录</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item"><i class="fas fa-tachometer-alt"></i><span>仪表盘</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item"><i class="fas fa-users"></i><span>用户列表</span></a>
+                    <a href="kyc.html" class="menu-item"><i class="fas fa-id-card"></i><span>实名认证</span></a>
+                    <a href="teams.html" class="menu-item"><i class="fas fa-sitemap"></i><span>团队管理</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item"><i class="fas fa-box"></i><span>投资产品</span></a>
+                    <a href="orders.html" class="menu-item"><i class="fas fa-file-invoice-dollar"></i><span>投资订单</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item"><i class="fas fa-plus-circle"></i><span>充值审核</span></a>
+                    <a href="withdrawals.html" class="menu-item"><i class="fas fa-minus-circle"></i><span>提现审核</span></a>
+                    <a href="ribao.html" class="menu-item"><i class="fas fa-piggy-bank"></i><span>日利宝</span></a>
+                    <a href="transactions.html" class="menu-item active"><i class="fas fa-exchange-alt"></i><span>交易记录</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item"><i class="fas fa-crown"></i><span>VIP配置</span></a>
+                    <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+                </div>
+            </nav>
+        </aside>
+        
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>财务管理</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">交易记录</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">交易记录</h3>
+                        <button class="btn btn-primary" onclick="exportTransactions()">
+                            <i class="fas fa-download"></i> 导出
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="搜索用户ID/交易号">
+                            </div>
+                            <div class="filter-group">
+                                <select class="form-control" id="typeFilter" style="width: 120px;">
+                                    <option value="">全部类型</option>
+                                    <option value="recharge">充值</option>
+                                    <option value="withdraw">提现</option>
+                                    <option value="invest">投资</option>
+                                    <option value="profit">收益</option>
+                                    <option value="commission">返佣</option>
+                                    <option value="ribao">日利宝</option>
+                                </select>
+                                <input type="date" class="form-control" id="startDate" style="width: 140px;">
+                                <span style="color: var(--text-secondary);">至</span>
+                                <input type="date" class="form-control" id="endDate" style="width: 140px;">
+                            </div>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>交易号</th>
+                                    <th>用户</th>
+                                    <th>类型</th>
+                                    <th>金额</th>
+                                    <th>余额变化</th>
+                                    <th>备注</th>
+                                    <th>时间</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionTableBody">
+                            </tbody>
+                        </table>
+                        
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        const typeMap = {
+            recharge: { text: '充值', class: 'tag-success', prefix: '+' },
+            withdraw: { text: '提现', class: 'tag-danger', prefix: '-' },
+            invest: { text: '投资', class: 'tag-blue', prefix: '-' },
+            profit: { text: '收益', class: 'tag-success', prefix: '+' },
+            commission: { text: '返佣', class: 'tag-warning', prefix: '+' },
+            ribao_in: { text: '日利宝转入', class: 'tag-default', prefix: '-' },
+            ribao_out: { text: '日利宝转出', class: 'tag-default', prefix: '+' },
+            ribao_profit: { text: '日利宝收益', class: 'tag-success', prefix: '+' }
+        };
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            loadTransactions();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        function loadTransactions() {
+            const tbody = document.getElementById('transactionTableBody');
+            const types = Object.keys(typeMap);
+            const transactions = [];
+            
+            for (let i = 0; i < 20; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                const typeInfo = typeMap[type];
+                const amount = Math.random() * 100000;
+                const balanceBefore = Math.random() * 500000;
+                const balanceAfter = typeInfo.prefix === '+' ? balanceBefore + amount : balanceBefore - amount;
+                
+                transactions.push({
+                    txNo: 'TX' + Date.now().toString().slice(-10) + String(i).padStart(3, '0'),
+                    username: 'user_' + (10000 + Math.floor(Math.random() * 1000)),
+                    type: type,
+                    amount: amount,
+                    balanceBefore: balanceBefore,
+                    balanceAfter: balanceAfter,
+                    remark: type === 'invest' ? '购买产品：新能源债券A' : (type === 'commission' ? '一级返佣' : ''),
+                    createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000)
+                });
+            }
+            
+            tbody.innerHTML = transactions.map(tx => {
+                const typeInfo = typeMap[tx.type];
+                return `
+                    <tr>
+                        <td><code style="font-size: 11px;">${tx.txNo}</code></td>
+                        <td>${tx.username}</td>
+                        <td><span class="tag ${typeInfo.class}">${typeInfo.text}</span></td>
+                        <td style="font-weight: 600; color: ${typeInfo.prefix === '+' ? 'var(--success-color)' : 'var(--danger-color)'};">
+                            ${typeInfo.prefix}¥${AdminUtils.formatMoney(tx.amount)}
+                        </td>
+                        <td style="font-size: 12px; color: var(--text-secondary);">
+                            ¥${AdminUtils.formatMoney(tx.balanceBefore)} → ¥${AdminUtils.formatMoney(tx.balanceAfter)}
+                        </td>
+                        <td style="font-size: 12px;">${tx.remark || '-'}</td>
+                        <td style="font-size: 12px;">${AdminUtils.formatDate(tx.createdAt, 'MM-DD HH:mm')}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function exportTransactions() {
+            AdminToast.info('导出功能开发中...');
+        }
+    </script>
+</body>
+</html>

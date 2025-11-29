@@ -836,8 +836,9 @@
 
       async function loadRibaoData() {
         try {
+          const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
           const res = await fetch(
-            "https://api.4kp3l0iq.top/user/api/ribao/info",
+            API_BASE + "/user/api/ribao/info",
             {
               method: "GET",
               headers: {
@@ -862,8 +863,9 @@
 
       async function loadRates() {
         try {
+          const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
           const res = await fetch(
-            "https://api.4kp3l0iq.top/user/api/ribao/info",
+            API_BASE + "/user/api/ribao/info",
             {
               method: "GET",
               headers: {
@@ -1079,8 +1081,9 @@
         }
 
         try {
+          const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
           const res = await fetch(
-            "https://api.4kp3l0iq.top/user/api/ribao/transfer-in",
+            API_BASE + "/user/api/ribao/transfer-in",
             {
               method: "POST",
               headers: {

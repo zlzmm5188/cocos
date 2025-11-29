@@ -68,7 +68,7 @@ async function getUserLevel() {
 
         // 降级方案
         if (!data) {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const response = await fetch(API_BASE + '/api/user/info', {
                 method: 'GET',
                 headers: {
@@ -115,7 +115,7 @@ async function loadZoneDetail(categoryId) {
 
         // 降级方案
         if (!data) {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const response = await fetch(API_BASE + '/api/project/index', {
                 method: 'GET',
                 headers: {

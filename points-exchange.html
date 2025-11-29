@@ -841,8 +841,8 @@ body {
 
                 // Fallback: 直接使用fetch
                 // 注意：API路径应该是 /user/points/balance
-                // config.js中baseURL是 https://api.4kp3l0iq.top，应该使用这个
-                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                // config.js中baseURL是 /backend/api.php，应该使用这个
+                const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                 const token = localStorage.getItem('providence_token') || localStorage.getItem('token') || '';
 
                 if (!token) {
@@ -967,8 +967,8 @@ body {
             btn.textContent = '处理中...';
 
             try {
-                // 使用正确的API地址（config.js中baseURL是 https://api.4kp3l0iq.top）
-                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                // 使用正确的API地址（config.js中baseURL是 /backend/api.php）
+                const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                 const token = localStorage.getItem('providence_token') || localStorage.getItem('token') || '';
                 const res = await fetch(API_BASE + '/api/points/exchange', {
                     method: 'POST',

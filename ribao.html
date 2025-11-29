@@ -1231,7 +1231,7 @@ body {
 
           // Fallback: 直接使用fetch
           if (!result) {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const url = `${API_BASE}/api/ribao/head`;  // ✅ 修正路径
             const token = TokenManager?.getToken() || localStorage.getItem("providence_token") || "";
 
@@ -1599,7 +1599,7 @@ body {
 
           // Fallback: 直接使用fetch
           if (!result) {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const token = TokenManager?.getToken() || localStorage.getItem("providence_token") || "";
             const res = await fetch(
               `${API_BASE}/api/user/info`,
@@ -1690,7 +1690,7 @@ body {
 
           // Fallback: 直接使用fetch
           if (!result) {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const apiUrl = (window.currentTransferType === "in")
               ? `${API_BASE}/api/ribao/transfer_in`  // ✅ 修正路径（下划线格式）
               : `${API_BASE}/api/ribao/transfer_out`;  // ✅ 修正路径（下划线格式）

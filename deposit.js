@@ -67,7 +67,7 @@
 
             // 降级方案
             await waitForAPI();
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             const res = await fetch(API_BASE + '/api/user/info', {  // ✅ 正确接口
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
@@ -108,7 +108,7 @@
     async function loadUsdtRate() {
         try {
             await waitForAPI();
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
             // 优先使用统一API封装（如果config.js中有对应接口）
             let data = null;
@@ -323,7 +323,7 @@
                 // if (!token) return;
 
                 await waitForAPI();
-                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                 // 假设接口为 /pay/us/info 或类似
                 const res = await fetch(API_BASE + '/pay/us/info', {
                     method: 'GET',
@@ -716,7 +716,7 @@
                 });
 
                 await waitForAPI();
-                const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+                const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
                 const res = await fetch(API_BASE + endpoint, {
                     method: 'POST',
                     headers: {

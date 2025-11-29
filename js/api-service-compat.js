@@ -31,7 +31,7 @@
   async function createApiService() {
     await waitForAPI();
 
-    const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+    const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
     // 通用请求方法
     async function request(method, url, data = null) {

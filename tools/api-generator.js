@@ -150,7 +150,7 @@ TODO: 列出注意事项和限制
 
 \`\`\`bash
 curl -X ${method} \\
-  https://api.4kp3l0iq.top/api{endpoint} \\
+  /backend/api.php/api{endpoint} \\
   -H "Content-Type: application/json" \\
   -H "token: YOUR_TOKEN" \\
   -d '{

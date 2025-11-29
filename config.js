@@ -9,7 +9,7 @@
 // ===================================
 window.API_CONFIG = {
     SPLASH_DOMAIN: 'https://sen.wyzyrx.cn',
-    baseURL: 'https://api.4kp3l0iq.top',
+    baseURL: '/backend/api.php',
     adminURL: 'https://admin.4kp3l0iq.top',
     tokenKey: 'providence_token',
     timeout: 10000,  // 从15秒减少到10秒

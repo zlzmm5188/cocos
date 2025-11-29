@@ -65,7 +65,7 @@ async function loadAllProjects() {
 
         // 降级方案：直接使用fetch
         if (!apiData) {
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             try {
                 apiResponse = await fetch(API_BASE + '/api/project/index', {
                     headers: { 'Accept': 'application/json' }

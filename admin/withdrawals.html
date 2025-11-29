@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 提现审核</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>仪表盘</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>用户列表</span>
+                    </a>
+                    <a href="kyc.html" class="menu-item">
+                        <i class="fas fa-id-card"></i>
+                        <span>实名认证</span>
+                    </a>
+                    <a href="teams.html" class="menu-item">
+                        <i class="fas fa-sitemap"></i>
+                        <span>团队管理</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item">
+                        <i class="fas fa-box"></i>
+                        <span>投资产品</span>
+                    </a>
+                    <a href="orders.html" class="menu-item">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>投资订单</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>充值审核</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item active">
+                        <i class="fas fa-minus-circle"></i>
+                        <span>提现审核</span>
+                    </a>
+                    <a href="ribao.html" class="menu-item">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>日利宝</span>
+                    </a>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>交易记录</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item">
+                        <i class="fas fa-crown"></i>
+                        <span>VIP配置</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>财务管理</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">提现审核</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <!-- Stats -->
+                <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>待审核</h3>
+                            <div class="value" id="pendingCount">0</div>
+                            <div class="trend">待处理金额 ¥<span id="pendingAmount">0</span></div>
+                        </div>
+                        <div class="stat-icon orange">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日通过</h3>
+                            <div class="value" id="approvedCount">0</div>
+                            <div class="trend up">金额 ¥<span id="approvedAmount">0</span></div>
+                        </div>
+                        <div class="stat-icon green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>已打款</h3>
+                            <div class="value" id="paidCount">0</div>
+                            <div class="trend">金额 ¥<span id="paidAmount">0</span></div>
+                        </div>
+                        <div class="stat-icon blue">
+                            <i class="fas fa-money-check-alt"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日拒绝</h3>
+                            <div class="value" id="rejectedCount">0</div>
+                            <div class="trend down">金额 ¥<span id="rejectedAmount">0</span></div>
+                        </div>
+                        <div class="stat-icon red">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">提现记录</h3>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-success" onclick="batchApprove()">
+                                <i class="fas fa-check-double"></i> 批量通过
+                            </button>
+                            <button class="btn btn-primary" onclick="batchPay()">
+                                <i class="fas fa-money-bill-wave"></i> 批量打款
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="搜索用户ID/订单号">
+                            </div>
+                            <div class="filter-group">
+                                <select class="form-control" id="statusFilter" onchange="filterRecords()" style="width: 120px;">
+                                    <option value="">全部状态</option>
+                                    <option value="pending">待审核</option>
+                                    <option value="approved">待打款</option>
+                                    <option value="paid">已打款</option>
+                                    <option value="rejected">已拒绝</option>
+                                </select>
+                                <select class="form-control" id="typeFilter" onchange="filterRecords()" style="width: 120px;">
+                                    <option value="">全部类型</option>
+                                    <option value="bank">银行卡</option>
+                                    <option value="usdt">USDT</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+                                    <th>订单号</th>
+                                    <th>用户</th>
+                                    <th>提现金额</th>
+                                    <th>手续费</th>
+                                    <th>实际到账</th>
+                                    <th>收款信息</th>
+                                    <th>状态</th>
+                                    <th>申请时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="withdrawTableBody">
+                                <tr>
+                                    <td colspan="10" class="loading"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Approve Modal -->
+    <div class="modal" id="approveModal">
+        <div class="modal-content" style="min-width: 500px;">
+            <div class="modal-header">
+                <h3 class="modal-title">审核通过</h3>
+                <button class="modal-close" onclick="closeModal('approveModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="approveOrderId">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">订单号</label>
+                        <input type="text" class="form-control" id="approveOrderNo" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">用户</label>
+                        <input type="text" class="form-control" id="approveUser" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">提现金额</label>
+                        <input type="text" class="form-control" id="approveAmount" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">实际到账</label>
+                        <input type="text" class="form-control" id="approveActual" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">收款信息</label>
+                    <div id="approvePaymentInfo" style="padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 13px;"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">备注（可选）</label>
+                    <textarea class="form-control" id="approveRemark" rows="2" placeholder="审核备注"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('approveModal')">取消</button>
+                <button class="btn btn-success" onclick="confirmApprove()">
+                    <i class="fas fa-check"></i> 确认通过
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pay Modal -->
+    <div class="modal" id="payModal">
+        <div class="modal-content" style="min-width: 500px;">
+            <div class="modal-header">
+                <h3 class="modal-title">确认打款</h3>
+                <button class="modal-close" onclick="closeModal('payModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="payOrderId">
+                <div style="background: #fffbe6; border: 1px solid #ffe58f; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
+                    <i class="fas fa-exclamation-triangle" style="color: #faad14;"></i>
+                    <span style="margin-left: 8px;">请确认已向用户打款后再点击确认</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">订单号</label>
+                        <input type="text" class="form-control" id="payOrderNo" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">打款金额</label>
+                        <input type="text" class="form-control" id="payAmount" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">收款信息</label>
+                    <div id="payPaymentInfo" style="padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 13px;"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">交易流水号（可选）</label>
+                    <input type="text" class="form-control" id="payTransactionId" placeholder="银行或区块链交易流水号">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('payModal')">取消</button>
+                <button class="btn btn-primary" onclick="confirmPay()">
+                    <i class="fas fa-money-bill-wave"></i> 确认已打款
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Reject Modal -->
+    <div class="modal" id="rejectModal">
+        <div class="modal-content" style="min-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title">拒绝提现</h3>
+                <button class="modal-close" onclick="closeModal('rejectModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="rejectOrderId">
+                <div class="form-group">
+                    <label class="form-label">订单号</label>
+                    <input type="text" class="form-control" id="rejectOrderNo" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">拒绝原因</label>
+                    <select class="form-control" id="rejectReason">
+                        <option value="">请选择原因</option>
+                        <option value="账户异常">账户异常</option>
+                        <option value="风控审核未通过">风控审核未通过</option>
+                        <option value="收款信息有误">收款信息有误</option>
+                        <option value="金额超限">金额超限</option>
+                        <option value="other">其他原因</option>
+                    </select>
+                </div>
+                <div class="form-group" id="customReasonGroup" style="display: none;">
+                    <label class="form-label">其他原因</label>
+                    <textarea class="form-control" id="customReason" rows="2" placeholder="请输入拒绝原因"></textarea>
+                </div>
+                <div style="color: var(--text-secondary); font-size: 12px; margin-top: 8px;">
+                    <i class="fas fa-info-circle"></i> 拒绝后金额将退回用户账户
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('rejectModal')">取消</button>
+                <button class="btn btn-danger" onclick="confirmReject()">
+                    <i class="fas fa-times"></i> 确认拒绝
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        let currentPage = 1;
+        let pageSize = 20;
+        let totalRecords = 0;
+        let withdrawsData = [];
+        let selectedIds = new Set();
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            document.getElementById('rejectReason').addEventListener('change', function() {
+                document.getElementById('customReasonGroup').style.display = 
+                    this.value === 'other' ? 'block' : 'none';
+            });
+            
+            loadStats();
+            loadWithdrawals();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        async function loadStats() {
+            document.getElementById('pendingCount').textContent = '5';
+            document.getElementById('pendingAmount').textContent = '89,000';
+            document.getElementById('approvedCount').textContent = '12';
+            document.getElementById('approvedAmount').textContent = '256,000';
+            document.getElementById('paidCount').textContent = '8';
+            document.getElementById('paidAmount').textContent = '180,000';
+            document.getElementById('rejectedCount').textContent = '1';
+            document.getElementById('rejectedAmount').textContent = '10,000';
+        }
+        
+        async function loadWithdrawals() {
+            try {
+                const params = {
+                    page: currentPage,
+                    pageSize: pageSize,
+                    status: currentStatus !== 'all' ? currentStatus : undefined
+                };
+                
+                const result = await AdminAPI.get('/admin/withdrawals', params);
+                
+                if (result.code === 1 && result.data) {
+                    withdrawsData = result.data.list || [];
+                    totalRecords = result.data.total || 0;
+                    renderWithdrawals(withdrawsData);
+                    renderPagination();
+                } else {
+                    AdminToast.error(result.msg || '加载失败');
+                    withdrawsData = [];
+                    renderWithdrawals([]);
+                }
+            } catch (error) {
+                console.error('Failed to load withdrawals:', error);
+                AdminToast.error('加载提现记录失败');
+                withdrawsData = [];
+                renderWithdrawals([]);
+            }
+        }
+        
+        function renderWithdrawals(records) {
+            const tbody = document.getElementById('withdrawTableBody');
+            
+            if (records.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>暂无提现记录</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = records.map(record => `
+                <tr>
+                    <td>
+                        ${record.status === 'pending' || record.status === 'approved' ? 
+                            `<input type="checkbox" class="row-checkbox" data-id="${record.id}" onchange="toggleSelect(${record.id})">` : ''}
+                    </td>
+                    <td><code style="font-size: 11px;">${record.orderNo}</code></td>
+                    <td>
+                        <div>${record.username}</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">${record.phone}</div>
+                    </td>
+                    <td style="font-weight: 600;">
+                        ${record.type === 'usdt' ? '' : '¥'}${AdminUtils.formatMoney(record.amount)}
+                        ${record.type === 'usdt' ? ' USDT' : ''}
+                    </td>
+                    <td style="color: var(--text-secondary);">
+                        ${record.type === 'usdt' ? '-' : '¥' + AdminUtils.formatMoney(record.fee)}
+                    </td>
+                    <td style="font-weight: 600; color: var(--danger-color);">
+                        ${record.type === 'usdt' ? '' : '¥'}${AdminUtils.formatMoney(record.actualAmount)}
+                        ${record.type === 'usdt' ? ' USDT' : ''}
+                    </td>
+                    <td>
+                        ${record.type === 'bank' ? `
+                            <div style="font-size: 12px;">
+                                <div>${record.bankInfo.bankName}</div>
+                                <div style="color: var(--text-secondary);">${record.bankInfo.cardNo}</div>
+                            </div>
+                        ` : `
+                            <div style="font-size: 12px;">
+                                <span class="tag tag-warning">TRC20</span>
+                                <div style="color: var(--text-secondary); margin-top: 4px;">${record.usdtInfo.address.substring(0, 8)}...${record.usdtInfo.address.slice(-6)}</div>
+                            </div>
+                        `}
+                    </td>
+                    <td>${AdminUtils.getPaymentStatus(record.status)}</td>
+                    <td style="font-size: 12px;">${AdminUtils.formatDate(record.createdAt, 'MM-DD HH:mm')}</td>
+                    <td class="actions">
+                        ${record.status === 'pending' ? `
+                            <button class="btn btn-sm btn-success" onclick="approveWithdraw(${record.id})" title="通过">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="rejectWithdraw(${record.id})" title="拒绝">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        ` : record.status === 'approved' ? `
+                            <button class="btn btn-sm btn-primary" onclick="payWithdraw(${record.id})" title="打款">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </button>
+                        ` : `
+                            <button class="btn btn-sm btn-outline" onclick="viewDetail(${record.id})" title="详情">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        `}
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderPagination() {
+            const totalPages = Math.ceil(totalRecords / pageSize);
+            const pagination = document.getElementById('pagination');
+            
+            let html = `
+                <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <span style="margin-left: 16px; color: var(--text-secondary);">共 ${totalRecords} 条</span>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > Math.ceil(totalRecords / pageSize)) return;
+            currentPage = page;
+            loadWithdrawals();
+        }
+        
+        function filterRecords() {
+            currentPage = 1;
+            loadWithdrawals();
+        }
+        
+        function toggleSelectAll() {
+            const checked = document.getElementById('selectAll').checked;
+            document.querySelectorAll('.row-checkbox').forEach(cb => {
+                cb.checked = checked;
+                const id = parseInt(cb.dataset.id);
+                if (checked) selectedIds.add(id);
+                else selectedIds.delete(id);
+            });
+        }
+        
+        function toggleSelect(id) {
+            if (selectedIds.has(id)) selectedIds.delete(id);
+            else selectedIds.add(id);
+        }
+        
+        function approveWithdraw(id) {
+            const record = withdrawsData.find(r => r.id === id);
+            if (!record) return;
+            
+            document.getElementById('approveOrderId').value = id;
+            document.getElementById('approveOrderNo').value = record.orderNo;
+            document.getElementById('approveUser').value = record.username;
+            document.getElementById('approveAmount').value = (record.type === 'usdt' ? '' : '¥') + AdminUtils.formatMoney(record.amount);
+            document.getElementById('approveActual').value = (record.type === 'usdt' ? '' : '¥') + AdminUtils.formatMoney(record.actualAmount);
+            
+            const paymentInfo = record.type === 'bank' ? 
+                `<strong>银行卡:</strong> ${record.bankInfo.bankName}<br>
+                 <strong>卡号:</strong> ${record.bankInfo.cardNo}<br>
+                 <strong>户名:</strong> ${record.bankInfo.holderName}` :
+                `<strong>USDT地址:</strong> ${record.usdtInfo.address}<br>
+                 <strong>链类型:</strong> ${record.usdtInfo.chain}`;
+            document.getElementById('approvePaymentInfo').innerHTML = paymentInfo;
+            
+            openModal('approveModal');
+        }
+        
+        async function confirmApprove() {
+            const id = document.getElementById('approveOrderId').value;
+            try {
+                AdminToast.success('审核通过，等待打款');
+                closeModal('approveModal');
+                loadStats();
+                loadWithdrawals();
+            } catch (error) {
+                AdminToast.error('操作失败: ' + error.message);
+            }
+        }
+        
+        function payWithdraw(id) {
+            const record = withdrawsData.find(r => r.id === id);
+            if (!record) return;
+            
+            document.getElementById('payOrderId').value = id;
+            document.getElementById('payOrderNo').value = record.orderNo;
+            document.getElementById('payAmount').value = (record.type === 'usdt' ? '' : '¥') + AdminUtils.formatMoney(record.actualAmount);
+            
+            const paymentInfo = record.type === 'bank' ? 
+                `<strong>银行卡:</strong> ${record.bankInfo.bankName}<br>
+                 <strong>卡号:</strong> ${record.bankInfo.cardNo}<br>
+                 <strong>户名:</strong> ${record.bankInfo.holderName}` :
+                `<strong>USDT地址:</strong> ${record.usdtInfo.address}<br>
+                 <strong>链类型:</strong> ${record.usdtInfo.chain}`;
+            document.getElementById('payPaymentInfo').innerHTML = paymentInfo;
+            document.getElementById('payTransactionId').value = '';
+            
+            openModal('payModal');
+        }
+        
+        async function confirmPay() {
+            const id = document.getElementById('payOrderId').value;
+            const transactionId = document.getElementById('payTransactionId').value;
+            try {
+                AdminToast.success('已确认打款');
+                closeModal('payModal');
+                loadStats();
+                loadWithdrawals();
+            } catch (error) {
+                AdminToast.error('操作失败: ' + error.message);
+            }
+        }
+        
+        function rejectWithdraw(id) {
+            const record = withdrawsData.find(r => r.id === id);
+            if (!record) return;
+            
+            document.getElementById('rejectOrderId').value = id;
+            document.getElementById('rejectOrderNo').value = record.orderNo;
+            document.getElementById('rejectReason').value = '';
+            document.getElementById('customReason').value = '';
+            document.getElementById('customReasonGroup').style.display = 'none';
+            
+            openModal('rejectModal');
+        }
+        
+        async function confirmReject() {
+            const id = document.getElementById('rejectOrderId').value;
+            let reason = document.getElementById('rejectReason').value;
+            if (reason === 'other') reason = document.getElementById('customReason').value;
+            
+            if (!reason) {
+                AdminToast.warning('请选择或输入拒绝原因');
+                return;
+            }
+            
+            try {
+                AdminToast.success('已拒绝，金额已退回用户账户');
+                closeModal('rejectModal');
+                loadStats();
+                loadWithdrawals();
+            } catch (error) {
+                AdminToast.error('操作失败: ' + error.message);
+            }
+        }
+        
+        function batchApprove() {
+            if (selectedIds.size === 0) {
+                AdminToast.warning('请先选择要审核的记录');
+                return;
+            }
+            AdminToast.info('批量通过功能开发中...');
+        }
+        
+        function batchPay() {
+            if (selectedIds.size === 0) {
+                AdminToast.warning('请先选择要打款的记录');
+                return;
+            }
+            AdminToast.info('批量打款功能开发中...');
+        }
+        
+        function viewDetail(id) {
+            AdminToast.info('查看详情功能开发中...');
+        }
+        
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+</html>

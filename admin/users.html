@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 用户管理</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>仪表盘</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item active">
+                        <i class="fas fa-users"></i>
+                        <span>用户列表</span>
+                    </a>
+                    <a href="kyc.html" class="menu-item">
+                        <i class="fas fa-id-card"></i>
+                        <span>实名认证</span>
+                    </a>
+                    <a href="teams.html" class="menu-item">
+                        <i class="fas fa-sitemap"></i>
+                        <span>团队管理</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item">
+                        <i class="fas fa-box"></i>
+                        <span>投资产品</span>
+                    </a>
+                    <a href="orders.html" class="menu-item">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>投资订单</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>充值审核</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <span>提现审核</span>
+                    </a>
+                    <a href="ribao.html" class="menu-item">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>日利宝</span>
+                    </a>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>交易记录</span>
+                    </a>
+                </div>
+                
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item">
+                        <i class="fas fa-crown"></i>
+                        <span>VIP配置</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a>
+                    <a href="logs.html" class="menu-item">
+                        <i class="fas fa-history"></i>
+                        <span>操作日志</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>用户管理</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">用户列表</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user" onclick="showUserMenu()">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">用户列表</h3>
+                        <button class="btn btn-primary" onclick="exportUsers()">
+                            <i class="fas fa-download"></i> 导出
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <!-- Toolbar -->
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="搜索用户ID/手机号/姓名" onkeyup="handleSearch(event)">
+                            </div>
+                            <div class="filter-group">
+                                <select class="form-control" id="vipFilter" onchange="filterUsers()" style="width: 120px;">
+                                    <option value="">全部VIP</option>
+                                    <option value="0">VIP0</option>
+                                    <option value="1">VIP1</option>
+                                    <option value="2">VIP2</option>
+                                    <option value="3">VIP3</option>
+                                    <option value="4">VIP4</option>
+                                    <option value="5">VIP5</option>
+                                    <option value="6">VIP6</option>
+                                    <option value="7">VIP7</option>
+                                    <option value="8">VIP8</option>
+                                </select>
+                                <select class="form-control" id="kycFilter" onchange="filterUsers()" style="width: 120px;">
+                                    <option value="">全部认证</option>
+                                    <option value="0">未认证</option>
+                                    <option value="1">审核中</option>
+                                    <option value="2">已认证</option>
+                                    <option value="3">已拒绝</option>
+                                </select>
+                                <button class="btn btn-outline" onclick="resetFilters()">
+                                    <i class="fas fa-redo"></i> 重置
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Table -->
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>用户ID</th>
+                                    <th>手机号</th>
+                                    <th>用户名</th>
+                                    <th>VIP等级</th>
+                                    <th>余额</th>
+                                    <th>累计投资</th>
+                                    <th>实名认证</th>
+                                    <th>注册时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <tr>
+                                    <td colspan="9" class="loading"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <!-- Pagination -->
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- User Detail Modal -->
+    <div class="modal" id="userModal">
+        <div class="modal-content" style="min-width: 600px;">
+            <div class="modal-header">
+                <h3 class="modal-title">用户详情</h3>
+                <button class="modal-close" onclick="closeModal('userModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="userModalBody">
+                <!-- Content loaded dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('userModal')">关闭</button>
+                <button class="btn btn-primary" onclick="saveUserChanges()">保存修改</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Adjust Balance Modal -->
+    <div class="modal" id="balanceModal">
+        <div class="modal-content" style="min-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title">调整余额</h3>
+                <button class="modal-close" onclick="closeModal('balanceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="balanceUserId">
+                <div class="form-group">
+                    <label class="form-label">当前余额</label>
+                    <input type="text" class="form-control" id="currentBalance" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">调整类型</label>
+                    <select class="form-control" id="adjustType">
+                        <option value="add">增加</option>
+                        <option value="subtract">减少</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">调整金额</label>
+                    <input type="number" class="form-control" id="adjustAmount" placeholder="请输入金额" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">备注</label>
+                    <textarea class="form-control" id="adjustRemark" rows="3" placeholder="请输入调整原因"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('balanceModal')">取消</button>
+                <button class="btn btn-primary" onclick="confirmAdjustBalance()">确认调整</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        let currentPage = 1;
+        let pageSize = 20;
+        let totalUsers = 0;
+        let usersData = [];
+        let currentUserId = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            loadUsers();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        async function loadUsers() {
+            try {
+                const params = {
+                    page: currentPage,
+                    pageSize: pageSize,
+                    ...filters
+                };
+                
+                const result = await AdminAPI.get('/admin/users', params);
+                
+                if (result.code === 1 && result.data) {
+                    usersData = result.data.list || [];
+                    totalUsers = result.data.total || 0;
+                    renderUsers(usersData);
+                    renderPagination();
+                } else {
+                    AdminToast.error(result.msg || '加载失败');
+                    usersData = [];
+                    renderUsers([]);
+                }
+            } catch (error) {
+                console.error('Failed to load users:', error);
+                AdminToast.error('加载用户列表失败');
+                usersData = [];
+                renderUsers([]);
+            }
+        }
+        
+        function renderUsers(users) {
+            const tbody = document.getElementById('userTableBody');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>暂无用户数据</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td><code>${user.uid}</code></td>
+                    <td>${user.phone}</td>
+                    <td>${user.username}</td>
+                    <td>${AdminUtils.getVipBadge(user.vipLevel)}</td>
+                    <td>¥${AdminUtils.formatMoney(user.money)}</td>
+                    <td>¥${AdminUtils.formatMoney(user.totalInvest)}</td>
+                    <td>${AdminUtils.getKycStatus(user.kycStatus)}</td>
+                    <td style="font-size: 12px;">${AdminUtils.formatDate(user.createdAt, 'YYYY-MM-DD HH:mm')}</td>
+                    <td class="actions">
+                        <button class="btn btn-sm btn-outline" onclick="viewUser(${user.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="adjustBalance(${user.id}, ${user.money})">
+                            <i class="fas fa-wallet"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning" onclick="setVip(${user.id}, ${user.vipLevel})">
+                            <i class="fas fa-crown"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderPagination() {
+            const totalPages = Math.ceil(totalUsers / pageSize);
+            const pagination = document.getElementById('pagination');
+            
+            let html = `
+                <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `
+                    <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>
+                `;
+            }
+            
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <span style="margin-left: 16px; color: var(--text-secondary);">共 ${totalUsers} 条</span>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            const totalPages = Math.ceil(totalUsers / pageSize);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            loadUsers();
+        }
+        
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                filterUsers();
+            }
+        }
+        
+        function filterUsers() {
+            currentPage = 1;
+            loadUsers();
+        }
+        
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('vipFilter').value = '';
+            document.getElementById('kycFilter').value = '';
+            currentPage = 1;
+            loadUsers();
+        }
+        
+        function viewUser(userId) {
+            currentUserId = userId;
+            const user = usersData.find(u => u.id === userId);
+            if (!user) return;
+            
+            document.getElementById('userModalBody').innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">用户ID</label>
+                        <input type="text" class="form-control" value="${user.uid}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">手机号</label>
+                        <input type="text" class="form-control" value="${user.phone}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">用户名</label>
+                        <input type="text" class="form-control" id="editUsername" value="${user.username}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">真实姓名</label>
+                        <input type="text" class="form-control" id="editRealname" value="${user.realname || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">VIP等级</label>
+                        <select class="form-control" id="editVipLevel">
+                            ${[0,1,2,3,4,5,6,7,8].map(v => `<option value="${v}" ${v === user.vipLevel ? 'selected' : ''}>VIP${v}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">账户余额</label>
+                        <input type="text" class="form-control" value="¥${AdminUtils.formatMoney(user.money)}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">累计投资</label>
+                        <input type="text" class="form-control" value="¥${AdminUtils.formatMoney(user.totalInvest)}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">实名认证</label>
+                        <select class="form-control" id="editKycStatus">
+                            <option value="0" ${user.kycStatus === 0 ? 'selected' : ''}>未认证</option>
+                            <option value="1" ${user.kycStatus === 1 ? 'selected' : ''}>审核中</option>
+                            <option value="2" ${user.kycStatus === 2 ? 'selected' : ''}>已认证</option>
+                            <option value="3" ${user.kycStatus === 3 ? 'selected' : ''}>已拒绝</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label">注册时间</label>
+                        <input type="text" class="form-control" value="${AdminUtils.formatDate(user.createdAt)}" disabled>
+                    </div>
+                </div>
+            `;
+            
+            openModal('userModal');
+        }
+        
+        async function saveUserChanges() {
+            if (!currentUserId) return;
+            
+            const data = {
+                userId: currentUserId,
+                username: document.getElementById('editUsername').value,
+                realname: document.getElementById('editRealname').value,
+                vipLevel: parseInt(document.getElementById('editVipLevel').value),
+                kycStatus: parseInt(document.getElementById('editKycStatus').value)
+            };
+            
+            try {
+                // In production: await AdminAPI.post('/user-update', data);
+                AdminToast.success('保存成功');
+                closeModal('userModal');
+                loadUsers();
+            } catch (error) {
+                AdminToast.error('保存失败: ' + error.message);
+            }
+        }
+        
+        function adjustBalance(userId, currentMoney) {
+            document.getElementById('balanceUserId').value = userId;
+            document.getElementById('currentBalance').value = '¥' + AdminUtils.formatMoney(currentMoney);
+            document.getElementById('adjustType').value = 'add';
+            document.getElementById('adjustAmount').value = '';
+            document.getElementById('adjustRemark').value = '';
+            openModal('balanceModal');
+        }
+        
+        async function confirmAdjustBalance() {
+            const userId = document.getElementById('balanceUserId').value;
+            const type = document.getElementById('adjustType').value;
+            const amount = parseFloat(document.getElementById('adjustAmount').value);
+            const remark = document.getElementById('adjustRemark').value.trim();
+            
+            if (!amount || amount <= 0) {
+                AdminToast.warning('请输入有效金额');
+                return;
+            }
+            
+            if (!remark) {
+                AdminToast.warning('请输入调整原因');
+                return;
+            }
+            
+            const confirmed = await AdminUtils.confirm(`确定${type === 'add' ? '增加' : '减少'} ¥${AdminUtils.formatMoney(amount)} 吗？`, '调整余额');
+            if (!confirmed) return;
+            
+            try {
+                // In production: await AdminAPI.post('/user-adjust-balance', { userId, type, amount, remark });
+                AdminToast.success('调整成功');
+                closeModal('balanceModal');
+                loadUsers();
+            } catch (error) {
+                AdminToast.error('调整失败: ' + error.message);
+            }
+        }
+        
+        function setVip(userId, currentVip) {
+            const newVip = prompt(`请输入新的VIP等级 (0-8)，当前: VIP${currentVip}`, currentVip);
+            if (newVip === null) return;
+            
+            const level = parseInt(newVip);
+            if (isNaN(level) || level < 0 || level > 8) {
+                AdminToast.warning('请输入0-8之间的数字');
+                return;
+            }
+            
+            // In production: call API
+            AdminToast.success(`已将用户VIP等级设置为 VIP${level}`);
+            loadUsers();
+        }
+        
+        function exportUsers() {
+            AdminToast.info('导出功能开发中...');
+        }
+        
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        
+        function showUserMenu() {
+            // Toggle menu
+        }
+    </script>
+</body>
+</html>

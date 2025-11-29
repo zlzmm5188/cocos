@@ -338,7 +338,7 @@
                 const startDate = document.getElementById('startDate').value;
                 const endDate = document.getElementById('endDate').value;
 
-                let url = `https://api.4kp3l0iq.top/user/points-logs.php?page=${page}&limit=20`;
+                let url = `/backend/api.php/user/points-logs.php?page=${page}&limit=20`;
                 if (currentBizType) url += `&biz_type=${currentBizType}`;
                 if (startDate) url += `&start_date=${startDate}`;
                 if (endDate) url += `&end_date=${endDate}`;

@@ -8,7 +8,7 @@
 const AI_HYBRID_DISPATCHER = {
   version: '1.1',
   name: 'Providence Hybrid AI Dispatcher',
-  apiBase: (typeof AI_CONFIG !== 'undefined' && AI_CONFIG.backend && AI_CONFIG.backend.apiBase) ? AI_CONFIG.backend.apiBase : 'https://api.4kp3l0iq.top', // 后端API地址
+  apiBase: (typeof AI_CONFIG !== 'undefined' && AI_CONFIG.backend && AI_CONFIG.backend.apiBase) ? AI_CONFIG.backend.apiBase : '/backend/api.php', // 后端API地址
 
   // 性能统计
   stats: {

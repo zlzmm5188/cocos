@@ -1991,7 +1991,7 @@
           const token = localStorage.getItem('providence_token');
           if (!token) return;
 
-          const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+          const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
           const response = await fetch(`${API_BASE}/api/user/info`, {
             method: 'GET',
             headers: { 'token': token }

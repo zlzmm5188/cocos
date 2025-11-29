@@ -7,7 +7,7 @@
 
     console.log('[TelegramAPI] 加载 v1.0');
 
-    const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+    const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
 
     async function apiRequest(endpoint, options = {}) {
         // 统一使用TokenManager获取Token

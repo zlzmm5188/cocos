@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 日利宝管理</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../img/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231890ff%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>'">
+                <h1>Providence</h1>
+            </div>
+            
+            <nav class="admin-menu">
+                <div class="menu-group">
+                    <div class="menu-group-title">概览</div>
+                    <a href="index.html" class="menu-item"><i class="fas fa-tachometer-alt"></i><span>仪表盘</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">用户管理</div>
+                    <a href="users.html" class="menu-item"><i class="fas fa-users"></i><span>用户列表</span></a>
+                    <a href="kyc.html" class="menu-item"><i class="fas fa-id-card"></i><span>实名认证</span></a>
+                    <a href="teams.html" class="menu-item"><i class="fas fa-sitemap"></i><span>团队管理</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">产品管理</div>
+                    <a href="products.html" class="menu-item"><i class="fas fa-box"></i><span>投资产品</span></a>
+                    <a href="orders.html" class="menu-item"><i class="fas fa-file-invoice-dollar"></i><span>投资订单</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">财务管理</div>
+                    <a href="recharges.html" class="menu-item"><i class="fas fa-plus-circle"></i><span>充值审核</span></a>
+                    <a href="withdrawals.html" class="menu-item"><i class="fas fa-minus-circle"></i><span>提现审核</span></a>
+                    <a href="ribao.html" class="menu-item active"><i class="fas fa-piggy-bank"></i><span>日利宝</span></a>
+                    <a href="transactions.html" class="menu-item"><i class="fas fa-exchange-alt"></i><span>交易记录</span></a>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">系统设置</div>
+                    <a href="vip-config.html" class="menu-item"><i class="fas fa-crown"></i><span>VIP配置</span></a>
+                    <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i><span>系统设置</span></a>
+                </div>
+            </nav>
+        </aside>
+        
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <i class="fas fa-bars toggle-sidebar" onclick="toggleSidebar()"></i>
+                    <div class="breadcrumb">
+                        <span>财务管理</span>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        <span class="current">日利宝管理</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="admin-user">
+                        <div class="admin-avatar" id="adminAvatar">A</div>
+                        <span id="adminName">管理员</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>日利宝用户</h3>
+                            <div class="value">5,682</div>
+                        </div>
+                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>总存入金额</h3>
+                            <div class="value">¥68,520,000</div>
+                        </div>
+                        <div class="stat-icon green"><i class="fas fa-piggy-bank"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>今日收益派发</h3>
+                            <div class="value">¥6,852</div>
+                        </div>
+                        <div class="stat-icon orange"><i class="fas fa-coins"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>年化收益率</h3>
+                            <div class="value">3.65%</div>
+                        </div>
+                        <div class="stat-icon red"><i class="fas fa-percentage"></i></div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">日利宝用户列表</h3>
+                        <button class="btn btn-primary" onclick="dispatchProfit()">
+                            <i class="fas fa-coins"></i> 手动派息
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="搜索用户">
+                            </div>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>用户</th>
+                                    <th>日利宝余额</th>
+                                    <th>昨日收益</th>
+                                    <th>累计收益</th>
+                                    <th>最后操作</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ribaoTableBody">
+                            </tbody>
+                        </table>
+                        
+                        <div class="pagination" id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="../api-config.js"></script>
+    <script src="js/admin-config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!AdminAPI.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const adminInfo = AdminAPI.getAdminInfo();
+            document.getElementById('adminName').textContent = adminInfo.name || '管理员';
+            document.getElementById('adminAvatar').textContent = (adminInfo.name || 'A')[0].toUpperCase();
+            
+            loadRibaoUsers();
+        });
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+        
+        function loadRibaoUsers() {
+            const tbody = document.getElementById('ribaoTableBody');
+            const users = [];
+            
+            for (let i = 0; i < 15; i++) {
+                const balance = Math.random() * 500000;
+                const yesterdayProfit = balance * 0.0365 / 365;
+                const totalProfit = yesterdayProfit * (30 + Math.random() * 60);
+                
+                users.push({
+                    username: 'user_' + (10000 + i),
+                    phone: '138****' + String(1000 + i).padStart(4, '0'),
+                    balance: balance,
+                    yesterdayProfit: yesterdayProfit,
+                    totalProfit: totalProfit,
+                    lastOp: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000)
+                });
+            }
+            
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>
+                        <div>${user.username}</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">${user.phone}</div>
+                    </td>
+                    <td style="font-weight: 600;">¥${AdminUtils.formatMoney(user.balance)}</td>
+                    <td style="color: var(--success-color);">+¥${AdminUtils.formatMoney(user.yesterdayProfit)}</td>
+                    <td style="color: var(--success-color);">+¥${AdminUtils.formatMoney(user.totalProfit)}</td>
+                    <td style="font-size: 12px;">${AdminUtils.formatDate(user.lastOp, 'MM-DD HH:mm')}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline" onclick="viewRibaoHistory()">
+                            <i class="fas fa-history"></i> 记录
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function dispatchProfit() {
+            AdminToast.info('派息功能开发中...');
+        }
+        
+        function viewRibaoHistory() {
+            AdminToast.info('查看记录功能开发中...');
+        }
+    </script>
+</body>
+</html>

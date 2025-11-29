@@ -39,7 +39,7 @@
             log('✅ Token: ' + token.substring(0, 30) + '...', 'success');
 
             log('<br>2️⃣ 调用 API...');
-            const API_BASE = window.API_CONFIG?.baseURL || 'https://api.4kp3l0iq.top';
+            const API_BASE = window.API_CONFIG?.baseURL || '/backend/api.php';
             
             try {
                 const res = await fetch(API_BASE + '/api/user/info', {
