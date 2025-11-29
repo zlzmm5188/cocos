@@ -26,7 +26,9 @@ router.get('/configs', async (req, res) => {
       let value;
       try {
         value = JSON.parse(config.value);
-      } catch {
+      } catch (parseError) {
+        // Value is not valid JSON, return as-is
+        console.warn(`Config '${config.key}' value is not valid JSON:`, parseError.message);
         value = config.value;
       }
       return {
@@ -81,7 +83,9 @@ router.get('/configs/:key', async (req, res) => {
     let value;
     try {
       value = JSON.parse(config.value);
-    } catch {
+    } catch (parseError) {
+      // Value is not valid JSON, return as-is
+      console.warn(`Config '${key}' value is not valid JSON:`, parseError.message);
       value = config.value;
     }
 
@@ -254,22 +258,57 @@ router.put('/vip-rules/:level', async (req, res) => {
       });
     }
 
-    // Build update data (only include provided fields)
+    // Build update data (only include provided fields) with validation
     const updateData = {};
     if (minCumulativeInvest !== undefined) {
-      updateData.minCumulativeInvest = BigInt(minCumulativeInvest);
+      const investValue = String(minCumulativeInvest).replace(/[^0-9-]/g, '');
+      if (!investValue || isNaN(Number(investValue))) {
+        return res.status(400).json({
+          code: 400,
+          msg: 'minCumulativeInvest must be a valid numeric value'
+        });
+      }
+      updateData.minCumulativeInvest = BigInt(investValue);
     }
     if (extraRatePercent !== undefined) {
-      updateData.extraRatePercent = parseFloat(extraRatePercent);
+      const rateValue = parseFloat(extraRatePercent);
+      if (isNaN(rateValue)) {
+        return res.status(400).json({
+          code: 400,
+          msg: 'extraRatePercent must be a valid number'
+        });
+      }
+      updateData.extraRatePercent = rateValue;
     }
     if (inviteLevel1Percent !== undefined) {
-      updateData.inviteLevel1Percent = parseFloat(inviteLevel1Percent);
+      const l1Value = parseFloat(inviteLevel1Percent);
+      if (isNaN(l1Value)) {
+        return res.status(400).json({
+          code: 400,
+          msg: 'inviteLevel1Percent must be a valid number'
+        });
+      }
+      updateData.inviteLevel1Percent = l1Value;
     }
     if (inviteLevel2Percent !== undefined) {
-      updateData.inviteLevel2Percent = parseFloat(inviteLevel2Percent);
+      const l2Value = parseFloat(inviteLevel2Percent);
+      if (isNaN(l2Value)) {
+        return res.status(400).json({
+          code: 400,
+          msg: 'inviteLevel2Percent must be a valid number'
+        });
+      }
+      updateData.inviteLevel2Percent = l2Value;
     }
     if (signinPoints !== undefined) {
-      updateData.signinPoints = parseInt(signinPoints, 10);
+      const pointsValue = parseInt(signinPoints, 10);
+      if (isNaN(pointsValue)) {
+        return res.status(400).json({
+          code: 400,
+          msg: 'signinPoints must be a valid integer'
+        });
+      }
+      updateData.signinPoints = pointsValue;
     }
 
     if (Object.keys(updateData).length === 0) {
@@ -398,6 +437,47 @@ router.post('/vip-rules', async (req, res) => {
       });
     }
 
+    // Validate numeric values
+    const investValue = String(minCumulativeInvest).replace(/[^0-9-]/g, '');
+    if (!investValue || isNaN(Number(investValue))) {
+      return res.status(400).json({
+        code: 400,
+        msg: 'minCumulativeInvest must be a valid numeric value'
+      });
+    }
+
+    const extraRateValue = parseFloat(extraRatePercent);
+    if (isNaN(extraRateValue)) {
+      return res.status(400).json({
+        code: 400,
+        msg: 'extraRatePercent must be a valid number'
+      });
+    }
+
+    const l1Value = parseFloat(inviteLevel1Percent);
+    if (isNaN(l1Value)) {
+      return res.status(400).json({
+        code: 400,
+        msg: 'inviteLevel1Percent must be a valid number'
+      });
+    }
+
+    const l2Value = parseFloat(inviteLevel2Percent);
+    if (isNaN(l2Value)) {
+      return res.status(400).json({
+        code: 400,
+        msg: 'inviteLevel2Percent must be a valid number'
+      });
+    }
+
+    const pointsValue = parseInt(signinPoints, 10);
+    if (isNaN(pointsValue)) {
+      return res.status(400).json({
+        code: 400,
+        msg: 'signinPoints must be a valid integer'
+      });
+    }
+
     // Check if level already exists
     const existingRule = await prisma.vipRule.findUnique({
       where: { level: levelInt }
@@ -414,11 +494,11 @@ router.post('/vip-rules', async (req, res) => {
     const rule = await prisma.vipRule.create({
       data: {
         level: levelInt,
-        minCumulativeInvest: BigInt(minCumulativeInvest),
-        extraRatePercent: parseFloat(extraRatePercent),
-        inviteLevel1Percent: parseFloat(inviteLevel1Percent),
-        inviteLevel2Percent: parseFloat(inviteLevel2Percent),
-        signinPoints: parseInt(signinPoints, 10)
+        minCumulativeInvest: BigInt(investValue),
+        extraRatePercent: extraRateValue,
+        inviteLevel1Percent: l1Value,
+        inviteLevel2Percent: l2Value,
+        signinPoints: pointsValue
       }
     });
 

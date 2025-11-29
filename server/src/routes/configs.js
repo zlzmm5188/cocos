@@ -39,7 +39,9 @@ router.get('/vip-rules', async (req, res) => {
     if (teamRewardsConfig) {
       try {
         teamRewards = JSON.parse(teamRewardsConfig.value);
-      } catch {
+      } catch (parseError) {
+        // Value is not valid JSON, return as-is (could be plain string)
+        console.warn('team_rewards value is not valid JSON:', parseError.message);
         teamRewards = teamRewardsConfig.value;
       }
     }
@@ -93,7 +95,9 @@ router.get('/:key', async (req, res) => {
     let value;
     try {
       value = JSON.parse(config.value);
-    } catch {
+    } catch (parseError) {
+      // Value is not valid JSON, return as-is (could be plain string)
+      console.warn(`Config '${key}' value is not valid JSON:`, parseError.message);
       value = config.value;
     }
 
