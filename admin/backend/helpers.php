@@ -165,7 +165,8 @@ function maskString($str, $start = 3, $end = 4, $mask = '****') {
  */
 function getPagination() {
     $page = max(1, (int)input('page', 1));
-    $pageSize = min(100, max(1, (int)input('page_size', PAGE_SIZE)));
+    $maxPageSize = defined('MAX_PAGE_SIZE') ? MAX_PAGE_SIZE : 100;
+    $pageSize = min($maxPageSize, max(1, (int)input('page_size', PAGE_SIZE)));
     
     return [$page, $pageSize];
 }

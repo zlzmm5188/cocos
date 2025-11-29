@@ -34,6 +34,7 @@ define('MAX_UPLOAD_SIZE', 5 * 1024 * 1024); // 5MB
 
 // ============ 分页配置 ============
 define('PAGE_SIZE', 20);
+define('MAX_PAGE_SIZE', 100);
 
 // ============ 调试模式 ============
 define('DEBUG_MODE', getenv('DEBUG_MODE') ?: false);

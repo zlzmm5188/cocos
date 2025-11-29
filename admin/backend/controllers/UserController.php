@@ -303,10 +303,19 @@ class UserController {
         requirePermission('user_password');
         
         $userId = input('user_id');
-        $newPassword = input('new_password', '123456');
+        $newPassword = input('new_password');
         
         if (!$userId) {
             error('参数错误');
+        }
+        
+        // 如果未指定密码，生成随机强密码
+        if (empty($newPassword)) {
+            $newPassword = self::generateSecurePassword(12);
+        }
+        
+        if (strlen($newPassword) < 8) {
+            error('密码长度不能少于8位');
         }
         
         $user = db()->fetchOne("SELECT id FROM users WHERE id = ?", [$userId]);
@@ -320,7 +329,20 @@ class UserController {
         
         logAction('reset_password', 'user', "重置用户密码 ID:$userId");
         
-        success(null, '密码重置成功');
+        success(['new_password' => $newPassword], '密码重置成功，请告知用户新密码');
+    }
+    
+    /**
+     * 生成安全随机密码
+     */
+    private static function generateSecurePassword($length = 12) {
+        $chars = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%';
+        $password = '';
+        $charsLength = strlen($chars);
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $chars[random_int(0, $charsLength - 1)];
+        }
+        return $password;
     }
     
     /**

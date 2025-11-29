@@ -103,6 +103,9 @@ class Database {
         $page = max(1, (int)$page);
         $offset = ($page - 1) * $pageSize;
         
+        // 允许的SQL操作符白名单
+        $allowedOperators = ['=', '>', '<', '>=', '<=', '!=', '<>', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN'];
+        
         $whereClause = '';
         $params = [];
         
@@ -111,7 +114,11 @@ class Database {
             foreach ($where as $key => $value) {
                 if (is_array($value)) {
                     // 支持操作符: ['status', '=', 1] 或 ['amount', '>', 100]
-                    $conditions[] = "`{$value[0]}` {$value[1]} ?";
+                    $operator = strtoupper(trim($value[1]));
+                    if (!in_array($operator, $allowedOperators)) {
+                        throw new Exception("不支持的操作符: {$value[1]}");
+                    }
+                    $conditions[] = "`{$value[0]}` $operator ?";
                     $params[] = $value[2];
                 } else {
                     $conditions[] = "`$key` = ?";
